@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sunhomo.enroll.mapper.SunActivityDao">
+    <resultMap id="BaseResultMap" type="com.sunhomo.enroll.domain.SunActivity">
+        <id column="ACTIVITY_ID" jdbcType="INTEGER" property="activityId"/>
+        <result column="ACTIVITY_NAME" jdbcType="VARCHAR" property="activityName"/>
+        <result column="ACTIVITY_TYPE" jdbcType="TINYINT" property="activityType"/>
+        <result column="ACTIVITY_DATE" jdbcType="DATE" property="activityDate"/>
+        <result column="START_TIME" jdbcType="VARCHAR" property="startTime"/>
+        <result column="END_TIME" jdbcType="VARCHAR" property="endTime"/>
+        <result column="DEADLINE" jdbcType="VARCHAR" property="deadline"/>
+        <result column="PLACE" jdbcType="VARCHAR" property="place"/>
+        <result column="FILED" jdbcType="VARCHAR" property="filed"/>
+        <result column="ACTIVITY_RULE" jdbcType="VARCHAR" property="activityRule"/>
+        <result column="NUMBERS" jdbcType="INTEGER" property="numbers"/>
+        <result column="MEMO" jdbcType="VARCHAR" property="memo"/>
+        <result column="ACTIVITY_STATE" jdbcType="TINYINT" property="activityState"/>
+        <collection property="divisions" ofType="com.sunhomo.enroll.domain.SunDivision" column="ACTIVITY_ID"
+                    select="com.sunhomo.enroll.mapper.SunDivisionDao.selectByActivityId"></collection>
+        <collection property="members" ofType="com.sunhomo.enroll.domain.SunMember" column="ACTIVITY_ID"
+                    select="selectMembersByActivityId"></collection>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ACTIVITY_ID, ACTIVITY_NAME, ACTIVITY_TYPE, ACTIVITY_DATE, START_TIME, END_TIME, DEADLINE, 
+    PLACE, FILED, ACTIVITY_RULE, NUMBERS, MEMO, ACTIVITY_STATE
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from SUN_ACTIVITY
+        where ACTIVITY_ID = #{activityId,jdbcType=INTEGER}
+    </select>
+    <select id="selectActivities" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from SUN_ACTIVITY
+        where ACTIVITY_STATE = #{activityState,jdbcType=TINYINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from SUN_ACTIVITY
+    where ACTIVITY_ID = #{activityId,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" keyColumn="ACTIVITY_ID" keyProperty="activityId"
+            parameterType="com.sunhomo.enroll.domain.SunActivity" useGeneratedKeys="true">
+    insert into SUN_ACTIVITY (ACTIVITY_NAME, ACTIVITY_TYPE, ACTIVITY_DATE, 
+      START_TIME, END_TIME, DEADLINE, 
+      PLACE, FILED, ACTIVITY_RULE, 
+      NUMBERS, MEMO, ACTIVITY_STATE
+      )
+    values (#{activityName,jdbcType=VARCHAR}, #{activityType,jdbcType=TINYINT}, #{activityDate,jdbcType=DATE}, 
+      #{startTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR}, #{deadline,jdbcType=VARCHAR}, 
+      #{place,jdbcType=VARCHAR}, #{filed,jdbcType=VARCHAR}, #{activityRule,jdbcType=VARCHAR}, 
+      #{numbers,jdbcType=INTEGER}, #{memo,jdbcType=VARCHAR}, #{activityState,jdbcType=TINYINT}
+      )
+  </insert>
+    <insert id="insertSelective" keyColumn="ACTIVITY_ID" keyProperty="activityId"
+            parameterType="com.sunhomo.enroll.domain.SunActivity" useGeneratedKeys="true">
+        insert into SUN_ACTIVITY
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="activityName != null">
+                ACTIVITY_NAME,
+            </if>
+            <if test="activityType != null">
+                ACTIVITY_TYPE,
+            </if>
+            <if test="activityDate != null">
+                ACTIVITY_DATE,
+            </if>
+            <if test="startTime != null">
+                START_TIME,
+            </if>
+            <if test="endTime != null">
+                END_TIME,
+            </if>
+            <if test="deadline != null">
+                DEADLINE,
+            </if>
+            <if test="place != null">
+                PLACE,
+            </if>
+            <if test="filed != null">
+                FILED,
+            </if>
+            <if test="activityRule != null">
+                ACTIVITY_RULE,
+            </if>
+            <if test="numbers != null">
+                NUMBERS,
+            </if>
+            <if test="memo != null">
+                MEMO,
+            </if>
+            <if test="activityState != null">
+                ACTIVITY_STATE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="activityName != null">
+                #{activityName,jdbcType=VARCHAR},
+            </if>
+            <if test="activityType != null">
+                #{activityType,jdbcType=TINYINT},
+            </if>
+            <if test="activityDate != null">
+                #{activityDate,jdbcType=DATE},
+            </if>
+            <if test="startTime != null">
+                #{startTime,jdbcType=VARCHAR},
+            </if>
+            <if test="endTime != null">
+                #{endTime,jdbcType=VARCHAR},
+            </if>
+            <if test="deadline != null">
+                #{deadline,jdbcType=VARCHAR},
+            </if>
+            <if test="place != null">
+                #{place,jdbcType=VARCHAR},
+            </if>
+            <if test="filed != null">
+                #{filed,jdbcType=VARCHAR},
+            </if>
+            <if test="activityRule != null">
+                #{activityRule,jdbcType=VARCHAR},
+            </if>
+            <if test="numbers != null">
+                #{numbers,jdbcType=INTEGER},
+            </if>
+            <if test="memo != null">
+                #{memo,jdbcType=VARCHAR},
+            </if>
+            <if test="activityState != null">
+                #{activityState,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.sunhomo.enroll.domain.SunActivity">
+        update SUN_ACTIVITY
+        <set>
+            <if test="activityName != null">
+                ACTIVITY_NAME = #{activityName,jdbcType=VARCHAR},
+            </if>
+            <if test="activityType != null">
+                ACTIVITY_TYPE = #{activityType,jdbcType=TINYINT},
+            </if>
+            <if test="activityDate != null">
+                ACTIVITY_DATE = #{activityDate,jdbcType=DATE},
+            </if>
+            <if test="startTime != null">
+                START_TIME = #{startTime,jdbcType=VARCHAR},
+            </if>
+            <if test="endTime != null">
+                END_TIME = #{endTime,jdbcType=VARCHAR},
+            </if>
+            <if test="deadline != null">
+                DEADLINE = #{deadline,jdbcType=VARCHAR},
+            </if>
+            <if test="place != null">
+                PLACE = #{place,jdbcType=VARCHAR},
+            </if>
+            <if test="filed != null">
+                FILED = #{filed,jdbcType=VARCHAR},
+            </if>
+            <if test="activityRule != null">
+                ACTIVITY_RULE = #{activityRule,jdbcType=VARCHAR},
+            </if>
+            <if test="numbers != null">
+                NUMBERS = #{numbers,jdbcType=INTEGER},
+            </if>
+            <if test="memo != null">
+                MEMO = #{memo,jdbcType=VARCHAR},
+            </if>
+            <if test="activityState != null">
+                ACTIVITY_STATE = #{activityState,jdbcType=TINYINT},
+            </if>
+        </set>
+        where ACTIVITY_ID = #{activityId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.sunhomo.enroll.domain.SunActivity">
+    update SUN_ACTIVITY
+    set ACTIVITY_NAME = #{activityName,jdbcType=VARCHAR},
+      ACTIVITY_TYPE = #{activityType,jdbcType=TINYINT},
+      ACTIVITY_DATE = #{activityDate,jdbcType=DATE},
+      START_TIME = #{startTime,jdbcType=VARCHAR},
+      END_TIME = #{endTime,jdbcType=VARCHAR},
+      DEADLINE = #{deadline,jdbcType=VARCHAR},
+      PLACE = #{place,jdbcType=VARCHAR},
+      FILED = #{filed,jdbcType=VARCHAR},
+      ACTIVITY_RULE = #{activityRule,jdbcType=VARCHAR},
+      NUMBERS = #{numbers,jdbcType=INTEGER},
+      MEMO = #{memo,jdbcType=VARCHAR},
+      ACTIVITY_STATE = #{activityState,jdbcType=TINYINT}
+    where ACTIVITY_ID = #{activityId,jdbcType=INTEGER}
+  </update>
+</mapper>
