@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('活动列表')"/>
+</head>
+<body class="gray-bg">
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <form id="activity-form">
+                <div class="select-list">
+                    <ul>
+                        <li>
+                            活动类型：<select name="activityType">
+                            <option value="">所有</option>
+                            <option value="1">普通活动</option>
+                            <option value="2">比赛活动</option>
+                        </select>
+                        </li>
+                        <li>
+                            活动状态：<select name="activityState">
+                            <option value="">所有</option>
+                            <option value="1">报名中</option>
+                            <option value="2">活动中</option>
+                            <option value="3">已结束</option>
+                            <option value="4">已取消</option>
+                        </select>
+                        </li>
+                        <li class="select-time">
+                            <label>活动日期： </label>
+                            <input type="text" class="time-input" id="startTime" placeholder="开始日期"
+                                   name="params[beginTime]"/>
+                            <span>-</span>
+                            <input type="text" class="time-input" id="endTime" placeholder="结束日期"
+                                   name="params[endTime]"/>
+                        </li>
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                                    class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+                                    class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+        <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="enroll:activity:add">
+                <i class="fa fa-plus"></i> 新增
+            </a>
+            <a class="btn btn-primary single disabled" onclick="$.operate.edit()"
+               shiro:hasPermission="enroll:activity:edit">
+                <i class="fa fa-edit"></i> 修改
+            </a>
+            <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()"
+               shiro:hasPermission="enroll:activity:remove">
+                <i class="fa fa-remove"></i> 删除
+            </a>
+        </div>
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table"></table>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer"/>
+<script th:inline="javascript">
+    var prefix = ctx + "enroll/activity";
+    var editFlag = [[${@permission.hasPermi('enroll:activity:edit')}]];
+    var removeFlag = [[${@permission.hasPermi('enroll:activity:remove')}]];
+
+    $(function () {
+        var options = {
+            url: prefix + "/list",
+            createUrl: prefix + "/add",
+            updateUrl: prefix + "/edit/{activityId}",
+            removeUrl: prefix + "/remove",
+            modalName: "默认节点",
+            // pagination: false,
+            uniqueId: "activityId",
+            columns: [
+                {
+                    checkbox: true
+                },
+                {
+                    field: 'activityId',
+                    title: '活动ID'
+                },
+                {
+                    field: 'activityName',
+                    title: '活动名称'
+                },
+                {
+                    field: 'activityType',
+                    title: '活动类型',
+                    formatter: function (value, row, index) {
+                        if (value == 1) return '普通活动';
+                        else if (value == 2) return '比赛活动'
+                        else return '';
+                    }
+                },
+                {
+                    field: 'activityDate',
+                    title: '活动日期'
+                },
+                {
+                    field: 'startTime',
+                    title: '活动开始时间'
+                },
+                {
+                    field: 'endTime',
+                    title: '活动结束时间'
+                },
+                {
+                    field: 'place',
+                    title: '活动地点'
+                },
+                {
+                    field: 'filed',
+                    title: '场地'
+                },
+                {
+                    field: 'numbers',
+                    title: '人数'
+                },
+                {
+                    field: 'activityState',
+                    title: '活动状态',
+                    formatter: function (value, row, index) {
+                        if (value == 1) return '报名中';
+                        else if (value == 2) return '活动中'
+                        else if (value == 3) return '已结束'
+                        else if (value == 4) return '已取消'
+                        else return '';
+                    }
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.activityId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.activityId + '\')"><i class="fa fa-remove"></i>删除</a> ');
+                        return actions.join('');
+                    }
+                }
+            ]
+        };
+        $.table.init(options);
+    });
+</script>
+</body>
+</html>

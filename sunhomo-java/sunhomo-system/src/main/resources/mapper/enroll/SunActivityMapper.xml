@@ -30,11 +30,24 @@
         from SUN_ACTIVITY
         where ACTIVITY_ID = #{activityId,jdbcType=INTEGER}
     </select>
-    <select id="selectActivities" parameterType="java.lang.Byte" resultMap="BaseResultMap">
+    <select id="selectActivities" parameterType="com.sunhomo.enroll.domain.SunActivity" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from SUN_ACTIVITY
-        where ACTIVITY_STATE = #{activityState,jdbcType=TINYINT}
+        where 1=1
+        <if test="activityState != null and activityState != ''">
+            AND ACTIVITY_STATE = #{activityState,jdbcType=TINYINT}
+        </if>
+        <if test="activityType != null and activityType != ''">
+            AND ACTIVITY_TYPE = #{activityType,jdbcType=TINYINT}
+        </if>
+        <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+            AND ACTIVITY_DATE &gt;= date_format(#{params.beginTime},'%y-%m-%d')
+        </if>
+        <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+            AND ACTIVITY_DATE &lt;= date_format(#{params.endTime},'%y-%m-%d')
+        </if>
+        order by ACTIVITY_ID desc
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete from SUN_ACTIVITY

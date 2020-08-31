@@ -1,6 +1,7 @@
 package com.sunhomo.enroll.mapper;
 
 import com.sunhomo.enroll.domain.SunActivity;
+import sun.security.provider.Sun;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public interface SunActivityDao {
 
     SunActivity selectByPrimaryKey(Integer activityId);
 
-    List<SunActivity> selectActivities(Byte activityState);
+    List<SunActivity> selectActivities(SunActivity activity);
 
     int updateByPrimaryKeySelective(SunActivity record);
 

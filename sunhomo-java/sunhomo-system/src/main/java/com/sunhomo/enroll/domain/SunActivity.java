@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.sunhomo.common.core.domain.BaseEntity;
 import lombok.Data;
 
 /**
@@ -12,7 +14,7 @@ import lombok.Data;
  * @author
  */
 @Data
-public class SunActivity implements Serializable {
+public class SunActivity extends BaseEntity {
     private Integer activityId;
 
     /**
@@ -28,6 +30,7 @@ public class SunActivity implements Serializable {
     /**
      * 活动日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date activityDate;
 
     /**
