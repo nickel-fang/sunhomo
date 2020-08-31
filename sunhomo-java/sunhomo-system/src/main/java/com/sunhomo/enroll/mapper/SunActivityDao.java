@@ -6,7 +6,7 @@ import sun.security.provider.Sun;
 import java.util.List;
 
 public interface SunActivityDao {
-    int deleteByPrimaryKey(Integer activityId);
+    int deleteByPrimaryKey(Integer[] ids);
 
     int insert(SunActivity record);
 

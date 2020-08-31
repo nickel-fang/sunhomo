@@ -9,7 +9,9 @@ public interface ISunActivityService {
 
     public SunActivity selectActivity(Integer activityId);
 
-    public int deleteActivityById(Integer activityId);
+    public int deleteActivityById(String ids);
 
     public int insertActivity(SunActivity activity);
+
+    public int updateActivity(SunActivity activity);
 }

@@ -10,7 +10,7 @@
         <result column="END_TIME" jdbcType="VARCHAR" property="endTime"/>
         <result column="DEADLINE" jdbcType="VARCHAR" property="deadline"/>
         <result column="PLACE" jdbcType="VARCHAR" property="place"/>
-        <result column="FILED" jdbcType="VARCHAR" property="filed"/>
+        <result column="FIELD" jdbcType="VARCHAR" property="field"/>
         <result column="ACTIVITY_RULE" jdbcType="VARCHAR" property="activityRule"/>
         <result column="NUMBERS" jdbcType="INTEGER" property="numbers"/>
         <result column="MEMO" jdbcType="VARCHAR" property="memo"/>
@@ -22,7 +22,7 @@
     </resultMap>
     <sql id="Base_Column_List">
         ACTIVITY_ID, ACTIVITY_NAME, ACTIVITY_TYPE, ACTIVITY_DATE, START_TIME, END_TIME, DEADLINE,
-        PLACE, FILED, ACTIVITY_RULE, NUMBERS, MEMO, ACTIVITY_STATE
+        PLACE, FIELD, ACTIVITY_RULE, NUMBERS, MEMO, ACTIVITY_STATE
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -51,18 +51,21 @@
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete from SUN_ACTIVITY
-        where ACTIVITY_ID = #{activityId,jdbcType=INTEGER}
+        where ACTIVITY_ID in
+        <foreach collection="array" item="activityId" open="(" separator="," close=")">
+            #{activityId}
+        </foreach>
     </delete>
     <insert id="insert" keyColumn="ACTIVITY_ID" keyProperty="activityId"
             parameterType="com.sunhomo.enroll.domain.SunActivity" useGeneratedKeys="true">
         insert into SUN_ACTIVITY (ACTIVITY_NAME, ACTIVITY_TYPE, ACTIVITY_DATE,
         START_TIME, END_TIME, DEADLINE,
-        PLACE, FILED, ACTIVITY_RULE,
+        PLACE, FIELD, ACTIVITY_RULE,
         NUMBERS, MEMO, ACTIVITY_STATE
         )
         values (#{activityName,jdbcType=VARCHAR}, #{activityType,jdbcType=TINYINT}, #{activityDate,jdbcType=DATE},
         #{startTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR}, #{deadline,jdbcType=VARCHAR},
-        #{place,jdbcType=VARCHAR}, #{filed,jdbcType=VARCHAR}, #{activityRule,jdbcType=VARCHAR},
+        #{place,jdbcType=VARCHAR}, #{field,jdbcType=VARCHAR}, #{activityRule,jdbcType=VARCHAR},
         #{numbers,jdbcType=INTEGER}, #{memo,jdbcType=VARCHAR}, #{activityState,jdbcType=TINYINT}
         )
     </insert>
@@ -91,8 +94,8 @@
             <if test="place != null">
                 PLACE,
             </if>
-            <if test="filed != null">
-                FILED,
+            <if test="field != null">
+                FIELD,
             </if>
             <if test="activityRule != null">
                 ACTIVITY_RULE,
@@ -129,8 +132,8 @@
             <if test="place != null">
                 #{place,jdbcType=VARCHAR},
             </if>
-            <if test="filed != null">
-                #{filed,jdbcType=VARCHAR},
+            <if test="field != null">
+                #{field,jdbcType=VARCHAR},
             </if>
             <if test="activityRule != null">
                 #{activityRule,jdbcType=VARCHAR},
@@ -170,8 +173,8 @@
             <if test="place != null">
                 PLACE = #{place,jdbcType=VARCHAR},
             </if>
-            <if test="filed != null">
-                FILED = #{filed,jdbcType=VARCHAR},
+            <if test="field != null">
+                FIELD = #{field,jdbcType=VARCHAR},
             </if>
             <if test="activityRule != null">
                 ACTIVITY_RULE = #{activityRule,jdbcType=VARCHAR},
@@ -197,7 +200,7 @@
         END_TIME = #{endTime,jdbcType=VARCHAR},
         DEADLINE = #{deadline,jdbcType=VARCHAR},
         PLACE = #{place,jdbcType=VARCHAR},
-        FILED = #{filed,jdbcType=VARCHAR},
+        FIELD = #{field,jdbcType=VARCHAR},
         ACTIVITY_RULE = #{activityRule,jdbcType=VARCHAR},
         NUMBERS = #{numbers,jdbcType=INTEGER},
         MEMO = #{memo,jdbcType=VARCHAR},

@@ -11,7 +11,7 @@ create table SUN_ACTIVITY
     END_TIME       VARCHAR(8) comment '活动结束时间',
     DEADLINE       VARCHAR(8) comment '活动报名、抽签截止时间',
     PLACE          varchar(32) comment '活动地点',
-    FILED          varchar(32) comment '比赛场地，如7:8:9',
+    FIELD          varchar(32) comment '比赛场地，如7:8:9',
     ACTIVITY_RULE  varchar(256) comment '活动规则',
     NUMBERS        int comment '活动人数',
     MEMO           varchar(256) comment '备注',

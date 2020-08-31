@@ -1,6 +1,5 @@
 package com.sunhomo.enroll.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -56,7 +55,7 @@ public class SunActivity extends BaseEntity {
     /**
      * 比赛场地，如7:8:9
      */
-    private String filed;
+    private String field;
 
     /**
      * 活动规则
