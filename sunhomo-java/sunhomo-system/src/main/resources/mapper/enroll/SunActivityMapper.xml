@@ -18,41 +18,41 @@
         <collection property="divisions" ofType="com.sunhomo.enroll.domain.SunDivision" column="ACTIVITY_ID"
                     select="com.sunhomo.enroll.mapper.SunDivisionDao.selectByActivityId"></collection>
         <collection property="members" ofType="com.sunhomo.enroll.domain.SunMember" column="ACTIVITY_ID"
-                    select="selectMembersByActivityId"></collection>
+                    select="com.sunhomo.enroll.mapper.SunMemberDao.selectMembersByActivityId"></collection>
     </resultMap>
     <sql id="Base_Column_List">
-    ACTIVITY_ID, ACTIVITY_NAME, ACTIVITY_TYPE, ACTIVITY_DATE, START_TIME, END_TIME, DEADLINE, 
-    PLACE, FILED, ACTIVITY_RULE, NUMBERS, MEMO, ACTIVITY_STATE
-  </sql>
+        ACTIVITY_ID, ACTIVITY_NAME, ACTIVITY_TYPE, ACTIVITY_DATE, START_TIME, END_TIME, DEADLINE,
+        PLACE, FILED, ACTIVITY_RULE, NUMBERS, MEMO, ACTIVITY_STATE
+    </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from SUN_ACTIVITY
         where ACTIVITY_ID = #{activityId,jdbcType=INTEGER}
     </select>
-    <select id="selectActivities" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <select id="selectActivities" parameterType="java.lang.Byte" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from SUN_ACTIVITY
         where ACTIVITY_STATE = #{activityState,jdbcType=TINYINT}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from SUN_ACTIVITY
-    where ACTIVITY_ID = #{activityId,jdbcType=INTEGER}
-  </delete>
+        delete from SUN_ACTIVITY
+        where ACTIVITY_ID = #{activityId,jdbcType=INTEGER}
+    </delete>
     <insert id="insert" keyColumn="ACTIVITY_ID" keyProperty="activityId"
             parameterType="com.sunhomo.enroll.domain.SunActivity" useGeneratedKeys="true">
-    insert into SUN_ACTIVITY (ACTIVITY_NAME, ACTIVITY_TYPE, ACTIVITY_DATE, 
-      START_TIME, END_TIME, DEADLINE, 
-      PLACE, FILED, ACTIVITY_RULE, 
-      NUMBERS, MEMO, ACTIVITY_STATE
-      )
-    values (#{activityName,jdbcType=VARCHAR}, #{activityType,jdbcType=TINYINT}, #{activityDate,jdbcType=DATE}, 
-      #{startTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR}, #{deadline,jdbcType=VARCHAR}, 
-      #{place,jdbcType=VARCHAR}, #{filed,jdbcType=VARCHAR}, #{activityRule,jdbcType=VARCHAR}, 
-      #{numbers,jdbcType=INTEGER}, #{memo,jdbcType=VARCHAR}, #{activityState,jdbcType=TINYINT}
-      )
-  </insert>
+        insert into SUN_ACTIVITY (ACTIVITY_NAME, ACTIVITY_TYPE, ACTIVITY_DATE,
+        START_TIME, END_TIME, DEADLINE,
+        PLACE, FILED, ACTIVITY_RULE,
+        NUMBERS, MEMO, ACTIVITY_STATE
+        )
+        values (#{activityName,jdbcType=VARCHAR}, #{activityType,jdbcType=TINYINT}, #{activityDate,jdbcType=DATE},
+        #{startTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR}, #{deadline,jdbcType=VARCHAR},
+        #{place,jdbcType=VARCHAR}, #{filed,jdbcType=VARCHAR}, #{activityRule,jdbcType=VARCHAR},
+        #{numbers,jdbcType=INTEGER}, #{memo,jdbcType=VARCHAR}, #{activityState,jdbcType=TINYINT}
+        )
+    </insert>
     <insert id="insertSelective" keyColumn="ACTIVITY_ID" keyProperty="activityId"
             parameterType="com.sunhomo.enroll.domain.SunActivity" useGeneratedKeys="true">
         insert into SUN_ACTIVITY
@@ -176,19 +176,19 @@
         where ACTIVITY_ID = #{activityId,jdbcType=INTEGER}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.sunhomo.enroll.domain.SunActivity">
-    update SUN_ACTIVITY
-    set ACTIVITY_NAME = #{activityName,jdbcType=VARCHAR},
-      ACTIVITY_TYPE = #{activityType,jdbcType=TINYINT},
-      ACTIVITY_DATE = #{activityDate,jdbcType=DATE},
-      START_TIME = #{startTime,jdbcType=VARCHAR},
-      END_TIME = #{endTime,jdbcType=VARCHAR},
-      DEADLINE = #{deadline,jdbcType=VARCHAR},
-      PLACE = #{place,jdbcType=VARCHAR},
-      FILED = #{filed,jdbcType=VARCHAR},
-      ACTIVITY_RULE = #{activityRule,jdbcType=VARCHAR},
-      NUMBERS = #{numbers,jdbcType=INTEGER},
-      MEMO = #{memo,jdbcType=VARCHAR},
-      ACTIVITY_STATE = #{activityState,jdbcType=TINYINT}
-    where ACTIVITY_ID = #{activityId,jdbcType=INTEGER}
-  </update>
+        update SUN_ACTIVITY
+        set ACTIVITY_NAME = #{activityName,jdbcType=VARCHAR},
+        ACTIVITY_TYPE = #{activityType,jdbcType=TINYINT},
+        ACTIVITY_DATE = #{activityDate,jdbcType=DATE},
+        START_TIME = #{startTime,jdbcType=VARCHAR},
+        END_TIME = #{endTime,jdbcType=VARCHAR},
+        DEADLINE = #{deadline,jdbcType=VARCHAR},
+        PLACE = #{place,jdbcType=VARCHAR},
+        FILED = #{filed,jdbcType=VARCHAR},
+        ACTIVITY_RULE = #{activityRule,jdbcType=VARCHAR},
+        NUMBERS = #{numbers,jdbcType=INTEGER},
+        MEMO = #{memo,jdbcType=VARCHAR},
+        ACTIVITY_STATE = #{activityState,jdbcType=TINYINT}
+        where ACTIVITY_ID = #{activityId,jdbcType=INTEGER}
+    </update>
 </mapper>

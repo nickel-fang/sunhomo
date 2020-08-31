@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface ISunActivityService {
     public List<SunActivity> selectActivities(Byte activityState);
+
+    public SunActivity selectActivity(Integer activityId);
 }

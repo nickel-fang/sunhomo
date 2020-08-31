@@ -17,4 +17,9 @@ public class SunActivityService implements ISunActivityService {
     public List<SunActivity> selectActivities(Byte activityState) {
         return activityDao.selectActivities(activityState);
     }
+
+    @Override
+    public SunActivity selectActivity(Integer activityId) {
+        return activityDao.selectByPrimaryKey(activityId);
+    }
 }
