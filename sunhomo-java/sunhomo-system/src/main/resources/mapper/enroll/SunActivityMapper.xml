@@ -47,7 +47,7 @@
         <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
             AND ACTIVITY_DATE &lt;= date_format(#{params.endTime},'%y-%m-%d')
         </if>
-        order by ACTIVITY_ID desc
+        order by ACTIVITY_DATE asc
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete from SUN_ACTIVITY

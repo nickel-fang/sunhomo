@@ -37,7 +37,7 @@ public class ActivityController extends BaseController {
     }
 
     @GetMapping("/add")
-    public String add(ModelMap mmap) {
+    public String add() {
         return prefix + "/add";
     }
 

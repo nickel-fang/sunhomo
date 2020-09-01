@@ -5,7 +5,9 @@
 </head>
 <body>
 <div class="main-content">
-    <form id="form-activity-add" class="form-horizontal" th:object="${activity}">
+    <form id="form-activity-edit" class="form-horizontal" th:object="${activity}">
+        <input name="activityId"  type="hidden"  th:field="*{activityId}" />
+        <input name="activityState"  type="hidden"  th:field="*{activityState}" />
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">
@@ -104,15 +106,6 @@
         </div>
     </form>
 </div>
-
-<div class="row">
-    <div class="col-sm-offset-5 col-sm-10">
-        <button type="button" class="btn btn-sm btn-primary" onclick="submitHandler()"><i class="fa fa-check"></i>保 存
-        </button>&nbsp;
-        <button type="button" class="btn btn-sm btn-danger" onclick="closeItem()"><i class="fa fa-reply-all"></i>关 闭
-        </button>
-    </div>
-</div>
 <th:block th:include="include :: footer"/>
 <script>
     var prefix = ctx + "enroll/activity";
@@ -124,9 +117,8 @@
 
     function submitHandler() {
         if ($.validate.form()) {
-            var data = $("#form-activity-add").serializeArray();
-            data.push({"name": "activityState", "value": 1});
-            $.operate.saveTab(prefix + "/add", data);
+            var data = $("#form-activity-edit").serializeArray();
+            $.operate.save(prefix + "/edit", data);
         }
     }
 
