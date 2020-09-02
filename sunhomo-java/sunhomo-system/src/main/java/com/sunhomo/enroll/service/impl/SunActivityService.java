@@ -38,6 +38,6 @@ public class SunActivityService implements ISunActivityService {
 
     @Override
     public int updateActivity(SunActivity activity) {
-        return activityDao.updateByPrimaryKey(activity);
+        return activityDao.updateByPrimaryKeySelective(activity);
     }
 }
