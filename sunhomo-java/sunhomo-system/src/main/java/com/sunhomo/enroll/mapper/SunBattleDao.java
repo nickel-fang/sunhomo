@@ -2,8 +2,10 @@ package com.sunhomo.enroll.mapper;
 
 import com.sunhomo.enroll.domain.SunBattle;
 
+import java.util.List;
+
 public interface SunBattleDao {
-    int deleteByPrimaryKey(Integer battleId);
+    int deleteByPrimaryKey(Integer[] battleId);
 
     int insert(SunBattle record);
 
@@ -14,4 +16,8 @@ public interface SunBattleDao {
     int updateByPrimaryKeySelective(SunBattle record);
 
     int updateByPrimaryKey(SunBattle record);
+
+    List<SunBattle> selectBattlesByActivityId(Integer activityId);
+
+    List<SunBattle> selectBattlesByMemberId(Integer memberId);
 }

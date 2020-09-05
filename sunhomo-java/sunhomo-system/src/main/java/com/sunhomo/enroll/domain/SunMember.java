@@ -2,14 +2,17 @@ package com.sunhomo.enroll.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.sunhomo.common.core.domain.BaseEntity;
 import lombok.Data;
 
 /**
  * SUN_MEMBER
- * @author 
+ *
+ * @author
  */
 @Data
-public class SunMember implements Serializable {
+public class SunMember extends BaseEntity {
     private Integer memberId;
 
     /**

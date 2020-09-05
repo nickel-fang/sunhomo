@@ -3,6 +3,7 @@ package com.sunhomo.enroll.domain;
 import java.io.Serializable;
 import java.util.List;
 
+import com.sunhomo.common.core.domain.BaseEntity;
 import lombok.Data;
 
 /**
@@ -11,7 +12,7 @@ import lombok.Data;
  * @author
  */
 @Data
-public class SunDivision implements Serializable {
+public class SunDivision extends BaseEntity {
     private Integer divisionId;
 
     /**
@@ -28,6 +29,7 @@ public class SunDivision implements Serializable {
      * 队长， MEMBER.MEMBER_ID
      */
     private Integer leader;
+    private String leaderName;
 
     /**
      * 名次， 1为冠军， 2为亚军，3为季军，后面直接显示参与

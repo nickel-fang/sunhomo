@@ -16,7 +16,7 @@ public class SunhomoApplication
     {
         // System.setProperty("spring.devtools.restart.enabled", "false");
         SpringApplication.run(SunhomoApplication.class, args);
-        System.out.println("(♥◠‿◠)ﾉﾞ  sunhomo-admin启动成功   ლ(´ڡ`ლ)ﾞ  \n" +
+        System.out.println("(♥◠‿◠)ﾉﾞ  sunhomo-api启动成功   ლ(´ڡ`ლ)ﾞ  \n" +
                 " .-------.       ____     __        \n" +
                 " |  _ _   \\      \\   \\   /  /    \n" +
                 " | ( ' )  |       \\  _. /  '       \n" +

@@ -2,14 +2,17 @@ package com.sunhomo.enroll.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.sunhomo.common.core.domain.BaseEntity;
 import lombok.Data;
 
 /**
  * SUN_BATTLE
- * @author 
+ *
+ * @author
  */
 @Data
-public class SunBattle implements Serializable {
+public class SunBattle extends BaseEntity {
     private Integer battleId;
 
     /**
@@ -36,6 +39,14 @@ public class SunBattle implements Serializable {
      * 选手B2，MEMBER.MEMBER_ID
      */
     private Integer b2;
+
+    private String a1Name;
+
+    private String a2Name;
+
+    private String b1Name;
+
+    private String b2Name;
 
     /**
      * 约战的日期，冗余字段，可取ACTIVITY.ACTIVITY_DATE

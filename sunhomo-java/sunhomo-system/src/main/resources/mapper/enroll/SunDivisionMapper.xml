@@ -6,10 +6,11 @@
         <result column="ACTIVITY_ID" jdbcType="INTEGER" property="activityId"/>
         <result column="DIVISION_NAME" jdbcType="VARCHAR" property="divisionName"/>
         <result column="LEADER" jdbcType="INTEGER" property="leader"/>
+        <result column="LEADER_NAME" jdbcType="VARCHAR" property="leaderName"/>
         <result column="RANK" jdbcType="TINYINT" property="rank"/>
     </resultMap>
     <sql id="Base_Column_List">
-    DIVISION_ID, ACTIVITY_ID, DIVISION_NAME, LEADER, `RANK`
+    DIVISION_ID, ACTIVITY_ID, DIVISION_NAME, LEADER, LEADER_NAME, `RANK`
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -17,20 +18,22 @@
         from SUN_DIVISION
         where DIVISION_ID = #{divisionId,jdbcType=INTEGER}
     </select>
-    <select id="selectByActivityId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <select id="selectByActivityId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from SUN_DIVISION
-        where ACTIVITY_ID = #{activityId,jdbcType=VARCHAR}
+        where ACTIVITY_ID = #{activityId,jdbcType=INTEGER}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from SUN_DIVISION
-    where DIVISION_ID = #{divisionId,jdbcType=INTEGER}
-  </delete>
+        delete from SUN_DIVISION
+        where DIVISION_ID in
+        <foreach collection="ids" item="divisionId" open="(" separator="," close=")">
+            #{divisionId}
+        </foreach>
+    </delete>
     <insert id="insert" keyColumn="DIVISION_ID" keyProperty="divisionId"
             parameterType="com.sunhomo.enroll.domain.SunDivision" useGeneratedKeys="true">
-    insert into SUN_DIVISION (ACTIVITY_ID, DIVISION_NAME, LEADER, 
-      `RANK`)
+    insert into SUN_DIVISION (ACTIVITY_ID, DIVISION_NAME, LEADER, `RANK`)
     values (#{activityId,jdbcType=INTEGER}, #{divisionName,jdbcType=VARCHAR}, #{leader,jdbcType=INTEGER}, 
       #{rank,jdbcType=TINYINT})
   </insert>
@@ -47,6 +50,9 @@
             <if test="leader != null">
                 LEADER,
             </if>
+            <if test="leaderName != null">
+                LEADER_NAME,
+            </if>
             <if test="rank != null">
                 `RANK`,
             </if>
@@ -60,6 +66,9 @@
             </if>
             <if test="leader != null">
                 #{leader,jdbcType=INTEGER},
+            </if>
+            <if test="leaderName != null">
+                #{leaderName,jdbcType=VARCHAR},
             </if>
             <if test="rank != null">
                 #{rank,jdbcType=TINYINT},
@@ -78,6 +87,9 @@
             <if test="leader != null">
                 LEADER = #{leader,jdbcType=INTEGER},
             </if>
+            <if test="leaderName != null">
+                LEADER_NAME = #{leaderName,jdbcType=VARCHAR},
+            </if>
             <if test="rank != null">
                 `RANK` = #{rank,jdbcType=TINYINT},
             </if>
@@ -89,6 +101,7 @@
     set ACTIVITY_ID = #{activityId,jdbcType=INTEGER},
       DIVISION_NAME = #{divisionName,jdbcType=VARCHAR},
       LEADER = #{leader,jdbcType=INTEGER},
+      LEADER_NAME = #{leaderName,jdbcType=INTEGER},
       `RANK` = #{rank,jdbcType=TINYINT}
     where DIVISION_ID = #{divisionId,jdbcType=INTEGER}
   </update>

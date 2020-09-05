@@ -48,6 +48,7 @@ create table SUN_DIVISION
     ACTIVITY_ID   int comment '所属活动 ACTIVITY.ACTIVITY_ID',
     DIVISION_NAME varchar(32) comment '分组名',
     LEADER        int comment '队长， MEMBER.MEMBER_ID',
+    LEADER_NAME   varchar(32) comment '冗余字段，队长名',
     RANK          tinyint comment '名次， 1为冠军， 2为亚军，3为季军，后面直接显示参与',
     primary key (DIVISION_ID),
     key (ACTIVITY_ID)
@@ -111,7 +112,7 @@ create table SUN_POINT_RECORD
     key (MEMBER_ID)
 );
 
-#约战表
+#约战表（只保留一年的约战记录）
 drop table if exists SUN_BATTLE;
 create table SUN_BATTLE
 (
@@ -121,13 +122,22 @@ create table SUN_BATTLE
     A2            int comment '选手A2，MEMBER.MEMBER_ID',
     B1            int comment '选手B1，MEMBER.MEMBER_ID',
     B2            int comment '选手B2，MEMBER.MEMBER_ID',
+    A1_NAME       varchar(32),
+    A2_NAME       varchar(32),
+    B1_NAME       varchar(32),
+    B2_NAME       varchar(32),
     BATTLE_DATE   date comment '约战的日期，冗余字段，可取ACTIVITY.ACTIVITY_DATE',
     BATTLE_POINT  int comment '约战的押注，多少个积分',
     BATTLE_STATE  int comment '约战的状态， -1 取消； 1111分别表示4位选手的应战确认，A1肯定为1，因为A1为发起者',
     BATTLE_RESULT tinyint comment '约战结束，1为A胜，-1为A负',
     primary key (BATTLE_ID),
-    key (ACTIVITY_ID)
+    key (ACTIVITY_ID desc),
+    key (BATTLE_DATE desc)
 );
+
+#约战记录表（备份一年前的约战记录）
+drop table if exists SUN_BATTLE_HISTORY;
+
 
 
 

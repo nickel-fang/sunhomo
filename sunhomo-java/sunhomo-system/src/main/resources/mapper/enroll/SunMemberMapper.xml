@@ -1,47 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sunhomo.enroll.mapper.SunMemberDao">
-  <resultMap id="BaseResultMap" type="com.sunhomo.enroll.domain.SunMember">
-    <id column="MEMBER_ID" jdbcType="INTEGER" property="memberId" />
-    <result column="OPENID" jdbcType="VARCHAR" property="openid" />
-    <result column="MEMBER_NAME" jdbcType="VARCHAR" property="memberName" />
-    <result column="MEMBER_PHOTO" jdbcType="VARCHAR" property="memberPhoto" />
-    <result column="TOTAL_POINT" jdbcType="INTEGER" property="totalPoint" />
-    <result column="YEAR_POINT" jdbcType="INTEGER" property="yearPoint" />
-    <result column="POINT" jdbcType="INTEGER" property="point" />
-    <result column="WIN_NUMBER" jdbcType="INTEGER" property="winNumber" />
-    <result column="LOSE_NUMBER" jdbcType="INTEGER" property="loseNumber" />
-    <result column="RATIO" jdbcType="SMALLINT" property="ratio" />
-    <result column="SIGN_DATE" jdbcType="DATE" property="signDate" />
-  </resultMap>
-  <sql id="Base_Column_List">
+    <resultMap id="BaseResultMap" type="com.sunhomo.enroll.domain.SunMember">
+        <id column="MEMBER_ID" jdbcType="INTEGER" property="memberId"/>
+        <result column="OPENID" jdbcType="VARCHAR" property="openid"/>
+        <result column="MEMBER_NAME" jdbcType="VARCHAR" property="memberName"/>
+        <result column="MEMBER_PHOTO" jdbcType="VARCHAR" property="memberPhoto"/>
+        <result column="TOTAL_POINT" jdbcType="INTEGER" property="totalPoint"/>
+        <result column="YEAR_POINT" jdbcType="INTEGER" property="yearPoint"/>
+        <result column="POINT" jdbcType="INTEGER" property="point"/>
+        <result column="WIN_NUMBER" jdbcType="INTEGER" property="winNumber"/>
+        <result column="LOSE_NUMBER" jdbcType="INTEGER" property="loseNumber"/>
+        <result column="RATIO" jdbcType="SMALLINT" property="ratio"/>
+        <result column="SIGN_DATE" jdbcType="DATE" property="signDate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     MEMBER_ID, OPENID, MEMBER_NAME, MEMBER_PHOTO, TOTAL_POINT, YEAR_POINT, POINT, WIN_NUMBER, 
     LOSE_NUMBER, RATIO, SIGN_DATE
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from SUN_MEMBER
-    where MEMBER_ID = #{memberId,jdbcType=INTEGER}
-  </select>
-  <select id="selectMembersByActivityId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from SUN_MEMBER
+        where MEMBER_ID = #{memberId,jdbcType=INTEGER}
+    </select>
+    <select id="selectMembersByActivityId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select M.MEMBER_ID, M.OPENID, MTA.MEMBER_NAME, M.MEMBER_PHOTO, M.TOTAL_POINT, M.YEAR_POINT, M.POINT, M.WIN_NUMBER,
     M.LOSE_NUMBER, M.RATIO, M.SIGN_DATE
     from SUN_MEMBER_TO_ACTIVITY MTA, SUN_MEMBER M
     where MTA.ACTIVITY_ID=#{activityId,jdbcType=INTEGER} and MTA.MEMBER_ID=M.MEMBER_ID
     order by MTA.ENROLL_TIME asc
   </select>
-  <select id="selectByOpenId" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List"/>
-    from SUN_MEMBER
-    where OPEN_ID = #{openId,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from SUN_MEMBER
-    where MEMBER_ID = #{memberId,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" keyColumn="MEMBER_ID" keyProperty="memberId" parameterType="com.sunhomo.enroll.domain.SunMember" useGeneratedKeys="true">
+    <select id="selectMembers" parameterType="com.sunhomo.enroll.domain.SunMember" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from SUN_MEMBER
+        where 1=1
+        //TODO 条件待补充
+    </select>
+    <select id="selectByOpenId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from SUN_MEMBER
+        where OPEN_ID = #{openId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from SUN_MEMBER
+        where MEMBER_ID in
+        <foreach collection="array" item="memberId" open="(" separator="," close=")">
+            #{memberId}
+        </foreach>
+    </delete>
+    <insert id="insert" keyColumn="MEMBER_ID" keyProperty="memberId" parameterType="com.sunhomo.enroll.domain.SunMember"
+            useGeneratedKeys="true">
     insert into SUN_MEMBER (OPENID, MEMBER_NAME, MEMBER_PHOTO, 
       TOTAL_POINT, YEAR_POINT, POINT, 
       WIN_NUMBER, LOSE_NUMBER, RATIO, 
@@ -51,110 +62,111 @@
       #{winNumber,jdbcType=INTEGER}, #{loseNumber,jdbcType=INTEGER}, #{ratio,jdbcType=SMALLINT}, 
       #{signDate,jdbcType=DATE})
   </insert>
-  <insert id="insertSelective" keyColumn="MEMBER_ID" keyProperty="memberId" parameterType="com.sunhomo.enroll.domain.SunMember" useGeneratedKeys="true">
-    insert into SUN_MEMBER
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="openid != null">
-        OPENID,
-      </if>
-      <if test="memberName != null">
-        MEMBER_NAME,
-      </if>
-      <if test="memberPhoto != null">
-        MEMBER_PHOTO,
-      </if>
-      <if test="totalPoint != null">
-        TOTAL_POINT,
-      </if>
-      <if test="yearPoint != null">
-        YEAR_POINT,
-      </if>
-      <if test="point != null">
-        POINT,
-      </if>
-      <if test="winNumber != null">
-        WIN_NUMBER,
-      </if>
-      <if test="loseNumber != null">
-        LOSE_NUMBER,
-      </if>
-      <if test="ratio != null">
-        RATIO,
-      </if>
-      <if test="signDate != null">
-        SIGN_DATE,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="openid != null">
-        #{openid,jdbcType=VARCHAR},
-      </if>
-      <if test="memberName != null">
-        #{memberName,jdbcType=VARCHAR},
-      </if>
-      <if test="memberPhoto != null">
-        #{memberPhoto,jdbcType=VARCHAR},
-      </if>
-      <if test="totalPoint != null">
-        #{totalPoint,jdbcType=INTEGER},
-      </if>
-      <if test="yearPoint != null">
-        #{yearPoint,jdbcType=INTEGER},
-      </if>
-      <if test="point != null">
-        #{point,jdbcType=INTEGER},
-      </if>
-      <if test="winNumber != null">
-        #{winNumber,jdbcType=INTEGER},
-      </if>
-      <if test="loseNumber != null">
-        #{loseNumber,jdbcType=INTEGER},
-      </if>
-      <if test="ratio != null">
-        #{ratio,jdbcType=SMALLINT},
-      </if>
-      <if test="signDate != null">
-        #{signDate,jdbcType=DATE},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.sunhomo.enroll.domain.SunMember">
-    update SUN_MEMBER
-    <set>
-      <if test="openid != null">
-        OPENID = #{openid,jdbcType=VARCHAR},
-      </if>
-      <if test="memberName != null">
-        MEMBER_NAME = #{memberName,jdbcType=VARCHAR},
-      </if>
-      <if test="memberPhoto != null">
-        MEMBER_PHOTO = #{memberPhoto,jdbcType=VARCHAR},
-      </if>
-      <if test="totalPoint != null">
-        TOTAL_POINT = #{totalPoint,jdbcType=INTEGER},
-      </if>
-      <if test="yearPoint != null">
-        YEAR_POINT = #{yearPoint,jdbcType=INTEGER},
-      </if>
-      <if test="point != null">
-        POINT = #{point,jdbcType=INTEGER},
-      </if>
-      <if test="winNumber != null">
-        WIN_NUMBER = #{winNumber,jdbcType=INTEGER},
-      </if>
-      <if test="loseNumber != null">
-        LOSE_NUMBER = #{loseNumber,jdbcType=INTEGER},
-      </if>
-      <if test="ratio != null">
-        RATIO = #{ratio,jdbcType=SMALLINT},
-      </if>
-      <if test="signDate != null">
-        SIGN_DATE = #{signDate,jdbcType=DATE},
-      </if>
-    </set>
-    where MEMBER_ID = #{memberId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.sunhomo.enroll.domain.SunMember">
+    <insert id="insertSelective" keyColumn="MEMBER_ID" keyProperty="memberId"
+            parameterType="com.sunhomo.enroll.domain.SunMember" useGeneratedKeys="true">
+        insert into SUN_MEMBER
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="openid != null">
+                OPENID,
+            </if>
+            <if test="memberName != null">
+                MEMBER_NAME,
+            </if>
+            <if test="memberPhoto != null">
+                MEMBER_PHOTO,
+            </if>
+            <if test="totalPoint != null">
+                TOTAL_POINT,
+            </if>
+            <if test="yearPoint != null">
+                YEAR_POINT,
+            </if>
+            <if test="point != null">
+                POINT,
+            </if>
+            <if test="winNumber != null">
+                WIN_NUMBER,
+            </if>
+            <if test="loseNumber != null">
+                LOSE_NUMBER,
+            </if>
+            <if test="ratio != null">
+                RATIO,
+            </if>
+            <if test="signDate != null">
+                SIGN_DATE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="openid != null">
+                #{openid,jdbcType=VARCHAR},
+            </if>
+            <if test="memberName != null">
+                #{memberName,jdbcType=VARCHAR},
+            </if>
+            <if test="memberPhoto != null">
+                #{memberPhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="totalPoint != null">
+                #{totalPoint,jdbcType=INTEGER},
+            </if>
+            <if test="yearPoint != null">
+                #{yearPoint,jdbcType=INTEGER},
+            </if>
+            <if test="point != null">
+                #{point,jdbcType=INTEGER},
+            </if>
+            <if test="winNumber != null">
+                #{winNumber,jdbcType=INTEGER},
+            </if>
+            <if test="loseNumber != null">
+                #{loseNumber,jdbcType=INTEGER},
+            </if>
+            <if test="ratio != null">
+                #{ratio,jdbcType=SMALLINT},
+            </if>
+            <if test="signDate != null">
+                #{signDate,jdbcType=DATE},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.sunhomo.enroll.domain.SunMember">
+        update SUN_MEMBER
+        <set>
+            <if test="openid != null">
+                OPENID = #{openid,jdbcType=VARCHAR},
+            </if>
+            <if test="memberName != null">
+                MEMBER_NAME = #{memberName,jdbcType=VARCHAR},
+            </if>
+            <if test="memberPhoto != null">
+                MEMBER_PHOTO = #{memberPhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="totalPoint != null">
+                TOTAL_POINT = #{totalPoint,jdbcType=INTEGER},
+            </if>
+            <if test="yearPoint != null">
+                YEAR_POINT = #{yearPoint,jdbcType=INTEGER},
+            </if>
+            <if test="point != null">
+                POINT = #{point,jdbcType=INTEGER},
+            </if>
+            <if test="winNumber != null">
+                WIN_NUMBER = #{winNumber,jdbcType=INTEGER},
+            </if>
+            <if test="loseNumber != null">
+                LOSE_NUMBER = #{loseNumber,jdbcType=INTEGER},
+            </if>
+            <if test="ratio != null">
+                RATIO = #{ratio,jdbcType=SMALLINT},
+            </if>
+            <if test="signDate != null">
+                SIGN_DATE = #{signDate,jdbcType=DATE},
+            </if>
+        </set>
+        where MEMBER_ID = #{memberId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.sunhomo.enroll.domain.SunMember">
     update SUN_MEMBER
     set OPENID = #{openid,jdbcType=VARCHAR},
       MEMBER_NAME = #{memberName,jdbcType=VARCHAR},

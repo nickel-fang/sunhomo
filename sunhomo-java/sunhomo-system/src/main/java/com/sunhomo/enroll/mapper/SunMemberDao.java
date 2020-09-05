@@ -5,7 +5,7 @@ import com.sunhomo.enroll.domain.SunMember;
 import java.util.List;
 
 public interface SunMemberDao {
-    int deleteByPrimaryKey(Integer memberId);
+    int deleteByPrimaryKey(Integer[] memberIds);
 
     int insert(SunMember record);
 
@@ -16,6 +16,8 @@ public interface SunMemberDao {
     SunMember selectByOpenId(String openId);
 
     List<SunMember> selectMembersByActivityId(Integer activityId);
+
+    List<SunMember> selectMembers(SunMember member);
 
     int updateByPrimaryKeySelective(SunMember record);
 

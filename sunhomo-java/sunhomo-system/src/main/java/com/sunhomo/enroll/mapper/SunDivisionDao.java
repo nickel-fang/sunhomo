@@ -5,7 +5,7 @@ import com.sunhomo.enroll.domain.SunDivision;
 import java.util.List;
 
 public interface SunDivisionDao {
-    int deleteByPrimaryKey(Integer divisionId);
+    int deleteByPrimaryKey(Integer[] divisionId);
 
     int insert(SunDivision record);
 
@@ -13,7 +13,7 @@ public interface SunDivisionDao {
 
     SunDivision selectByPrimaryKey(Integer divisionId);
 
-    List<SunDivision> selectByActivityId(String activityId);
+    List<SunDivision> selectByActivityId(Integer activityId);
 
     int updateByPrimaryKeySelective(SunDivision record);
 

@@ -212,6 +212,7 @@
         <module>sunhomo-quartz</module>
         <module>sunhomo-generator</module>
         <module>sunhomo-common</module>
+        <module>sunhomo-api</module>
     </modules>
     <packaging>pom</packaging>
 
