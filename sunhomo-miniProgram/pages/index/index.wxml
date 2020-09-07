@@ -7,7 +7,7 @@
 		<block wx:for="{{activities}}" wx:for-item="activity">
 			<view class="menu-item">
 				<view class="menu-item-main" id="{{index}}" bindtap="enroll">
-					<text class="menu-item-name">{{activity.name}}</text>
+					<text class="menu-item-name">{{activity.activityName}}</text>
 					<image class="menu-item-arrow " src="/images/arrowright.png">
 					</image>
 				</view>

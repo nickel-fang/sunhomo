@@ -1,18 +1,32 @@
 // pages/mine/mine.js
+const app = getApp();
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    activities:[{name: '开放接口'},{name: '界面'}]
+    activities:[]
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var that = this;
     //初始化this.data.activities
+    wx.request({
+      url: app.globalData.APIUrl+'/enroll/activity/list',
+      method: 'POST',
+      data: {
+        "activityState" : 1
+      },
+      success: function(res){
+        that.setData({
+          activities: res.data
+        })
+      }
+    })
   },
 
   /**

@@ -20,6 +20,21 @@
         <collection property="members" ofType="com.sunhomo.enroll.domain.SunMember" column="ACTIVITY_ID"
                     select="com.sunhomo.enroll.mapper.SunMemberDao.selectMembersByActivityId"></collection>
     </resultMap>
+    <resultMap id="ListResultMap" type="com.sunhomo.enroll.domain.SunActivity">
+        <id column="ACTIVITY_ID" jdbcType="INTEGER" property="activityId"/>
+        <result column="ACTIVITY_NAME" jdbcType="VARCHAR" property="activityName"/>
+        <result column="ACTIVITY_TYPE" jdbcType="TINYINT" property="activityType"/>
+        <result column="ACTIVITY_DATE" jdbcType="DATE" property="activityDate"/>
+        <result column="START_TIME" jdbcType="VARCHAR" property="startTime"/>
+        <result column="END_TIME" jdbcType="VARCHAR" property="endTime"/>
+        <result column="DEADLINE" jdbcType="VARCHAR" property="deadline"/>
+        <result column="PLACE" jdbcType="VARCHAR" property="place"/>
+        <result column="FIELD" jdbcType="VARCHAR" property="field"/>
+        <result column="ACTIVITY_RULE" jdbcType="VARCHAR" property="activityRule"/>
+        <result column="NUMBERS" jdbcType="INTEGER" property="numbers"/>
+        <result column="MEMO" jdbcType="VARCHAR" property="memo"/>
+        <result column="ACTIVITY_STATE" jdbcType="TINYINT" property="activityState"/>
+    </resultMap>
     <sql id="Base_Column_List">
         ACTIVITY_ID, ACTIVITY_NAME, ACTIVITY_TYPE, ACTIVITY_DATE, START_TIME, END_TIME, DEADLINE,
         PLACE, FIELD, ACTIVITY_RULE, NUMBERS, MEMO, ACTIVITY_STATE
@@ -30,7 +45,7 @@
         from SUN_ACTIVITY
         where ACTIVITY_ID = #{activityId,jdbcType=INTEGER}
     </select>
-    <select id="selectActivities" parameterType="com.sunhomo.enroll.domain.SunActivity" resultMap="BaseResultMap">
+    <select id="selectActivities" parameterType="com.sunhomo.enroll.domain.SunActivity" resultMap="ListResultMap">
         select
         <include refid="Base_Column_List"/>
         from SUN_ACTIVITY

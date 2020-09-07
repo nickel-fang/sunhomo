@@ -6,6 +6,8 @@
 !gradle/wrapper/gradle-wrapper.jar
 
 target/
+photo/
+doc/
 !.mvn/wrapper/maven-wrapper.jar
 
 ######################################################################
