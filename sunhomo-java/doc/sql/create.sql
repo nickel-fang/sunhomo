@@ -27,13 +27,13 @@ create table SUN_MEMBER
     MEMBER_ID    int auto_increment,
     OPENID       varchar(32) comment '用户微信小程序唯一身份',
     MEMBER_NAME  varchar(32) comment '用户名，默认微信昵称',
-    MEMBER_PHOTO varchar(128) comment '用户图像，直接取微信图片',
-    TOTAL_POINT  int comment '总积分，累积参加活动及比赛的积分',
-    YEAR_POINT   int comment '当年总积分，累积当年参加活动及比赛的积分',
-    POINT        int comment '实时积分，参加活动及比赛、约战、消费的积分',
-    WIN_NUMBER   int comment '约战胜局',
-    LOSE_NUMBER  int comment '约战负局',
-    RATIO        smallint comment '胜率 = WIN_NUMBER/(WIN_NUMBER+LOSE_NUMBER)，取4位数，如98.33%，数据存中9833',
+    MEMBER_PHOTO varchar(256) comment '用户图像，直接取微信图片',
+    TOTAL_POINT  int default 0 comment '总积分，累积参加活动及比赛的积分',
+    YEAR_POINT   int default 0 comment '当年总积分，累积当年参加活动及比赛的积分',
+    POINT        int default 0 comment '实时积分，参加活动及比赛、约战、消费的积分',
+    WIN_NUMBER   int default 0 comment '约战胜局',
+    LOSE_NUMBER  int default 0 comment '约战负局',
+    RATIO        smallint default 0 comment '胜率 = WIN_NUMBER/(WIN_NUMBER+LOSE_NUMBER)，取4位数，如98.33%，数据存中9833',
     SIGN_DATE    date comment '注册日期',
     primary key (MEMBER_ID),
     key (OPENID),
@@ -60,9 +60,9 @@ drop table if exists SUN_MEMBER_TO_ACTIVITY;
 create table SUN_MEMBER_TO_ACTIVITY
 (
     MEMBER_ID   int,
-    MEMBER_NAME varchar(32) comment '报名列表中显示的名称，冗余字段，一人报多个时，显示+1, +2',
     ACTIVITY_ID int,
     ENROLL_TIME datetime comment '报名时间，按照报名时间显示排序',
+    IS_MASTER tinyint comment '主报名者，0为当人报名，1，2...分别为其挂',
     key (ACTIVITY_ID, MEMBER_ID)
 );
 

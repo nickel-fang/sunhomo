@@ -1,6 +1,7 @@
 package com.sunhomo.enroll.service;
 
 import com.sunhomo.enroll.domain.SunActivity;
+import com.sunhomo.enroll.domain.SunMember;
 
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface ISunActivityService {
     public int insertActivity(SunActivity activity);
 
     public int updateActivity(SunActivity activity);
+
+    public int enroll(Integer activityId, SunMember member);
 }

@@ -65,5 +65,7 @@ public class SunMember extends BaseEntity {
      */
     private Date signDate;
 
+    private Byte isMaster;
+
     private static final long serialVersionUID = 1L;
 }

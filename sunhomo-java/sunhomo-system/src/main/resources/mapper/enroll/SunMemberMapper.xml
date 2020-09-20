@@ -13,6 +13,7 @@
         <result column="LOSE_NUMBER" jdbcType="INTEGER" property="loseNumber"/>
         <result column="RATIO" jdbcType="SMALLINT" property="ratio"/>
         <result column="SIGN_DATE" jdbcType="DATE" property="signDate"/>
+        <result column="IS_MASTER" jdbcType="TINYINT" property="isMaster"/>
     </resultMap>
     <sql id="Base_Column_List">
     MEMBER_ID, OPENID, MEMBER_NAME, MEMBER_PHOTO, TOTAL_POINT, YEAR_POINT, POINT, WIN_NUMBER, 
@@ -25,8 +26,8 @@
         where MEMBER_ID = #{memberId,jdbcType=INTEGER}
     </select>
     <select id="selectMembersByActivityId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select M.MEMBER_ID, M.OPENID, MTA.MEMBER_NAME, M.MEMBER_PHOTO, M.TOTAL_POINT, M.YEAR_POINT, M.POINT, M.WIN_NUMBER,
-    M.LOSE_NUMBER, M.RATIO, M.SIGN_DATE
+    select M.MEMBER_ID, M.OPENID, M.MEMBER_NAME, M.MEMBER_PHOTO, M.TOTAL_POINT, M.YEAR_POINT, M.POINT, M.WIN_NUMBER,
+    M.LOSE_NUMBER, M.RATIO, M.SIGN_DATE, MTA.IS_MASTER
     from SUN_MEMBER_TO_ACTIVITY MTA, SUN_MEMBER M
     where MTA.ACTIVITY_ID=#{activityId,jdbcType=INTEGER} and MTA.MEMBER_ID=M.MEMBER_ID
     order by MTA.ENROLL_TIME asc
@@ -42,7 +43,7 @@
         select
         <include refid="Base_Column_List"/>
         from SUN_MEMBER
-        where OPEN_ID = #{openId,jdbcType=VARCHAR}
+        where OPENID = #{openId,jdbcType=VARCHAR}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete from SUN_MEMBER

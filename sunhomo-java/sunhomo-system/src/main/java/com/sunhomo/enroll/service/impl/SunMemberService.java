@@ -42,6 +42,6 @@ public class SunMemberService implements ISunMemberService {
 
     @Override
     public int insertMember(SunMember member) {
-        return memberDao.insert(member);
+        return memberDao.insertSelective(member);
     }
 }

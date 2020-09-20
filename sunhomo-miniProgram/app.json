@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/index/index",
-    "pages/logs/logs",
+    "pages/activity/activities",
+    "pages/activity/activity",
     "pages/my/my",
     "pages/mall/mall"
   ],
@@ -15,7 +15,7 @@
   "sitemapLocation": "sitemap.json",
   "tabBar": {
     "list": [{
-      "pagePath": "pages/index/index",
+      "pagePath": "pages/activity/activities",
       "text": "活动",
       "iconPath": "images/010.png",
       "selectedIconPath": "images/010_s.png"

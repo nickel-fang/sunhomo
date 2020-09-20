@@ -1,8 +1,10 @@
 package com.sunhomo.enroll.mapper;
 
 import com.sunhomo.enroll.domain.SunActivity;
+import org.apache.ibatis.annotations.Param;
 import sun.security.provider.Sun;
 
+import java.util.Date;
 import java.util.List;
 
 public interface SunActivityDao {
@@ -19,4 +21,8 @@ public interface SunActivityDao {
     int updateByPrimaryKeySelective(SunActivity record);
 
     int updateByPrimaryKey(SunActivity record);
+
+    List<Byte> selectCount(@Param("activityId") Integer activityId, @Param("memberId") Integer memberId);
+
+    int insertMemberToActivity(@Param("memberId") Integer memberId, @Param("activityId") Integer activityId, @Param("enrollTime") Date enrollTime, @Param("isMaster") Byte isMaster);
 }

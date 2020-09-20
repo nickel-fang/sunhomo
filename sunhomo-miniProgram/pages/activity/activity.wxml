@@ -1,0 +1,26 @@
+<view class="container">
+	<view class="header">
+		<view class="title">{{activity.activityName}}</view>
+	</view>
+
+	<view class="menu-list">
+		<block wx:for="{{activity.members}}" wx:for-item="member">
+			<view class="menu-item">
+				<view wx:if="{{index+1>activity.numbers}}">替补{{index+1-activity.numbers}}</view>
+				<view wx:else>{{index+1}}</view>
+				.<image class="member_icon" src="{{member.memberPhoto}}"></image>{{member.memberName}}
+				<view wx:if="{{member.isMaster!=0}}">+{{member.isMaster}}</view>
+				<block wx:if="{{member.isMaster==0}}">
+					（胜率:<view wx:if="{{member.winNumber+member.loseNumber==0}}">无约战记录</view>
+					<view wx:else>{{member.ratio/100}}%</view>）
+					（积分:{{member.point}}）
+				</block>
+			</view>
+		</block>
+	</view>
+
+	<!-- <view class="header">
+		<view class="title">{{activity.memo}}</view>
+	</view> -->
+	<button bindtap="enroll">报名</button>
+</view>

@@ -1,4 +1,4 @@
-// pages/mine/mine.js
+// pages/activity/activities.js
 const app = getApp();
 Page({
 
@@ -79,7 +79,10 @@ Page({
   },
 
   //报名
-  enroll:function(){
-
+  enroll:function(event){
+    //console.log(event.currentTarget.dataset.activityid);
+    wx.navigateTo({
+      url: 'activity?activityId='+event.currentTarget.dataset.activityid
+    })
   }
 })

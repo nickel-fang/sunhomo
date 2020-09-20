@@ -222,4 +222,13 @@
         ACTIVITY_STATE = #{activityState,jdbcType=TINYINT}
         where ACTIVITY_ID = #{activityId,jdbcType=INTEGER}
     </update>
+
+    <select id="selectCount" resultType="java.lang.Byte">
+        select IS_MASTER from SUN_MEMBER_TO_ACTIVITY where
+        ACTIVITY_ID=#{activityId,jdbcType=INTEGER} and MEMBER_ID=#{memberId,jdbcType=INTEGER}
+        order by IS_MASTER
+    </select>
+    <insert id="insertMemberToActivity">
+        insert into SUN_MEMBER_TO_ACTIVITY values(#{memberId,jdbcType=INTEGER},#{activityId,jdbcType=INTEGER},#{enrollTime,jdbcType=TIMESTAMP},#{isMaster,jdbcType=TINYINT})
+    </insert>
 </mapper>
