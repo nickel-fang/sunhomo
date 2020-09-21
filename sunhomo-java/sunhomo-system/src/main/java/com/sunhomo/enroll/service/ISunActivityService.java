@@ -17,4 +17,6 @@ public interface ISunActivityService {
     public int updateActivity(SunActivity activity);
 
     public int enroll(Integer activityId, SunMember member);
+
+    int quit(Integer activityId, Byte isMaster, SunMember member);
 }

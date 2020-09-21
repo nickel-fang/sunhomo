@@ -15,24 +15,23 @@
   color: #000000;
   display: flex;
   background-color: #fff;
-  margin: 10rpx 0rpx;
+  margin: 5rpx 0rpx;
   /* flex-direction: column; */
   padding: 10rpx;
   font-size: 32rpx;
+  align-items: center;
 }
 .menu-item-content{
   padding-left: 20rpx;
   padding-right: 20rpx;
 }
 
-.menu-item-arrow {
-  width: 32rpx;
-  height: 32rpx;
-  transition: 400ms;
+.member_icon{
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 32rpx;
 }
 
-.member_icon{
-  width: 32rpx;
-  height: 32rpx;
-  border-radius: 32rpx;
+.mini-btn{
+  margin-right: 10rpx;
 }

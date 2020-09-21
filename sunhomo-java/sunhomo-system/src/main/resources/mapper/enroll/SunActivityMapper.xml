@@ -71,6 +71,7 @@
             #{activityId}
         </foreach>
     </delete>
+
     <insert id="insert" keyColumn="ACTIVITY_ID" keyProperty="activityId"
             parameterType="com.sunhomo.enroll.domain.SunActivity" useGeneratedKeys="true">
         insert into SUN_ACTIVITY (ACTIVITY_NAME, ACTIVITY_TYPE, ACTIVITY_DATE,
@@ -231,4 +232,7 @@
     <insert id="insertMemberToActivity">
         insert into SUN_MEMBER_TO_ACTIVITY values(#{memberId,jdbcType=INTEGER},#{activityId,jdbcType=INTEGER},#{enrollTime,jdbcType=TIMESTAMP},#{isMaster,jdbcType=TINYINT})
     </insert>
+    <delete id="deleteMemberToActivity">
+        delete from SUN_MEMBER_TO_ACTIVITY where ACTIVITY_ID=#{activityId,jdbcType=INTEGER} and MEMBER_ID=#{memberId,jdbcType=INTEGER} and IS_MASTER=#{isMaster,jdbcType=TINYINT}
+    </delete>
 </mapper>

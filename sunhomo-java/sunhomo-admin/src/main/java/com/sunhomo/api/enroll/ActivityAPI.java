@@ -26,7 +26,7 @@ public class ActivityAPI {
      */
     @PostMapping("/list")
     @ResponseBody
-    public List<SunActivity> list(SunActivity activity) {
+    public List<SunActivity> list(@RequestBody SunActivity activity) {
         return activityService.selectActivities(activity);
     }
 
@@ -52,6 +52,21 @@ public class ActivityAPI {
     @ResponseBody
     public AjaxResult enroll(@PathVariable("activityId") Integer activityId, @RequestBody SunMember member) {
         int success = activityService.enroll(activityId, member);
+        if (success == 1) return AjaxResult.success("1", activityService.selectActivity(activityId));
+        else return AjaxResult.success("0", activityService.selectActivity(activityId));
+    }
+
+    /**
+     * 取消报名
+     *
+     * @param activityId
+     * @param member
+     * @return
+     */
+    @PostMapping("/quit/{activityId}/{isMaster}")
+    @ResponseBody
+    public AjaxResult quit(@PathVariable("activityId") Integer activityId, @PathVariable("isMaster") Byte isMaster, @RequestBody SunMember member) {
+        int success = activityService.quit(activityId, isMaster, member);
         if (success == 1) return AjaxResult.success("1", activityService.selectActivity(activityId));
         else return AjaxResult.success("0", activityService.selectActivity(activityId));
     }

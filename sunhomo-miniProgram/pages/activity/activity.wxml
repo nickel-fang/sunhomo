@@ -1,7 +1,7 @@
 <view class="container">
-	<view class="header">
+	<!-- <view class="header">
 		<view class="title">{{activity.activityName}}</view>
-	</view>
+	</view> -->
 
 	<view class="menu-list">
 		<block wx:for="{{activity.members}}" wx:for-item="member">
@@ -11,10 +11,11 @@
 				.<image class="member_icon" src="{{member.memberPhoto}}"></image>{{member.memberName}}
 				<view wx:if="{{member.isMaster!=0}}">+{{member.isMaster}}</view>
 				<block wx:if="{{member.isMaster==0}}">
-					（胜率:<view wx:if="{{member.winNumber+member.loseNumber==0}}">无约战记录</view>
-					<view wx:else>{{member.ratio/100}}%</view>）
-					（积分:{{member.point}}）
+					（<view wx:if="{{member.winNumber+member.loseNumber==0}}">无约战记录</view>
+					<view wx:else>胜率:{{member.ratio/100}}%</view> 
+					积分:{{member.point}}）
 				</block>
+				<block wx:if="member.memberId==app.globalData.userInfo.memberId"><button class="mini-btn" size="mini" bindtap="quit" data-master="{{member.isMaster}}">退报</button></block>
 			</view>
 		</block>
 	</view>

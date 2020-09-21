@@ -1,6 +1,7 @@
 package com.sunhomo.enroll.mapper;
 
 import com.sunhomo.enroll.domain.SunActivity;
+import com.sunhomo.enroll.domain.SunMember;
 import org.apache.ibatis.annotations.Param;
 import sun.security.provider.Sun;
 
@@ -25,4 +26,6 @@ public interface SunActivityDao {
     List<Byte> selectCount(@Param("activityId") Integer activityId, @Param("memberId") Integer memberId);
 
     int insertMemberToActivity(@Param("memberId") Integer memberId, @Param("activityId") Integer activityId, @Param("enrollTime") Date enrollTime, @Param("isMaster") Byte isMaster);
+
+    int deleteMemberToActivity(@Param("activityId") Integer activityId, @Param("memberId") Integer memberId, @Param("isMaster") Byte isMaster);
 }

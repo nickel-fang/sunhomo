@@ -66,7 +66,7 @@ App({
   globalData: {
     userInfo: null,
     openId: null,
-    //APIUrl: "https://www.sunhomo.cn/api"
+    // APIUrl: "https://www.sunhomo.cn/api"
     APIUrl: "http://localhost/api"
   }
 })

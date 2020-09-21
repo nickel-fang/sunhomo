@@ -79,7 +79,6 @@ Page({
 
   enroll: function(){
     var that = this;
-    console.log(app.globalData.userInfo);
     wx.request({
       url: app.globalData.APIUrl+'/enroll/activity/enroll/'+this.data.activity.activityId,
       method: 'POST',
@@ -96,6 +95,30 @@ Page({
         }else if(res.data.msg=='0'){
           wx.showToast({
             title: '报名失败，请联系管理员！',
+          })
+        }
+      }
+    })
+  },
+
+  quit: function(event){
+    var that = this;
+    wx.request({
+      url: app.globalData.APIUrl+'/enroll/activity/quit/'+this.data.activity.activityId+"/"+event.currentTarget.dataset.master,
+      method: 'POST',
+      data: app.globalData.userInfo,
+      success: function(res){
+        if(res.data.msg=='1'){
+          wx.showToast({
+            title: '取消报名成功',
+            icon: 'success'
+          });
+          that.setData({
+            activity: res.data.data
+          })
+        }else if(res.data.msg=='0'){
+          wx.showToast({
+            title: '取消报名失败，请联系管理员！',
           })
         }
       }

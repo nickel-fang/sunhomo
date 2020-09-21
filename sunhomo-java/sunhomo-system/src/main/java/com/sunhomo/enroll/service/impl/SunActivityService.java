@@ -62,4 +62,9 @@ public class SunActivityService implements ISunActivityService {
         }
         return activityDao.insertMemberToActivity(member.getMemberId(), activityId, new Date(), index);
     }
+
+    @Override
+    public int quit(Integer activityId, Byte isMaster, SunMember member) {
+        return activityDao.deleteMemberToActivity(activityId, member.getMemberId(), isMaster);
+    }
 }
