@@ -6,7 +6,7 @@ create table SUN_ACTIVITY
     ACTIVITY_ID    int auto_increment,
     ACTIVITY_NAME  varchar(32) comment '活动名称',
     ACTIVITY_TYPE  tinyint comment '活动类型， 1：普通打球活动 2：比赛活动',
-    ACTIVITY_DATE  date comment '活动日期',
+    ACTIVITY_DATE  VARCHAR(10) comment '活动日期',
     START_TIME     VARCHAR(8) comment '活动开始时间',
     END_TIME       VARCHAR(8) comment '活动结束时间',
     DEADLINE       VARCHAR(8) comment '活动报名、抽签截止时间',
@@ -126,7 +126,7 @@ create table SUN_BATTLE
     A2_NAME       varchar(32),
     B1_NAME       varchar(32),
     B2_NAME       varchar(32),
-    BATTLE_DATE   date comment '约战的日期，冗余字段，可取ACTIVITY.ACTIVITY_DATE',
+    BATTLE_DATE   varchar(10) comment '约战的日期，冗余字段，可取ACTIVITY.ACTIVITY_DATE',
     BATTLE_POINT  int comment '约战的押注，多少个积分',
     BATTLE_STATE  int comment '约战的状态， -1 取消； 1111分别表示4位选手的应战确认，A1肯定为1，因为A1为发起者',
     BATTLE_RESULT tinyint comment '约战结束，1为A胜，-1为A负',
@@ -137,6 +137,7 @@ create table SUN_BATTLE
 
 #约战记录表（备份一年前的约战记录）
 drop table if exists SUN_BATTLE_HISTORY;
+CREATE TABLE SUN_BATTLE_HISTORY AS SELECT * FROM SUN_BATTLE WHERE 1 = 0;
 
 
 
