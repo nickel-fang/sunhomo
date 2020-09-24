@@ -11,7 +11,7 @@ App({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
         wx.request({
-          url: this.globalData.APIUrl + '/enroll/member/getOpenId',
+          url: this.globalData.APIUrl + '/club/member/getOpenId',
           method: 'POST',
           data: res.code,
           success: res => {
@@ -33,7 +33,7 @@ App({
                           member.memberPhoto = res.userInfo.avatarUrl;
 
                           wx.request({
-                            url: this.globalData.APIUrl + '/enroll/member/insertMember',
+                            url: this.globalData.APIUrl + '/club/member/insertMember',
                             method: 'POST',
                             data: member,
                             success:res=>{
@@ -66,7 +66,7 @@ App({
   globalData: {
     userInfo: null,
     openId: null,
-    // APIUrl: "https://www.sunhomo.cn/api"
-    APIUrl: "http://localhost/api"
+    APIUrl: "https://www.sunhomo.cn/api"
+    // APIUrl: "http://localhost/api"
   }
 })

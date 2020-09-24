@@ -13,12 +13,16 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.getData(options.activityId);
+  },
+
+  getData(activityId){
     var that = this;
     //初始化this.data.activities
     wx.request({
-      url: app.globalData.APIUrl+'/enroll/activity/getActivity',
+      url: app.globalData.APIUrl+'/club/activity/getActivity',
       method: 'POST',
-      data: options.activityId,
+      data:activityId,
       success: function(res){
         console.log(res.data);
         that.setData({
@@ -60,7 +64,11 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    wx.showNavigationBarLoading();
+    wx.showLoading({
+      title: '刷新中...'
+    });
+    this.getData(this.data.activity.activityId);
   },
 
   /**
@@ -80,7 +88,7 @@ Page({
   enroll: function(){
     var that = this;
     wx.request({
-      url: app.globalData.APIUrl+'/enroll/activity/enroll/'+this.data.activity.activityId,
+      url: app.globalData.APIUrl+'/club/activity/enroll/'+this.data.activity.activityId,
       method: 'POST',
       data: app.globalData.userInfo,
       success: function(res){
@@ -104,7 +112,7 @@ Page({
   quit: function(event){
     var that = this;
     wx.request({
-      url: app.globalData.APIUrl+'/enroll/activity/quit/'+this.data.activity.activityId+"/"+event.currentTarget.dataset.master,
+      url: app.globalData.APIUrl+'/club/activity/quit/'+this.data.activity.activityId+"/"+event.currentTarget.dataset.master,
       method: 'POST',
       data: app.globalData.userInfo,
       success: function(res){

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/api/activity")
+@RequestMapping("/api/club/activity")
 public class ActivityAPI {
     @Autowired
     private ISunActivityService activityService;

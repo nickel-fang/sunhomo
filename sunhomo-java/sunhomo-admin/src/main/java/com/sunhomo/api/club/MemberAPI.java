@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Date;
 
 @Controller
-@RequestMapping("/api/member")
+@RequestMapping("/api/club/member")
 @Slf4j
 public class MemberAPI {
 
