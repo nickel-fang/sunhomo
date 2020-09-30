@@ -14,3 +14,10 @@ mybatis:
   mapper-locations: classpath*:mapper/**/*Mapper.xml
   # 加载全局的配置文件
   config-location: classpath:mybatis/mybatis-config.xml
+
+# pagehelper
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
