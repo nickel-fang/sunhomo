@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('修改活动')"/>
+</head>
+<body>
+<div class="main-content">
+    <form id="form-activity-edit" class="form-horizontal" th:object="${activity}">
+        <input name="activityId"  type="hidden"  th:field="*{activityId}" />
+        <input name="activityState"  type="hidden"  th:field="*{activityState}" />
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label is-required">活动名称：</label>
+                    <div class="col-sm-8">
+                        <input name="activityName" placeholder="请输入活动名称" th:field="*{activityName}" class="form-control" type="text" maxlength="32"
+                               required>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label is-required">活动类型：</label>
+                    <div class="col-sm-8">
+                        <select name="activityType" class="form-control m-b" th:field="*{activityType}">
+                            <option value="1" selected>普通活动</option>
+                            <option value="2">比赛活动</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label is-required">活动日期：</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="activityDate" id="activityDate"
+                               placeholder="yyyy-MM-dd">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label is-required">活动时间：</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <input name="startTime" placeholder="00:00" th:field="*{startTime}" class="form-control" type="text" required> -
+                            <input name="endTime" placeholder="00:00" th:field="*{endTime}" class="form-control" type="text" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label is-required">活动地点：</label>
+                    <div class="col-sm-8">
+                        <select name="place" class="form-control m-b" th:field="*{place}">
+                            <option value="垡头羽毛球活动中心" selected>垡头羽毛球活动中心</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label is-required">活动场地：</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="field" placeholder="7:8:9" th:field="*{field}">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">活动人数：</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="numbers" th:field="*{numbers}">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-xs-2 control-label">活动规则：</label>
+                    <div class="col-xs-10">
+                        <textarea name="activityRule" maxlength="256" class="form-control" rows="3">[[*{activityRule}]]</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-xs-2 control-label">备注：</label>
+                    <div class="col-xs-10">
+                        <textarea name="memo" maxlength="256" class="form-control" rows="3">[[*{memo}]]</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<th:block th:include="include :: footer"/>
+<script>
+    var prefix = ctx + "club/activity";
+
+    var activityDate = '[[${activity.activityDate}]]';
+
+    $("#form-activity-add").validate({
+        onkeyup: false,
+        focusCleanup: true
+    });
+
+    function submitHandler() {
+        if ($.validate.form()) {
+            var data = $("#form-activity-edit").serializeArray();
+            $.operate.save(prefix + "/edit", data);
+        }
+    }
+
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+
+        laydate.render({
+            elem: '#activityDate',
+            value: activityDate
+
+        });
+    });
+</script>
+</body>
+</html>

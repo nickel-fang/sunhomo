@@ -2,6 +2,7 @@ package cn.sunhomo.club.controller;
 
 import cn.sunhomo.club.domain.SunActivity;
 import cn.sunhomo.club.service.ISunActivityService;
+import cn.sunhomo.controller.BaseController;
 import cn.sunhomo.core.AjaxResult;
 import cn.sunhomo.core.TableDataInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/club/activity")
-public class ActivityController {
+public class ActivityController extends BaseController {
     private String prefix = "club/activity";
     @Autowired
     private ISunActivityService activityService;
