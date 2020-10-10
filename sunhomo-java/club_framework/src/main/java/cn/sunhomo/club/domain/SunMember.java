@@ -10,7 +10,7 @@ import lombok.Data;
  * @author
  */
 @Data
-public class SunMember {
+public class SunMember extends BaseEntity{
     private Integer memberId;
 
     /**

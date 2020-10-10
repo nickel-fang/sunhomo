@@ -10,7 +10,7 @@ import lombok.Data;
  * @author
  */
 @Data
-public class SunDivision{
+public class SunDivision extends BaseEntity{
     private Integer divisionId;
 
     /**

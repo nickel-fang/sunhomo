@@ -11,7 +11,7 @@ import java.util.List;
  * @author
  */
 @Data
-public class SunActivity{
+public class SunActivity extends BaseEntity{
     private Integer activityId;
 
     /**

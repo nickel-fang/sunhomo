@@ -10,7 +10,7 @@ import lombok.Data;
  * @author
  */
 @Data
-public class SunBattle{
+public class SunBattle extends BaseEntity{
     private Integer battleId;
 
     /**
