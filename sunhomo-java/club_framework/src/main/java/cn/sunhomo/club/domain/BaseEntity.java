@@ -14,7 +14,7 @@ public class BaseEntity implements Serializable {
     private Map<String, Object> params;
 
     public Map<String, Object> getParams() {
-        return params == null ? new HashMap<String, Object>() : params;
+        return params == null ? (params = new HashMap<>()) : params;
     }
 
     public void setParams(Map<String, Object> params) {
