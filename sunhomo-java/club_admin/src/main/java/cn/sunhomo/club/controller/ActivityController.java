@@ -4,6 +4,7 @@ import cn.sunhomo.club.domain.SunActivity;
 import cn.sunhomo.club.service.ISunActivityService;
 import cn.sunhomo.controller.BaseController;
 import cn.sunhomo.core.AjaxResult;
+import cn.sunhomo.core.ResultCode;
 import cn.sunhomo.core.TableDataInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,7 +44,8 @@ public class ActivityController extends BaseController {
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(SunActivity activity) {
-        return new AjaxResult(activityService.insertActivity(activity), null, null);
+        int result = activityService.insertActivity(activity);
+        return result == 1 ? AjaxResult.success() : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR);
     }
 
     //    @RequiresPermissions("club:activity:remove")
@@ -52,9 +54,10 @@ public class ActivityController extends BaseController {
     @ResponseBody
     public AjaxResult remove(String ids) {
         try {
-            return new AjaxResult(activityService.deleteActivityById(ids), null, null);
+            activityService.deleteActivityById(ids);
+            return AjaxResult.success();
         } catch (Exception e) {
-            return new AjaxResult(500, e.getMessage(), null);
+            return AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR);
         }
     }
 
@@ -69,6 +72,7 @@ public class ActivityController extends BaseController {
     @PostMapping("/edit")
     @ResponseBody
     public AjaxResult editSave(SunActivity activity) {
-        return new AjaxResult(activityService.updateActivity(activity), null, null);
+        int result = activityService.updateActivity(activity);
+        return result == 1 ? AjaxResult.success() : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR);
     }
 }

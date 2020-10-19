@@ -1601,8 +1601,8 @@ table_type = {
 
 /** 消息状态码 */
 web_status = {
-    SUCCESS: 0,
-    FAIL: 500,
+    SUCCESS: 1,
+    FAIL: 40001,
     WARNING: 301
 };
 

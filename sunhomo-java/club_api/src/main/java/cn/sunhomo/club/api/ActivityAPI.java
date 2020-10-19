@@ -4,6 +4,7 @@ import cn.sunhomo.club.domain.SunActivity;
 import cn.sunhomo.club.domain.SunMember;
 import cn.sunhomo.club.service.ISunActivityService;
 import cn.sunhomo.core.AjaxResult;
+import cn.sunhomo.core.ResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/api/club/activity")
+@RequestMapping("/club/activity")
 public class ActivityAPI {
     @Autowired
     private ISunActivityService activityService;
@@ -50,8 +51,8 @@ public class ActivityAPI {
     @PostMapping("/enroll/{activityId}")
     @ResponseBody
     public AjaxResult<SunActivity> enroll(@PathVariable("activityId") Integer activityId, @RequestBody SunMember member) {
-        int success = activityService.enroll(activityId, member);
-        return new AjaxResult<SunActivity>(success, "", activityService.selectActivity(activityId));
+        int result = activityService.enroll(activityId, member);
+        return result == 1 ? AjaxResult.success(activityService.selectActivity(activityId)) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, activityService.selectActivity(activityId));
     }
 
     /**
@@ -64,7 +65,7 @@ public class ActivityAPI {
     @PostMapping("/quit/{activityId}/{isMaster}")
     @ResponseBody
     public AjaxResult<SunActivity> quit(@PathVariable("activityId") Integer activityId, @PathVariable("isMaster") Byte isMaster, @RequestBody SunMember member) {
-        int success = activityService.quit(activityId, isMaster, member);
-        return new AjaxResult<SunActivity>(success, "", activityService.selectActivity(activityId));
+        int result = activityService.quit(activityId, isMaster, member);
+        return result == 1 ? AjaxResult.success(activityService.selectActivity(activityId)) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, activityService.selectActivity(activityId));
     }
 }
