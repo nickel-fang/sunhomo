@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -65,6 +67,13 @@ public class ActivityAPI {
     @PostMapping("/quit/{activityId}/{isMaster}")
     @ResponseBody
     public AjaxResult<SunActivity> quit(@PathVariable("activityId") Integer activityId, @PathVariable("isMaster") Byte isMaster, @RequestBody SunMember member) {
+        SunActivity activity = activityService.selectActivity(activityId);
+        //根据活动取消报名截止时间来判断是否可进行取消操作
+        if (LocalDateTime.now().isBefore(LocalDateTime.parse(activity.getDeadline(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))) {
+            //截止时间之前，可取消
+        } else {
+            //有替补，可取消，此时要控制并发问题，加锁
+        }
         int result = activityService.quit(activityId, isMaster, member);
         return result == 1 ? AjaxResult.success(activityService.selectActivity(activityId)) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, activityService.selectActivity(activityId));
     }

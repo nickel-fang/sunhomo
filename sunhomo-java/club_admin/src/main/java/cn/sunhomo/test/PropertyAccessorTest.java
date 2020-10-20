@@ -5,6 +5,9 @@ import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.DirectFieldAccessor;
 import org.springframework.beans.PropertyAccessor;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  * @author: Nickel Fang
  * @date: 2020/10/13 15:33
@@ -17,6 +20,9 @@ public class PropertyAccessorTest {
         accessor.setPropertyValue("activityId", 1);
         accessor.setPropertyValue("params[beginTime]","2020-10-13");
         System.out.println(activity.getParams());
+
+        System.out.println(LocalDateTime.now().isBefore(LocalDateTime.parse("2020-10-20 22:43:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
+//        System.out.println(LocalDateTime.parse("2020-10-20 22:41:00"));
     }
 
 }

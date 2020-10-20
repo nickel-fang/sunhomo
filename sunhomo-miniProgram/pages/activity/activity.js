@@ -92,7 +92,7 @@ Page({
       method: 'POST',
       data: app.globalData.userInfo,
       success: function(res){
-        if(res.data.msg=='1'){
+        if(res.data.code==1){
           wx.showToast({
             title: '报名成功',
             icon: 'success'
@@ -100,7 +100,7 @@ Page({
           that.setData({
             activity: res.data.data
           })
-        }else if(res.data.msg=='0'){
+        }else if(res.data.code!=1){
           wx.showToast({
             title: '报名失败，请联系管理员！',
           })
@@ -116,7 +116,7 @@ Page({
       method: 'POST',
       data: app.globalData.userInfo,
       success: function(res){
-        if(res.data.msg=='1'){
+        if(res.data.code==1){
           wx.showToast({
             title: '取消报名成功',
             icon: 'success'
@@ -124,7 +124,7 @@ Page({
           that.setData({
             activity: res.data.data
           })
-        }else if(res.data.msg=='0'){
+        }else if(res.data.code!=1){
           wx.showToast({
             title: '取消报名失败，请联系管理员！',
           })
