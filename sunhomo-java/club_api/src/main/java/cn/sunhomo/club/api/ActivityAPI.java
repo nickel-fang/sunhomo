@@ -12,12 +12,16 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Controller
 @RequestMapping("/club/activity")
 public class ActivityAPI {
     @Autowired
     private ISunActivityService activityService;
+
+    private static final Lock lock = new ReentrantLock();
 
 
     /**
@@ -70,21 +74,33 @@ public class ActivityAPI {
         SunActivity activity = activityService.selectActivity(activityId);
         int result;
         //根据活动取消报名截止时间来判断是否可进行取消操作
+        //截止时间之前，可取消
         if (LocalDateTime.now().isBefore(LocalDateTime.parse(activity.getDeadline(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))) {
-            //截止时间之前，可取消
             result = activityService.quit(activityId, isMaster, member);
-            return result == 1 ? AjaxResult.success(activityService.selectActivity(activityId)) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR);
-        } else {
-            if (activity.getMembers().size() <= activity.getNumbers()) {
-                //报名未满，不允许取消
-                return AjaxResult.failure(ResultCode.BUSINESS_AFTER_APPOINTED_TIME);
-            } else {
-                //有替补，可取消，此时要控制并发问题，加锁
-                synchronized (activity) {
-
-                }
-            }
+            return result == 1 ? AjaxResult.success(activityService.selectActivity(activityId)) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, activityService.selectActivity(activityId));
         }
 
+        //截止时间之后 and 报名未满，不允许取消
+        if (activity.getMembers().size() <= activity.getNumbers()) {
+            return AjaxResult.failure(ResultCode.BUSINESS_AFTER_APPOINTED_TIME, activityService.selectActivity(activityId));
+        }
+
+        //截止时间之后 and 有替补，活动当天联系管理员取消
+        if (LocalDateTime.now().isAfter(LocalDateTime.parse(activity.getActivityDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")))) {
+            return AjaxResult.failure(ResultCode.CONTACT_LEADER_FOR_CANCEL, activityService.selectActivity(activityId));
+        }
+        
+        //有替补，可取消，此时要控制并发问题，加锁
+        try {
+            lock.lock();
+            if (activityService.selectActivity(activityId).getMembers().size() <= activity.getNumbers()) {
+                //有替补可取消。但在等锁的过程中，被别的人取消了，所以此时重新获取下活动报名数
+                return AjaxResult.failure(ResultCode.BUSINESS_AFTER_APPOINTED_TIME, activityService.selectActivity(activityId));
+            }
+            result = activityService.quit(activityId, isMaster, member);
+            return result == 1 ? AjaxResult.success(activityService.selectActivity(activityId)) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, activityService.selectActivity(activityId));
+        } finally {
+            lock.unlock();
+        }
     }
 }

@@ -6,28 +6,37 @@ Page({
    * 页面的初始数据
    */
   data: {
-    activity:{}
+    activity: {},
+    userInfo: null
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.setData({
+      userInfo: app.globalData.userInfo
+    });
     this.getData(options.activityId);
   },
 
-  getData(activityId){
+  getData(activityId) {
     var that = this;
     //初始化this.data.activities
     wx.request({
-      url: app.globalData.APIUrl+'/club/activity/getActivity',
+      url: app.globalData.APIUrl + '/club/activity/getActivity',
       method: 'POST',
-      data:activityId,
-      success: function(res){
-        console.log(res.data);
+      data: activityId,
+      success: function (res) {
         that.setData({
           activity: res.data
-        })
+        });
+        //隐藏loading 提示框
+        wx.hideLoading();
+        //隐藏导航条加载动画
+        wx.hideNavigationBarLoading();
+        //停止下拉刷新
+        wx.stopPullDownRefresh();
       }
     })
   },
@@ -85,14 +94,14 @@ Page({
 
   },
 
-  enroll: function(){
+  enroll: function () {
     var that = this;
     wx.request({
-      url: app.globalData.APIUrl+'/club/activity/enroll/'+this.data.activity.activityId,
+      url: app.globalData.APIUrl + '/club/activity/enroll/' + this.data.activity.activityId,
       method: 'POST',
       data: app.globalData.userInfo,
-      success: function(res){
-        if(res.data.code==1){
+      success: function (res) {
+        if (res.data.code == 1) {
           wx.showToast({
             title: '报名成功',
             icon: 'success'
@@ -100,7 +109,7 @@ Page({
           that.setData({
             activity: res.data.data
           })
-        }else if(res.data.code!=1){
+        } else if (res.data.code != 1) {
           wx.showToast({
             title: '报名失败，请联系管理员！',
           })
@@ -109,26 +118,34 @@ Page({
     })
   },
 
-  quit: function(event){
+  quit: function (event) {
     var that = this;
     wx.request({
-      url: app.globalData.APIUrl+'/club/activity/quit/'+this.data.activity.activityId+"/"+event.currentTarget.dataset.master,
+      url: app.globalData.APIUrl + '/club/activity/quit/' + this.data.activity.activityId + "/" + event.currentTarget.dataset.master,
       method: 'POST',
       data: app.globalData.userInfo,
-      success: function(res){
-        if(res.data.code==1){
+      success: function (res) {
+        if (res.data.code == 1) {
           wx.showToast({
             title: '取消报名成功',
             icon: 'success'
-          });
-          that.setData({
-            activity: res.data.data
           })
-        }else if(res.data.code!=1){
+        } else if (res.data.code == 80002) {
           wx.showToast({
-            title: '取消报名失败，请联系管理员！',
+            title: '已联系群委会取消！',
+          })
+        } else if (res.data.code == 80001) {
+          wx.showToast({
+            title: '已过取消报名时间！',
+          })
+        } else {
+          wx.showToast({
+            title: '失败，请联系管理员！',
           })
         }
+        that.setData({
+          activity: res.data.data
+        })
       }
     })
   }

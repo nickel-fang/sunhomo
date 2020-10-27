@@ -40,7 +40,8 @@ public enum ResultCode {
     PERMISSION_NO_ACCESS(70001, "无访问权限"),
 
     /* 业务错误：80001-89999 */
-    BUSINESS_AFTER_APPOINTED_TIME(80001,"已过取消报名时间");
+    BUSINESS_AFTER_APPOINTED_TIME(80001,"已过取消报名时间"),
+    CONTACT_LEADER_FOR_CANCEL(80002,"请联系群委会取消");
 
     private int code;
 

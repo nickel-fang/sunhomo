@@ -7,7 +7,11 @@
 		<block wx:for="{{activities}}" wx:for-item="activity">
 			<view class="menu-item">
 				<view class="menu-item-main" id="{{index}}" data-activityid="{{activity.activityId}}" bindtap="enroll">
-					<text class="menu-item-name">{{activity.activityName}}</text>
+					<text class="menu-item-name">{{activity.activityName}}
+					<br/>活动地点：{{activity.place}} ({{activity.field}})
+					<br/>活动费用：{{activity.fee}}元/人
+					<br/>活动人数：{{activity.numbers}}人
+					</text>
 					<image class="menu-item-arrow " src="/images/arrowright.png">
 					</image>
 				</view>

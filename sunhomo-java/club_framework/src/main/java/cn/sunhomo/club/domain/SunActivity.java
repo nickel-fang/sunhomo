@@ -11,7 +11,7 @@ import java.util.List;
  * @author
  */
 @Data
-public class SunActivity extends BaseEntity{
+public class SunActivity extends BaseEntity {
     private Integer activityId;
 
     /**
@@ -63,6 +63,11 @@ public class SunActivity extends BaseEntity{
      * 活动人数
      */
     private Integer numbers;
+
+    /**
+     * 报名费
+     */
+    private Integer fee;
 
     /**
      * 备注

@@ -28,7 +28,13 @@ Page({
       success: function(res){
         that.setData({
           activities: res.data
-        })
+        });
+         //隐藏loading 提示框
+         wx.hideLoading();
+         //隐藏导航条加载动画
+         wx.hideNavigationBarLoading();
+         //停止下拉刷新
+         wx.stopPullDownRefresh();
       }
     })
   },
