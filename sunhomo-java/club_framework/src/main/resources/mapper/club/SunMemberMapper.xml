@@ -14,10 +14,11 @@
         <result column="RATIO" jdbcType="SMALLINT" property="ratio"/>
         <result column="SIGN_DATE" jdbcType="DATE" property="signDate"/>
         <result column="IS_MASTER" jdbcType="TINYINT" property="isMaster"/>
+        <result column="IS_ADMIN" jdbcType="TINYINT" property="isAdmin"/>
     </resultMap>
     <sql id="Base_Column_List">
     MEMBER_ID, OPENID, MEMBER_NAME, MEMBER_PHOTO, TOTAL_POINT, YEAR_POINT, POINT, WIN_NUMBER, 
-    LOSE_NUMBER, RATIO, SIGN_DATE
+    LOSE_NUMBER, RATIO, SIGN_DATE, IS_ADMIN
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -27,7 +28,7 @@
     </select>
     <select id="selectMembersByActivityId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select M.MEMBER_ID, M.OPENID, M.MEMBER_NAME, M.MEMBER_PHOTO, M.TOTAL_POINT, M.YEAR_POINT, M.POINT, M.WIN_NUMBER,
-    M.LOSE_NUMBER, M.RATIO, M.SIGN_DATE, MTA.IS_MASTER
+    M.LOSE_NUMBER, M.RATIO, M.SIGN_DATE, M.IS_ADMIN, MTA.IS_MASTER
     from SUN_MEMBER_TO_ACTIVITY MTA, SUN_MEMBER M
     where MTA.ACTIVITY_ID=#{activityId,jdbcType=INTEGER} and MTA.MEMBER_ID=M.MEMBER_ID
     order by MTA.ENROLL_TIME asc

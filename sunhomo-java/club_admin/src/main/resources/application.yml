@@ -12,6 +12,11 @@ spring:
     mode: HTML
     encoding: UTF-8
     cache: false
+  #quartz
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: never
 
 mybatis:
   # 搜索指定包别名
@@ -27,3 +32,12 @@ pagehelper:
   reasonable: true
   supportMethodsArguments: true
   params: count=countSql
+
+club:
+  job:
+    #每日凌晨1点，根据活动情况汇总积分
+    #point: 0 0/1 * * * ? *
+    point: 0 0 1 * * ? *
+    #整点1分/31分时，检测活动状态(报名中->已结束)
+    activity: 0 1,31 * * * ? *
+

@@ -105,15 +105,21 @@ Page({
           wx.showToast({
             title: '报名成功',
             icon: 'success'
-          });
-          that.setData({
-            activity: res.data.data
           })
-        } else if (res.data.code != 1) {
+        } else if (res.data.code == 80003) {
           wx.showToast({
-            title: '报名失败，请联系管理员！',
+            title: '活动已开始',
+            icon: 'none'
+          })
+        } else {
+          wx.showToast({
+            title: '系统错误',
+            icon: 'none'
           })
         }
+        that.setData({
+          activity: res.data.data
+        })
       }
     })
   },
@@ -127,24 +133,39 @@ Page({
       success: function (res) {
         if (res.data.code == 1) {
           wx.showToast({
-            title: '取消报名成功',
+            title: '退报成功',
             icon: 'success'
           })
         } else if (res.data.code == 80002) {
           wx.showToast({
-            title: '已联系群委会取消！',
+            title: '请联系群委会退报',
+            icon: 'none'
           })
         } else if (res.data.code == 80001) {
           wx.showToast({
-            title: '已过取消报名时间！',
+            title: '已过退报时间',
+            icon: 'none'
           })
         } else {
           wx.showToast({
-            title: '失败，请联系管理员！',
+            title: '系统错误',
+            icon: 'none'
           })
         }
         that.setData({
           activity: res.data.data
+        })
+      }
+    })
+  },
+
+  copyEnroll: function(event){
+    wx.setClipboardData({
+      data: this.data.activity.content,
+      success: function(res){
+        wx.showToast({
+          title: '复制成功',
+          icon: 'success'
         })
       }
     })

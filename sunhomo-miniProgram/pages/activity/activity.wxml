@@ -24,4 +24,5 @@
 		<view class="title">{{activity.memo}}</view>
 	</view> -->
 	<button bindtap="enroll">报名</button>
+	<block wx:if="{{userInfo.isAdmin==1}}"><button bindtap="copyEnroll">复制报名贴</button></block>
 </view>

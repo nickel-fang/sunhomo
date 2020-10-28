@@ -1,7 +1,10 @@
 package cn.sunhomo.club.domain;
 
 
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
@@ -83,6 +86,48 @@ public class SunActivity extends BaseEntity {
     private List<SunDivision> divisions;
     //活动下的报名会员
     private List<SunMember> members;
+
+    /**
+     * 前端定制，复制报名贴时，直接获取此字段
+     */
+    private String content;
+
+    public String getContent() {
+        if (members == null) return null;
+        StringBuilder sb = new StringBuilder();
+        sb.append("@所有人：请使用本群微信小程序进行活动报名\n")
+                .append("1.活动时间：").append(activityName).append("\n")
+                .append("2.活动地点：").append(place).append("（").append(field).append("）\n")
+                .append("3.活动费用：").append(fee).append("元/人").append("\n\n");
+        SunMember member;
+        for (int i = 0; i < members.size() && i < numbers; i++) {
+            member = members.get(i);
+            sb.append(i + 1).append(". ").append(member.getMemberName());
+            if (member.getIsMaster() == 0) {
+                //主报人
+                sb.append("（积分:").append(member.getPoint()).append("）\n");
+            } else {
+                sb.append(" +" + member.getIsMaster()).append("\n");
+            }
+
+        }
+        //有替补
+        if (members.size() > numbers) {
+            sb.append("替补：\n");
+            for (int i = numbers; i < members.size(); i++) {
+                member = members.get(i);
+                sb.append(i - numbers + 1).append(". ").append(member.getMemberName());
+                if (member.getIsMaster() == 0) {
+                    //主报人
+                    sb.append("(积分:").append(member.getPoint()).append(")\n");
+                } else {
+                    sb.append(" +" + member.getIsMaster()).append("\n");
+                }
+            }
+        }
+        sb.append("\n").append(memo);
+        return sb.toString();
+    }
 
     private static final long serialVersionUID = 1L;
 }

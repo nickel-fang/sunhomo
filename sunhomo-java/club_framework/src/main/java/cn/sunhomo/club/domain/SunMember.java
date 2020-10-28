@@ -63,7 +63,15 @@ public class SunMember extends BaseEntity{
      */
     private Date signDate;
 
+    /**
+     * 报名时所用，主报人、挂
+     */
     private Byte isMaster;
+
+    /**
+     *  是否为管理者
+     */
+    private Byte isAdmin;
 
     private static final long serialVersionUID = 1L;
 }

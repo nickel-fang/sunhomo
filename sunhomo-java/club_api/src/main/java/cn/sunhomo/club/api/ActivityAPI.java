@@ -33,7 +33,8 @@ public class ActivityAPI {
     @PostMapping("/list")
     @ResponseBody
     public List<SunActivity> list(@RequestBody SunActivity activity) {
-        return activityService.selectActivities(activity);
+        List<SunActivity> list = activityService.selectActivities(activity);
+        return list;
     }
 
     /**
@@ -57,6 +58,11 @@ public class ActivityAPI {
     @PostMapping("/enroll/{activityId}")
     @ResponseBody
     public AjaxResult<SunActivity> enroll(@PathVariable("activityId") Integer activityId, @RequestBody SunMember member) {
+        SunActivity activity = activityService.selectActivity(activityId);
+        //活动已开始，不允许报名
+        if (LocalDateTime.now().isAfter(LocalDateTime.parse(activity.getActivityDate() + " " + activity.getEndTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))) {
+            return AjaxResult.failure(ResultCode.ACTIVITY_HAS_STARTED, activityService.selectActivity(activityId));
+        }
         int result = activityService.enroll(activityId, member);
         return result == 1 ? AjaxResult.success(activityService.selectActivity(activityId)) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, activityService.selectActivity(activityId));
     }
@@ -89,7 +95,7 @@ public class ActivityAPI {
         if (LocalDateTime.now().isAfter(LocalDateTime.parse(activity.getActivityDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")))) {
             return AjaxResult.failure(ResultCode.CONTACT_LEADER_FOR_CANCEL, activityService.selectActivity(activityId));
         }
-        
+
         //有替补，可取消，此时要控制并发问题，加锁
         try {
             lock.lock();
