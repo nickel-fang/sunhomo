@@ -36,6 +36,8 @@
         <result column="FEE" jdbcType="INTEGER" property="fee"/>
         <result column="MEMO" jdbcType="VARCHAR" property="memo"/>
         <result column="ACTIVITY_STATE" jdbcType="TINYINT" property="activityState"/>
+        <collection property="members" ofType="cn.sunhomo.club.domain.SunMember" column="ACTIVITY_ID"
+                    select="cn.sunhomo.club.mapper.SunMemberDao.selectMembersByActivityId"></collection>
     </resultMap>
     <sql id="Base_Column_List">
         ACTIVITY_ID, ACTIVITY_NAME, ACTIVITY_TYPE, ACTIVITY_DATE, START_TIME, END_TIME, DEADLINE,
@@ -57,6 +59,9 @@
         </if>
         <if test="activityType != null and activityType != ''">
             AND ACTIVITY_TYPE = #{activityType,jdbcType=TINYINT}
+        </if>
+        <if test="activityDate != null and activityDate != ''">
+            AND ACTIVITY_DATE = #{activityDate,jdbcType=VARCHAR}
         </if>
         <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
             AND ACTIVITY_DATE &gt;= #{params.beginTime}

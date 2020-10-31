@@ -10,7 +10,7 @@ import lombok.Data;
  * @author
  */
 @Data
-public class SunMember extends BaseEntity{
+public class SunMember extends BaseEntity {
     private Integer memberId;
 
     /**
@@ -62,6 +62,10 @@ public class SunMember extends BaseEntity{
      * 注册日期
      */
     private Date signDate;
+    /**
+     * 报名时所用，报名时间
+     */
+    private Date enrollTime;
 
     /**
      * 报名时所用，主报人、挂
@@ -69,9 +73,16 @@ public class SunMember extends BaseEntity{
     private Byte isMaster;
 
     /**
-     *  是否为管理者
+     * 是否为管理者
      */
     private Byte isAdmin;
 
     private static final long serialVersionUID = 1L;
+
+
+    public void addPoint(int point) {
+        this.totalPoint += point;
+        this.yearPoint += point;
+        this.point += point;
+    }
 }

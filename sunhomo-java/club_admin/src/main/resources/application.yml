@@ -1,7 +1,7 @@
 server:
   port: 80
   servlet:
-    context-path: /
+    context-path: /admin
 
 spring:
   datasource:
@@ -14,9 +14,27 @@ spring:
     cache: false
   #quartz
   quartz:
+    #持久化到数据库方式
     job-store-type: jdbc
-    jdbc:
-      initialize-schema: never
+    initialize-schema: embedded
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instanceName: MyScheduler
+            instanceId: AUTO
+          jobStore:
+            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+            tablePrefix: QRTZ_
+            isClustered: true
+            clusterCheckinInterval: 10000
+            useProperties: false
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 10
+            threadPriority: 5
+            threadsInheritContextClassLoaderOfInitializingThread: true
 
 mybatis:
   # 搜索指定包别名
@@ -36,8 +54,7 @@ pagehelper:
 club:
   job:
     #每日凌晨1点，根据活动情况汇总积分
-    #point: 0 0/1 * * * ? *
-    point: 0 0 1 * * ? *
+    point: 0 0 1 * * ?
     #整点1分/31分时，检测活动状态(报名中->已结束)
-    activity: 0 1,31 * * * ? *
+    activity: 0 1,31 * * * ?
 

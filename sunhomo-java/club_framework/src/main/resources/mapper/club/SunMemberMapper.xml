@@ -13,6 +13,7 @@
         <result column="LOSE_NUMBER" jdbcType="INTEGER" property="loseNumber"/>
         <result column="RATIO" jdbcType="SMALLINT" property="ratio"/>
         <result column="SIGN_DATE" jdbcType="DATE" property="signDate"/>
+        <result column="ENROLL_TIME" jdbcType="TIMESTAMP" property="enrollTime"/>
         <result column="IS_MASTER" jdbcType="TINYINT" property="isMaster"/>
         <result column="IS_ADMIN" jdbcType="TINYINT" property="isAdmin"/>
     </resultMap>
@@ -28,7 +29,7 @@
     </select>
     <select id="selectMembersByActivityId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select M.MEMBER_ID, M.OPENID, M.MEMBER_NAME, M.MEMBER_PHOTO, M.TOTAL_POINT, M.YEAR_POINT, M.POINT, M.WIN_NUMBER,
-    M.LOSE_NUMBER, M.RATIO, M.SIGN_DATE, M.IS_ADMIN, MTA.IS_MASTER
+    M.LOSE_NUMBER, M.RATIO, M.SIGN_DATE, M.IS_ADMIN, MTA.IS_MASTER, MTA.ENROLL_TIME
     from SUN_MEMBER_TO_ACTIVITY MTA, SUN_MEMBER M
     where MTA.ACTIVITY_ID=#{activityId,jdbcType=INTEGER} and MTA.MEMBER_ID=M.MEMBER_ID
     order by MTA.ENROLL_TIME asc
@@ -182,4 +183,31 @@
       SIGN_DATE = #{signDate,jdbcType=DATE}
     where MEMBER_ID = #{memberId,jdbcType=INTEGER}
   </update>
+    <!--  批量更新会员积分  -->
+    <update id="batchUpdate" parameterType="java.util.List">
+        update SUN_MEMBER
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="TOTAL_POINT=case" suffix="end,">
+                <foreach collection="list" item="member">
+                    when MEMBER_ID=#{member.memberId} then #{member.totalPoint}
+                </foreach>
+            </trim>
+            <trim prefix="YEAR_POINT=case" suffix="end,">
+                <foreach collection="list" item="member">
+                    when MEMBER_ID=#{member.memberId} then #{member.yearPoint}
+                </foreach>
+            </trim>
+            <trim prefix="POINT=case" suffix="end,">
+                <foreach collection="list" item="member">
+                    when MEMBER_ID=#{member.memberId} then #{member.point}
+                </foreach>
+            </trim>
+        </trim>
+        <where>
+            <foreach collection="list" item="member" separator="or">
+                MEMBER_ID=#{member.memberId}
+            </foreach>
+        </where>
+
+    </update>
 </mapper>

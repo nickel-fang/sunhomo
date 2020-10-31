@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -60,7 +61,7 @@ public class ActivityAPI {
     public AjaxResult<SunActivity> enroll(@PathVariable("activityId") Integer activityId, @RequestBody SunMember member) {
         SunActivity activity = activityService.selectActivity(activityId);
         //活动已开始，不允许报名
-        if (LocalDateTime.now().isAfter(LocalDateTime.parse(activity.getActivityDate() + " " + activity.getEndTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))) {
+        if (LocalDateTime.now().isAfter(LocalDateTime.parse(activity.getActivityDate() + " " + activity.getStartTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))) {
             return AjaxResult.failure(ResultCode.ACTIVITY_HAS_STARTED, activityService.selectActivity(activityId));
         }
         int result = activityService.enroll(activityId, member);
@@ -92,7 +93,7 @@ public class ActivityAPI {
         }
 
         //截止时间之后 and 有替补，活动当天联系管理员取消
-        if (LocalDateTime.now().isAfter(LocalDateTime.parse(activity.getActivityDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")))) {
+        if (LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")).equals(activity.getActivityDate())) {
             return AjaxResult.failure(ResultCode.CONTACT_LEADER_FOR_CANCEL, activityService.selectActivity(activityId));
         }
 

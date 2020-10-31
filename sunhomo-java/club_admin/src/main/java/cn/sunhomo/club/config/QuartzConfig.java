@@ -1,5 +1,6 @@
 package cn.sunhomo.club.config;
 
+import cn.sunhomo.club.quartz.ActivityJob;
 import cn.sunhomo.club.quartz.PointJob;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,7 +34,7 @@ public class QuartzConfig {
 
     @Bean
     public JobDetail activityJobDetail() {
-        return JobBuilder.newJob(PointJob.class).withIdentity("activityJob").storeDurably().build();
+        return JobBuilder.newJob(ActivityJob.class).withIdentity("activityJob").storeDurably().build();
     }
 
     @Bean

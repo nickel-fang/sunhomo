@@ -7,6 +7,7 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -17,6 +18,7 @@ import java.util.List;
  * @date: 2020/10/23 14:32
  */
 @Slf4j
+@Component
 public class ActivityJob extends QuartzJobBean {
     @Autowired
     private ISunActivityService activityService;
@@ -29,7 +31,7 @@ public class ActivityJob extends QuartzJobBean {
         List<SunActivity> activities = activityService.selectActivities(activity);
         for (SunActivity activity1 : activities) {
             //活动的结束时间已过，将该活动置为已结束
-            if (LocalDateTime.now().isAfter(LocalDateTime.parse(activity1.getActivityDate() + " " + activity1.getEndTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))) {
+            if (LocalDateTime.now().isAfter(LocalDateTime.parse(activity1.getActivityDate() + " " + activity1.getEndTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))) {
                 activity1.setActivityState((byte) 3);
                 activityService.updateActivity(activity1);
             }

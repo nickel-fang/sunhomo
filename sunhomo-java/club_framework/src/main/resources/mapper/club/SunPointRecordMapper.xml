@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sunhomo.club.mapper.SunPointRecordDao">
+    <resultMap id="BaseResultMap" type="cn.sunhomo.club.domain.SunPointRecord">
+        <id column="POINT_RECORD_ID" jdbcType="INTEGER" property="pointRecordId"/>
+        <result column="MEMBER_ID" jdbcType="INTEGER" property="memberId"/>
+        <result column="POINT_RECORD_TYPE" jdbcType="TINYINT" property="pointRecordType"/>
+        <result column="POINT_RECORD_VALUE" jdbcType="INTEGER" property="pointRecordValue"/>
+        <result column="POINT_RECORD_DATE" jdbcType="DATE" property="pointRecordDate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    POINT_RECORD_ID, MEMBER_ID, POINT_RECORD_TYPE, POINT_RECORD_VALUE, POINT_RECORD_DATE
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from SUN_POINT_RECORD
+        where POINT_RECORD_ID = #{pointRecordId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from SUN_POINT_RECORD
+    where POINT_RECORD_ID = #{pointRecordId,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" keyColumn="POINT_RECORD_ID" keyProperty="pointRecordId"
+            parameterType="cn.sunhomo.club.domain.SunPointRecord" useGeneratedKeys="true">
+    insert into SUN_POINT_RECORD (MEMBER_ID, POINT_RECORD_TYPE, POINT_RECORD_VALUE, 
+      POINT_RECORD_DATE)
+    values (#{memberId,jdbcType=INTEGER}, #{pointRecordType,jdbcType=TINYINT}, #{pointRecordValue,jdbcType=INTEGER}, 
+      #{pointRecordDate,jdbcType=DATE})
+  </insert>
+    <insert id="batchInsert" keyColumn="POINT_RECORD_ID" keyProperty="pointRecordId" parameterType="java.util.List"
+            useGeneratedKeys="true">
+        insert into SUN_POINT_RECORD (POINT_RECORD_ID, MEMBER_ID, POINT_RECORD_TYPE, POINT_RECORD_VALUE,
+        POINT_RECORD_DATE)
+        values
+        <foreach collection="list" item="pointRecord" separator=",">
+            (#{pointRecord.pointRecordId}, #{pointRecord.memberId}, #{pointRecord.pointRecordType},
+            #{pointRecord.pointRecordValue},
+            #{pointRecord.pointRecordDate})
+        </foreach>
+    </insert>
+    <insert id="insertSelective" keyColumn="POINT_RECORD_ID" keyProperty="pointRecordId"
+            parameterType="cn.sunhomo.club.domain.SunPointRecord" useGeneratedKeys="true">
+        insert into SUN_POINT_RECORD
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="memberId != null">
+                MEMBER_ID,
+            </if>
+            <if test="pointRecordType != null">
+                POINT_RECORD_TYPE,
+            </if>
+            <if test="pointRecordValue != null">
+                POINT_RECORD_VALUE,
+            </if>
+            <if test="pointRecordDate != null">
+                POINT_RECORD_DATE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="memberId != null">
+                #{memberId,jdbcType=INTEGER},
+            </if>
+            <if test="pointRecordType != null">
+                #{pointRecordType,jdbcType=TINYINT},
+            </if>
+            <if test="pointRecordValue != null">
+                #{pointRecordValue,jdbcType=INTEGER},
+            </if>
+            <if test="pointRecordDate != null">
+                #{pointRecordDate,jdbcType=DATE},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.sunhomo.club.domain.SunPointRecord">
+        update SUN_POINT_RECORD
+        <set>
+            <if test="memberId != null">
+                MEMBER_ID = #{memberId,jdbcType=INTEGER},
+            </if>
+            <if test="pointRecordType != null">
+                POINT_RECORD_TYPE = #{pointRecordType,jdbcType=TINYINT},
+            </if>
+            <if test="pointRecordValue != null">
+                POINT_RECORD_VALUE = #{pointRecordValue,jdbcType=INTEGER},
+            </if>
+            <if test="pointRecordDate != null">
+                POINT_RECORD_DATE = #{pointRecordDate,jdbcType=DATE},
+            </if>
+        </set>
+        where POINT_RECORD_ID = #{pointRecordId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.sunhomo.club.domain.SunPointRecord">
+    update SUN_POINT_RECORD
+    set MEMBER_ID = #{memberId,jdbcType=INTEGER},
+      POINT_RECORD_TYPE = #{pointRecordType,jdbcType=TINYINT},
+      POINT_RECORD_VALUE = #{pointRecordValue,jdbcType=INTEGER},
+      POINT_RECORD_DATE = #{pointRecordDate,jdbcType=DATE}
+    where POINT_RECORD_ID = #{pointRecordId,jdbcType=INTEGER}
+  </update>
+</mapper>

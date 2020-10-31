@@ -22,4 +22,6 @@ public interface SunMemberDao {
     int updateByPrimaryKeySelective(SunMember record);
 
     int updateByPrimaryKey(SunMember record);
+
+    void batchUpdate(List<SunMember> updateMembers);
 }
