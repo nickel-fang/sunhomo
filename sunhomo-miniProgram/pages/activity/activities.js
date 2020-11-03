@@ -94,9 +94,19 @@ Page({
 
   //报名
   enroll:function(event){
-    //console.log(event.currentTarget.dataset.activityid);
+    // console.log(event.currentTarget.dataset.activity.activityId);
+    var activity = event.currentTarget.dataset.activity;
+    // if(activity.activityType==2){
+    //   wx.navigateTo({
+    //     url: 'match?activityId='+event.currentTarget.dataset.activity.activityId
+    //   })
+    // }else if(activity.activityType==1){
+    //   wx.navigateTo({
+    //     url: 'activity?activityId='+event.currentTarget.dataset.activity.activityId
+    //   })
+    // }
     wx.navigateTo({
-      url: 'activity?activityId='+event.currentTarget.dataset.activityid
+      url: 'activity?activityId='+event.currentTarget.dataset.activity.activityId
     })
   }
 })

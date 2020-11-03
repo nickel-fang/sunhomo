@@ -1,6 +1,7 @@
 package cn.sunhomo.club.domain;
 
 
+import cn.sunhomo.util.StringUtils;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
@@ -96,7 +97,8 @@ public class SunActivity extends BaseEntity {
         if (members == null) return null;
         StringBuilder sb = new StringBuilder();
         sb.append("@所有人：请使用本群微信小程序进行活动报名\n")
-                .append("1.活动时间：").append(activityName).append("\n")
+                .append(activityName).append("\n")
+                .append("1.活动时间：").append(activityDate).append("（").append(startTime).append(" - ").append(endTime).append("）").append("\n")
                 .append("2.活动地点：").append(place).append("（").append(field).append("）\n")
                 .append("3.活动费用：").append(fee).append("元/人").append("\n\n");
         SunMember member;
@@ -125,7 +127,9 @@ public class SunActivity extends BaseEntity {
                 }
             }
         }
-        sb.append("\n").append(memo);
+
+        if (StringUtils.isNotEmpty(activityRule)) sb.append("\n").append(activityRule).append("\n");
+        if (StringUtils.isNotEmpty(memo)) sb.append("\n").append(memo);
         return sb.toString();
     }
 

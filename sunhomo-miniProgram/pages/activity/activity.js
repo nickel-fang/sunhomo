@@ -111,6 +111,11 @@ Page({
             title: '活动已开始',
             icon: 'none'
           })
+        } else if (res.data.code == 80004) {
+          wx.showToast({
+            title: '比赛不能代报',
+            icon: 'none'
+          })
         } else {
           wx.showToast({
             title: '系统错误',

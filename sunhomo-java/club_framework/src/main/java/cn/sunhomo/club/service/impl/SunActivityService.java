@@ -28,7 +28,7 @@ public class SunActivityService implements ISunActivityService {
 
     @Override
     public int deleteActivityById(String ids) {
-        int[] activityIds = StringUtils.toIntArray(ids,",");
+        int[] activityIds = StringUtils.toIntArray(ids, ",");
         return activityDao.deleteByPrimaryKey(activityIds);
     }
 
@@ -65,5 +65,10 @@ public class SunActivityService implements ISunActivityService {
     @Override
     public int quit(Integer activityId, Byte isMaster, SunMember member) {
         return activityDao.deleteMemberToActivity(activityId, member.getMemberId(), isMaster);
+    }
+
+    @Override
+    public List<Byte> selectCount(Integer activityId, Integer memberId) {
+        return activityDao.selectCount(activityId, memberId);
     }
 }

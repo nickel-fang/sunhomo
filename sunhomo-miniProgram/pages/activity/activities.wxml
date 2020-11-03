@@ -6,11 +6,12 @@
 	<view class="menu-list">
 		<block wx:for="{{activities}}" wx:for-item="activity">
 			<view class="menu-item">
-				<view class="menu-item-main" id="{{index}}" data-activityid="{{activity.activityId}}" bindtap="enroll">
+				<view class="menu-item-main" id="{{index}}" data-activity="{{activity}}" bindtap="enroll">
 					<text class="menu-item-name">{{activity.activityName}}
+					<br/>活动时间：{{activity.activityDate}} ({{activity.startTime}}-{{activity.endTime}})
 					<br/>活动地点：{{activity.place}} ({{activity.field}})
 					<br/>活动费用：{{activity.fee}}元/人
-					<br/>活动人数：{{activity.numbers}}人
+					<br/>活动人数：{{activity.numbers}}人<block wx:if="{{activity.activityType==1}}">（替补达4人视情况加场）</block>
 					</text>
 					<image class="menu-item-arrow " src="/images/arrowright.png">
 					</image>

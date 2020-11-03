@@ -64,6 +64,10 @@ public class ActivityAPI {
         if (LocalDateTime.now().isAfter(LocalDateTime.parse(activity.getActivityDate() + " " + activity.getStartTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))) {
             return AjaxResult.failure(ResultCode.ACTIVITY_HAS_STARTED, activityService.selectActivity(activityId));
         }
+        //比赛活动不能带挂报名
+        if (activity.getActivityType() == 2 && activityService.selectCount(activityId, member.getMemberId()).size() >= 1) {
+            return AjaxResult.failure(ResultCode.ATTACH_IS_NOT_ALLOWED, activityService.selectActivity(activityId));
+        }
         int result = activityService.enroll(activityId, member);
         return result == 1 ? AjaxResult.success(activityService.selectActivity(activityId)) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, activityService.selectActivity(activityId));
     }
