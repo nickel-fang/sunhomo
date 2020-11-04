@@ -13,6 +13,7 @@
         <result column="FIELD" jdbcType="VARCHAR" property="field"/>
         <result column="ACTIVITY_RULE" jdbcType="VARCHAR" property="activityRule"/>
         <result column="NUMBERS" jdbcType="INTEGER" property="numbers"/>
+        <result column="GROUPS" jdbcType="INTEGER" property="groups"/>
         <result column="FEE" jdbcType="INTEGER" property="fee"/>
         <result column="MEMO" jdbcType="VARCHAR" property="memo"/>
         <result column="ACTIVITY_STATE" jdbcType="TINYINT" property="activityState"/>
@@ -33,6 +34,7 @@
         <result column="FIELD" jdbcType="VARCHAR" property="field"/>
         <result column="ACTIVITY_RULE" jdbcType="VARCHAR" property="activityRule"/>
         <result column="NUMBERS" jdbcType="INTEGER" property="numbers"/>
+        <result column="GROUPS" jdbcType="INTEGER" property="groups"/>
         <result column="FEE" jdbcType="INTEGER" property="fee"/>
         <result column="MEMO" jdbcType="VARCHAR" property="memo"/>
         <result column="ACTIVITY_STATE" jdbcType="TINYINT" property="activityState"/>
@@ -41,7 +43,7 @@
     </resultMap>
     <sql id="Base_Column_List">
         ACTIVITY_ID, ACTIVITY_NAME, ACTIVITY_TYPE, ACTIVITY_DATE, START_TIME, END_TIME, DEADLINE,
-        PLACE, FIELD, ACTIVITY_RULE, NUMBERS, FEE, MEMO, ACTIVITY_STATE
+        PLACE, FIELD, ACTIVITY_RULE, NUMBERS, GROUPS, FEE, MEMO, ACTIVITY_STATE
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -84,12 +86,12 @@
         insert into SUN_ACTIVITY (ACTIVITY_NAME, ACTIVITY_TYPE, ACTIVITY_DATE,
         START_TIME, END_TIME, DEADLINE,
         PLACE, FIELD, ACTIVITY_RULE,
-        NUMBERS, FEE, MEMO, ACTIVITY_STATE
+        NUMBERS, GROUPS, FEE, MEMO, ACTIVITY_STATE
         )
         values (#{activityName,jdbcType=VARCHAR}, #{activityType,jdbcType=TINYINT}, #{activityDate,jdbcType=VARCHAR},
         #{startTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR}, #{deadline,jdbcType=VARCHAR},
         #{place,jdbcType=VARCHAR}, #{field,jdbcType=VARCHAR}, #{activityRule,jdbcType=VARCHAR},
-        #{numbers,jdbcType=INTEGER}, #{fee,jdbcType=INTEGER}, #{memo,jdbcType=VARCHAR}, #{activityState,jdbcType=TINYINT}
+        #{numbers,jdbcType=INTEGER},#{groups,jdbcType=INTEGER}, #{fee,jdbcType=INTEGER}, #{memo,jdbcType=VARCHAR}, #{activityState,jdbcType=TINYINT}
         )
     </insert>
     <insert id="insertSelective" keyColumn="ACTIVITY_ID" keyProperty="activityId"
@@ -125,6 +127,9 @@
             </if>
             <if test="numbers != null">
                 NUMBERS,
+            </if>
+            <if test="groups != null">
+                GROUPS,
             </if>
             <if test="fee != null">
                 FEE,
@@ -166,6 +171,9 @@
             </if>
             <if test="numbers != null">
                 #{numbers,jdbcType=INTEGER},
+            </if>
+            <if test="groups != null">
+                #{groups,jdbcType=INTEGER},
             </if>
             <if test="fee != null">
                 #{fee,jdbcType=INTEGER},
@@ -211,6 +219,9 @@
             <if test="numbers != null">
                 NUMBERS = #{numbers,jdbcType=INTEGER},
             </if>
+            <if test="groups != null">
+                GROUPS = #{groups,jdbcType=INTEGER},
+            </if>
             <if test="fee != null">
                 FEE = #{fee,jdbcType=INTEGER},
             </if>
@@ -235,6 +246,7 @@
         FIELD = #{field,jdbcType=VARCHAR},
         ACTIVITY_RULE = #{activityRule,jdbcType=VARCHAR},
         NUMBERS = #{numbers,jdbcType=INTEGER},
+        GROUPS = #{groups,jdbcType=INTEGER},
         FEE = #{fee,jdbcType=INTEGER},
         MEMO = #{memo,jdbcType=VARCHAR},
         ACTIVITY_STATE = #{activityState,jdbcType=TINYINT}

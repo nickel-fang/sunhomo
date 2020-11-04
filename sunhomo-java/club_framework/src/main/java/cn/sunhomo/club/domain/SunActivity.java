@@ -69,6 +69,11 @@ public class SunActivity extends BaseEntity {
     private Integer numbers;
 
     /**
+     * 比赛活动分组数
+     */
+    private Integer groups;
+
+    /**
      * 报名费
      */
     private Integer fee;
