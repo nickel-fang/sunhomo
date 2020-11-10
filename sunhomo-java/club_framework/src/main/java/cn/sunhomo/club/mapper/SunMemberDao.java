@@ -17,6 +17,8 @@ public interface SunMemberDao {
 
     List<SunMember> selectMembersByActivityId(Integer activityId);
 
+    List<SunMember> selectMembersByDivisionId(Integer divisionId);
+
     List<SunMember> selectMembers(SunMember member);
 
     int updateByPrimaryKeySelective(SunMember record);

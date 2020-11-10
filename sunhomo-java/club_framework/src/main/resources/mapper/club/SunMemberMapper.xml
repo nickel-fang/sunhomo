@@ -34,6 +34,13 @@
     where MTA.ACTIVITY_ID=#{activityId,jdbcType=INTEGER} and MTA.MEMBER_ID=M.MEMBER_ID
     order by MTA.ENROLL_TIME asc
   </select>
+    <select id="selectMembersByDivisionId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select M.MEMBER_ID, M.OPENID, M.MEMBER_NAME, M.MEMBER_PHOTO, M.TOTAL_POINT, M.YEAR_POINT, M.POINT, M.WIN_NUMBER,
+    M.LOSE_NUMBER, M.RATIO, M.SIGN_DATE, M.IS_ADMIN
+    from SUN_MEMBER_TO_DIVISION MTD, SUN_MEMBER M
+    where MTD.DIVISION_ID=#{divisionId,jdbcType=INTEGER} and MTD.MEMBER_ID=M.MEMBER_ID
+    order by MTA.ENROLL_TIME asc
+  </select>
     <select id="selectMembers" parameterType="cn.sunhomo.club.domain.SunMember" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"></include>

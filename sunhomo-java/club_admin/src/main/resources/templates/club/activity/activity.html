@@ -6,59 +6,75 @@
 <body class="gray-bg">
 <div class="container-div">
     <div class="row">
-        <div class="col-sm-12 search-collapse">
-            <form id="activity-form">
-                <div class="select-list">
-                    <ul>
-                        <li>
-                            活动类型：<select name="activityType">
-                            <option value="">所有</option>
-                            <option value="1">普通活动</option>
-                            <option value="2">比赛活动</option>
-                        </select>
-                        </li>
-                        <li>
-                            活动状态：<select name="activityState">
-                            <option value="">所有</option>
-                            <option value="1">报名中</option>
-                            <option value="2">活动中</option>
-                            <option value="3">已结束</option>
-                            <option value="4">已取消</option>
-                        </select>
-                        </li>
-                        <li class="select-time">
-                            <label>活动日期： </label>
-                            <input type="text" class="time-input" id="startTime" placeholder="开始日期"
-                                   name="params[beginTime]"/>
-                            <span>-</span>
-                            <input type="text" class="time-input" id="endTime" placeholder="结束日期"
-                                   name="params[endTime]"/>
-                        </li>
-                        <li>
-                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
-                                    class="fa fa-search"></i>&nbsp;搜索</a>
-                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
-                                    class="fa fa-refresh"></i>&nbsp;重置</a>
-                        </li>
-                    </ul>
+        <div class="col-sm-6">
+            <div class="col-sm-12 search-collapse">
+                <form id="activity-form">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                活动类型：<select name="activityType">
+                                <option value="">所有</option>
+                                <option value="1">普通活动</option>
+                                <option value="2">比赛活动</option>
+                            </select>
+                            </li>
+                            <li>
+                                活动状态：<select name="activityState">
+                                <option value="">所有</option>
+                                <option value="1">报名中</option>
+                                <option value="2">活动中</option>
+                                <option value="3">已结束</option>
+                                <option value="4">已取消</option>
+                            </select>
+                            </li>
+                            <li class="select-time">
+                                <label>活动日期： </label>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始日期"
+                                       name="params[beginTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束日期"
+                                       name="params[endTime]"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                                        class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+                                        class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="club:activity:add">
+                    <i class="fa fa-plus"></i> 新增
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()"
+                   shiro:hasPermission="club:activity:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()"
+                   shiro:hasPermission="club:activity:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="ibox-title">
+                <b id="activityName" style="font-size: 22px"></b>
+                <b style="font-size: 22px">分组详情</b>
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="club:division:add">
+                    <i class="fa fa-plus"></i> 新增
+                </a>
+            </div>
+            <div class="ibox-content">
+                <div class="table-striped">
+                    <table id="bootstrap-table-details"></table>
                 </div>
-            </form>
-        </div>
-        <div class="btn-group-sm" id="toolbar" role="group">
-            <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="club:activity:add">
-                <i class="fa fa-plus"></i> 新增
-            </a>
-            <a class="btn btn-primary single disabled" onclick="$.operate.edit()"
-               shiro:hasPermission="club:activity:edit">
-                <i class="fa fa-edit"></i> 修改
-            </a>
-            <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()"
-               shiro:hasPermission="club:activity:remove">
-                <i class="fa fa-remove"></i> 删除
-            </a>
-        </div>
-        <div class="col-sm-12 select-table table-striped">
-            <table id="bootstrap-table"></table>
+            </div>
         </div>
     </div>
 </div>
@@ -75,6 +91,7 @@
             removeUrl: prefix + "/remove",
             modalName: "活动",
             pagination: true,
+            onClickRow: onClickRow,
             sortName: "activityId",
             sortOrder: "desc",
             uniqueId: "activityId",
@@ -145,8 +162,9 @@
                         var actions = [];
                         // actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(' + row.activityId + ')"><i class="fa fa-edit"></i>编辑</a> ');
                         // actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(' + row.activityId + ')"><i class="fa fa-remove"></i>删除</a> ');
-                        if(row.activityType==2) {
-                            actions.push('<a class="btn btn-success btn-xs" href="javascript:void(0)" onclick="detail(' + row.activityId + ')"><i class="fa fa-remove"></i>分组</a> ');
+                        if (row.activityType == 2) {
+                            actions.push('<a class="btn btn-success btn-xs" href="javascript:void(0)" onclick="division(' + row.activityId + ')"><i class="fa fa-remove"></i>分组情况</a> ');
+                            actions.push('<a class="btn btn-success btn-xs" href="javascript:void(0)" onclick="division(' + row.activityId + ')"><i class="fa fa-remove"></i>新建分组</a> ');
                         }
                         return actions.join('');
                     }
@@ -154,11 +172,72 @@
             ]
         };
         $.table.init(options);
+
+        function onClickRow(row, $element) {
+            $('.info').removeClass('info');
+            $($element).addClass('info');
+            $('#bootstrap-table-details').bootstrapTable('destroy');
+            $("#activityName").text(row.activityName + "-");
+
+            var optionsDetail = {
+                id: "bootstrap-table-details",
+                pagination: false,
+                showSearch: false,
+                showRefresh: false,
+                showColumns: false,
+                showToggle: false,
+                toolbar: false,
+                modalName: "分组",
+                uniqueId: "divisionId",
+                columns: [
+                    {
+                        field: 'divisionId',
+                        title: '分组ID'
+                    },
+                    {
+                        field: 'divisionName',
+                        title: '分组名'
+                    },
+                    {
+                        field: 'leaderName',
+                        title: '队长'
+                    },
+                    {
+                        field: 'rank',
+                        title: '战绩',
+                        formatter: function (value, row, index) {
+                            if (value == 1) return '冠军';
+                            else if (value == 2) return '亚军';
+                            else if (value == 3) return '季军';
+                            else return '参与';
+                        }
+                    },
+                    {
+                        field: 'members',
+                        title: '队员',
+                        formatter: function (value, row, index) {
+                            ;
+                        }
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        formatter: function (value, row, index) {
+                            var actions = [];
+                            actions.push('<a class="btn btn-success btn-xs" href="javascript:void(0)" onclick="assignMember(' + row.divisionId + ')"><i class="fa fa-edit"></i>分配队员</a> ');
+                            return actions.join('');
+                        }
+                    }
+                ]
+            };
+            $.table.init(optionsDetail);
+        }
     });
 
-    function detail(activityId){
-        $.modal.open("分组", "division.html");
+    function assignMember(divisionId) {
+
     }
+
 </script>
 </body>
 </html>

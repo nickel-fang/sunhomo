@@ -71,7 +71,7 @@ public class SunActivity extends BaseEntity {
     /**
      * 比赛活动分组数
      */
-    private Integer groups;
+    private Integer divisions;
 
     /**
      * 报名费
@@ -89,7 +89,7 @@ public class SunActivity extends BaseEntity {
     private Byte activityState;
 
     //活动（当为activityType=2比赛活动）下的分组
-    private List<SunDivision> divisions;
+//    private List<SunDivision> divisions;
     //活动下的报名会员
     private List<SunMember> members;
 

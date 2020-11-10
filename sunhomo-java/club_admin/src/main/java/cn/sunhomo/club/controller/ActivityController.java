@@ -1,7 +1,9 @@
 package cn.sunhomo.club.controller;
 
 import cn.sunhomo.club.domain.SunActivity;
+import cn.sunhomo.club.domain.SunDivision;
 import cn.sunhomo.club.service.ISunActivityService;
+import cn.sunhomo.club.service.ISunDivisionService;
 import cn.sunhomo.controller.BaseController;
 import cn.sunhomo.core.AjaxResult;
 import cn.sunhomo.core.ResultCode;
@@ -75,4 +77,5 @@ public class ActivityController extends BaseController {
         int result = activityService.updateActivity(activity);
         return result == 1 ? AjaxResult.success() : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR);
     }
+
 }

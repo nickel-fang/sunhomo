@@ -8,6 +8,8 @@
         <result column="LEADER" jdbcType="INTEGER" property="leader"/>
         <result column="LEADER_NAME" jdbcType="VARCHAR" property="leaderName"/>
         <result column="RANK" jdbcType="TINYINT" property="rank"/>
+        <collection property="members" ofType="cn.sunhomo.club.domain.SunMember" column="DIVISION_ID"
+                    select="cn.sunhomo.club.mapper.SunMemberDao.selectMembersByDivisionId"></collection>
     </resultMap>
     <sql id="Base_Column_List">
     DIVISION_ID, ACTIVITY_ID, DIVISION_NAME, LEADER, LEADER_NAME, `RANK`
