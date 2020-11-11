@@ -154,7 +154,7 @@
                         else if (value == 4) return '已取消'
                         else return '';
                     }
-                },
+                }/*,
                 {
                     title: '操作',
                     align: 'center',
@@ -168,7 +168,7 @@
                         }
                         return actions.join('');
                     }
-                }
+                }*/
             ]
         };
         $.table.init(options);
@@ -181,6 +181,7 @@
 
             var optionsDetail = {
                 id: "bootstrap-table-details",
+                url: ctx + "/club/division/list?activityId=" + row.activityId,
                 pagination: false,
                 showSearch: false,
                 showRefresh: false,

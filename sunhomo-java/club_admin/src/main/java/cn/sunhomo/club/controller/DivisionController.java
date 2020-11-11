@@ -4,12 +4,11 @@ import cn.sunhomo.club.domain.SunActivity;
 import cn.sunhomo.club.domain.SunDivision;
 import cn.sunhomo.club.service.ISunDivisionService;
 import cn.sunhomo.controller.BaseController;
+import cn.sunhomo.core.TableDataInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,5 +27,12 @@ public class DivisionController extends BaseController {
 
         mmap.put("divisions", divisions);
         return prefix + "/division";
+    }
+
+    @PostMapping("/list")
+    @ResponseBody
+    public TableDataInfo list(@RequestParam(value = "activityId", required = true) Integer activityId) {
+        List<SunDivision> divisions = divisionService.selectDivisions(activityId);
+        return getDataTable(divisions);
     }
 }
