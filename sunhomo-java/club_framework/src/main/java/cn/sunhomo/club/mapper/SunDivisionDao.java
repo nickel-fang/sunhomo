@@ -5,7 +5,7 @@ import cn.sunhomo.club.domain.SunDivision;
 import java.util.List;
 
 public interface SunDivisionDao {
-    int deleteByPrimaryKey(Integer[] divisionId);
+    int deleteByPrimaryKey(int[] divisionId);
 
     int insert(SunDivision record);
 

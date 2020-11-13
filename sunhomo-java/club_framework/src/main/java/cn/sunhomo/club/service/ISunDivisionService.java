@@ -11,5 +11,5 @@ public interface ISunDivisionService {
 
     public int updateDivision(SunDivision division);
 
-    public int deleteByPrimaryKey(Integer[] ids);
+    public int deleteDivisionById(String ids);
 }

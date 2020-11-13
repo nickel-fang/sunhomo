@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('新增分组')"/>
+</head>
+<body>
+<div class="main-content">
+    <form id="form-division-add" class="form-horizontal">
+        <input type="hidden" id="activityId" name="activityId" th:value="*{activity.activityId}">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label is-required">分组名：</label>
+                    <div class="col-sm-8">
+                        <input name="divisionName" placeholder="请输入分组名称" class="form-control" type="text" maxlength="32"
+                               required>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label is-required">选择队长：</label>
+                    <div class="col-sm-8">
+                        <select id="leader" name="leader" class="form-control">
+                            <option th:each="member: ${activity.members}" th:value="${member.memberId}" th:text="${member.memberName}"></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+<th:block th:include="include :: footer"/>
+<script>
+    var prefix = ctx + "club/activity";
+
+    $("#form-activity-add").validate({
+        onkeyup: false,
+        focusCleanup: true
+    });
+
+    function submitHandler() {
+        if ($.validate.form()) {
+            var data = $("#form-division-add").serializeArray();
+            data.push({"name": "leaderName", "value": $("#leader").find("option:selected").text()});
+            $.operate.save(prefix + "/divisionAdd", data);
+        }
+    }
+</script>
+</body>
+</html>

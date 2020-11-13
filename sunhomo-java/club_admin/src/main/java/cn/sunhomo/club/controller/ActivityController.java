@@ -22,6 +22,9 @@ public class ActivityController extends BaseController {
     @Autowired
     private ISunActivityService activityService;
 
+    @Autowired
+    private ISunDivisionService divisionService;
+
     @GetMapping()
     public String list() {
         return prefix + "/activity";
@@ -76,6 +79,37 @@ public class ActivityController extends BaseController {
     public AjaxResult editSave(SunActivity activity) {
         int result = activityService.updateActivity(activity);
         return result == 1 ? AjaxResult.success() : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR);
+    }
+
+    @PostMapping("/divisionList")
+    @ResponseBody
+    public TableDataInfo list(@RequestParam(value = "activityId", required = true) Integer activityId) {
+        List<SunDivision> divisions = divisionService.selectDivisions(activityId);
+        return getDataTable(divisions);
+    }
+
+    @GetMapping("/divisionAdd")
+    public String divisionAdd(@RequestParam(value = "activityId", required = true) Integer activityId, ModelMap mmap) {
+        mmap.put("activity", activityService.selectActivity(activityId));
+        return prefix + "/divisionAdd";
+    }
+
+    @PostMapping("/divisionAdd")
+    @ResponseBody
+    public AjaxResult divisionAddSave(SunDivision division) {
+        int result = divisionService.insertDivision(division);
+        return result == 1 ? AjaxResult.success() : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR);
+    }
+
+    @PostMapping("/divisionRemove")
+    @ResponseBody
+    public AjaxResult divisionRemove(String ids) {
+        try {
+            divisionService.deleteDivisionById(ids);
+            return AjaxResult.success();
+        } catch (Exception e) {
+            return AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR);
+        }
     }
 
 }

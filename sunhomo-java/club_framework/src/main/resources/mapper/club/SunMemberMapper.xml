@@ -39,7 +39,6 @@
     M.LOSE_NUMBER, M.RATIO, M.SIGN_DATE, M.IS_ADMIN
     from SUN_MEMBER_TO_DIVISION MTD, SUN_MEMBER M
     where MTD.DIVISION_ID=#{divisionId,jdbcType=INTEGER} and MTD.MEMBER_ID=M.MEMBER_ID
-    order by MTA.ENROLL_TIME asc
   </select>
     <select id="selectMembers" parameterType="cn.sunhomo.club.domain.SunMember" resultMap="BaseResultMap">
         select
