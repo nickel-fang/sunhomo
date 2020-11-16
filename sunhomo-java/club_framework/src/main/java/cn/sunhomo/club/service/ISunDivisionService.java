@@ -12,4 +12,6 @@ public interface ISunDivisionService {
     public int updateDivision(SunDivision division);
 
     public int deleteDivisionById(String ids);
+
+    void draw(Integer memberId, Integer divisionId);
 }

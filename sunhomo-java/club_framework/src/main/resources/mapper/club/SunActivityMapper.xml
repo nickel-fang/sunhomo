@@ -86,7 +86,7 @@
     <insert id="insert" keyColumn="ACTIVITY_ID" keyProperty="activityId"
             parameterType="cn.sunhomo.club.domain.SunActivity" useGeneratedKeys="true">
         insert into SUN_ACTIVITY (ACTIVITY_NAME, ACTIVITY_TYPE, ACTIVITY_DATE,
-        START_TIME, END_TIME, DEADLINE, DRWA_TIME,
+        START_TIME, END_TIME, DEADLINE, DRAW_TIME,
         PLACE, FIELD, ACTIVITY_RULE,
         NUMBERS, DIVISIONS, FEE, MEMO, ACTIVITY_STATE
         )

@@ -34,4 +34,9 @@ public class SunDivisionService implements ISunDivisionService {
         int[] divisionIds = StringUtils.toIntArray(ids, ",");
         return divisionDao.deleteByPrimaryKey(divisionIds);
     }
+
+    @Override
+    public void draw(Integer memberId, Integer divisionId) {
+        divisionDao.insertMemberToDivision(memberId, divisionId);
+    }
 }

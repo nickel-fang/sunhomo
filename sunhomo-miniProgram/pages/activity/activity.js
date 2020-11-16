@@ -164,10 +164,10 @@ Page({
     })
   },
 
-  copyEnroll: function(event){
+  copyEnroll: function (event) {
     wx.setClipboardData({
       data: this.data.activity.content,
-      success: function(res){
+      success: function (res) {
         wx.showToast({
           title: '复制成功',
           icon: 'success'
@@ -175,7 +175,7 @@ Page({
       }
     })
   },
-  draw: function(event){
+  draw: function (event) {
     var that = this;
     wx.request({
       url: app.globalData.APIUrl + '/club/activity/draw/' + this.data.activity.activityId,
@@ -188,11 +188,19 @@ Page({
             icon: 'success'
           });
           //TODO 跳转
-        } else if (res.data.code == 80003) {
+        } else if (res.data.code == 80005) {
           wx.showToast({
-            title: '活动已开始',
+            title: '抽签时间未到',
             icon: 'none'
           })
+        } else if (res.data.code == 80008) {
+          wx.showToast({
+            title: '只有报名者才能抽签',
+            icon: 'none'
+          })
+        } else if (res.data.code == 80006 || res.data.code == 80007) {
+          //队长或已抽过签，直接跳转
+          //TODO 跳转
         } else {
           wx.showToast({
             title: '系统错误',

@@ -43,7 +43,11 @@ public enum ResultCode {
     BUSINESS_AFTER_APPOINTED_TIME(80001, "已过退报时间"),
     CONTACT_LEADER_FOR_CANCEL(80002, "请联系群委会取消"),
     ACTIVITY_HAS_STARTED(80003, "活动已开始"),
-    ATTACH_IS_NOT_ALLOWED(80004, "不能带挂报名");
+    ATTACH_IS_NOT_ALLOWED(80004, "不能带挂报名"),
+    DRAW_IS_NOT_ALLOWED_FOR_TIME(80005, "抽签时间未到"),
+    DRAW_IS_NOT_NEEDED_FOR_LEADER(80006, "队长无须抽签"),
+    DRAW_IS_DONE(80007, "您已抽过签"),
+    DRAW_IS_NOT_ALLOWED_FOR_OTHER_PERSON(80008, "只有报名者才能抽签");
 
     private int code;
 

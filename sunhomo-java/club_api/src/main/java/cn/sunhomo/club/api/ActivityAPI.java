@@ -1,8 +1,10 @@
 package cn.sunhomo.club.api;
 
 import cn.sunhomo.club.domain.SunActivity;
+import cn.sunhomo.club.domain.SunDivision;
 import cn.sunhomo.club.domain.SunMember;
 import cn.sunhomo.club.service.ISunActivityService;
+import cn.sunhomo.club.service.ISunDivisionService;
 import cn.sunhomo.core.AjaxResult;
 import cn.sunhomo.core.ResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +15,19 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/club/activity")
 public class ActivityAPI {
     @Autowired
     private ISunActivityService activityService;
+
+    @Autowired
+    private ISunDivisionService divisionService;
 
     private static final Lock lock = new ReentrantLock();
 
@@ -124,6 +131,48 @@ public class ActivityAPI {
     @PostMapping("/draw/{activityId}")
     @ResponseBody
     public AjaxResult<SunActivity> draw(@PathVariable("activityId") Integer activityId, @RequestBody SunMember member) {
-        //TODO
+        SunActivity activity = activityService.selectActivity(activityId);
+        //抽签时间未到
+        if (LocalDateTime.now().isBefore(LocalDateTime.parse(activity.getDrawTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))) {
+            return AjaxResult.failure(ResultCode.DRAW_IS_NOT_ALLOWED_FOR_TIME);
+        }
+
+        //是否报过名
+        boolean isEnrolled = false;
+        for (SunMember sunMember : activity.getMembers()) {
+            if (sunMember.getMemberId() == member.getMemberId()) {
+                isEnrolled = true;
+                break;
+            }
+        }
+        if (!isEnrolled) return AjaxResult.failure(ResultCode.DRAW_IS_NOT_ALLOWED_FOR_OTHER_PERSON);
+
+        //队长无须抽签；或已抽过签
+        List<SunDivision> divisions = divisionService.selectDivisions(activityId);
+        for (SunDivision division : divisions) {
+            if (division.getLeader() == member.getMemberId()) {
+                return AjaxResult.failure(ResultCode.DRAW_IS_NOT_NEEDED_FOR_LEADER);
+            }
+            for (SunMember sunMember : division.getMembers()) {
+                if (sunMember.getMemberId() == member.getMemberId()) {
+                    return AjaxResult.failure(ResultCode.DRAW_IS_DONE);
+                }
+            }
+        }
+
+        //执行抽签操作
+        try {
+            //每组人数
+            int number = activity.getNumbers() / activity.getDivisions();
+            lock.lock();
+            List<SunDivision> underFillDivision = divisionService.selectDivisions(activityId).stream().filter(d -> d.getMembers().size() < number - 1).collect(Collectors.toList());
+            if (underFillDivision != null && underFillDivision.size() > 0) {
+                SunDivision division = underFillDivision.get(new Random().nextInt(underFillDivision.size()));
+                divisionService.draw(member.getMemberId(), division.getDivisionId());
+            }
+        } finally {
+            lock.unlock();
+        }
+        return AjaxResult.success();
     }
 }
