@@ -44,9 +44,14 @@ public class SunActivity extends BaseEntity {
     private String endTime;
 
     /**
-     * 活动报名、抽签截止时间
+     * 退报截止时间，一般为活动开始前24小时
      */
     private String deadline;
+
+    /**
+     * 开始抽签时间
+     */
+    private String drawTime;
 
     /**
      * 活动地点

@@ -174,5 +174,32 @@ Page({
         })
       }
     })
+  },
+  draw: function(event){
+    var that = this;
+    wx.request({
+      url: app.globalData.APIUrl + '/club/activity/draw/' + this.data.activity.activityId,
+      method: 'POST',
+      data: app.globalData.userInfo,
+      success: function (res) {
+        if (res.data.code == 1) {
+          wx.showToast({
+            title: '抽签成功',
+            icon: 'success'
+          });
+          //TODO 跳转
+        } else if (res.data.code == 80003) {
+          wx.showToast({
+            title: '活动已开始',
+            icon: 'none'
+          })
+        } else {
+          wx.showToast({
+            title: '系统错误',
+            icon: 'none'
+          })
+        }
+      }
+    })
   }
 })

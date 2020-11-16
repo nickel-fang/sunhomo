@@ -55,7 +55,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label class="col-sm-4 control-label">报名截止时间：</label>
+                    <label class="col-sm-4 control-label">退报截止时间：</label>
                     <div class="col-sm-8">
                         <input type="text" class="form-control" name="deadline" th:field="*{deadline}">
                     </div>
@@ -63,9 +63,9 @@
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label class="col-sm-4 control-label">活动费用：</label>
+                    <label class="col-sm-4 control-label">开始抽签时间：</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" name="fee" th:field="*{fee}">
+                        <input type="text" class="form-control" name="drawTime" th:field="*{drawTime}">
                     </div>
                 </div>
             </div>
@@ -103,9 +103,22 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">比赛分组数：</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" name="groups" th:field="*{groups}">
+                        <input type="text" class="form-control" name="divisions" th:field="*{divisions}">
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">活动费用：</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="fee" th:field="*{fee}">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+
             </div>
         </div>
         <div class="row">

@@ -114,4 +114,16 @@ public class ActivityAPI {
             lock.unlock();
         }
     }
+
+    /**
+     * 比赛活动抽签
+     *
+     * @param member
+     * @return AjaxResult(SunActivity)
+     */
+    @PostMapping("/draw/{activityId}")
+    @ResponseBody
+    public AjaxResult<SunActivity> draw(@PathVariable("activityId") Integer activityId, @RequestBody SunMember member) {
+        //TODO
+    }
 }

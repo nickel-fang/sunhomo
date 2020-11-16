@@ -9,6 +9,7 @@
         <result column="START_TIME" jdbcType="VARCHAR" property="startTime"/>
         <result column="END_TIME" jdbcType="VARCHAR" property="endTime"/>
         <result column="DEADLINE" jdbcType="VARCHAR" property="deadline"/>
+        <result column="DRAW_TIME" jdbcType="VARCHAR" property="drawTime"/>
         <result column="PLACE" jdbcType="VARCHAR" property="place"/>
         <result column="FIELD" jdbcType="VARCHAR" property="field"/>
         <result column="ACTIVITY_RULE" jdbcType="VARCHAR" property="activityRule"/>
@@ -30,6 +31,7 @@
         <result column="START_TIME" jdbcType="VARCHAR" property="startTime"/>
         <result column="END_TIME" jdbcType="VARCHAR" property="endTime"/>
         <result column="DEADLINE" jdbcType="VARCHAR" property="deadline"/>
+        <result column="DRAW_TIME" jdbcType="VARCHAR" property="drawTime"/>
         <result column="PLACE" jdbcType="VARCHAR" property="place"/>
         <result column="FIELD" jdbcType="VARCHAR" property="field"/>
         <result column="ACTIVITY_RULE" jdbcType="VARCHAR" property="activityRule"/>
@@ -42,7 +44,7 @@
                     select="cn.sunhomo.club.mapper.SunMemberDao.selectMembersByActivityId"></collection>
     </resultMap>
     <sql id="Base_Column_List">
-        ACTIVITY_ID, ACTIVITY_NAME, ACTIVITY_TYPE, ACTIVITY_DATE, START_TIME, END_TIME, DEADLINE,
+        ACTIVITY_ID, ACTIVITY_NAME, ACTIVITY_TYPE, ACTIVITY_DATE, START_TIME, END_TIME, DEADLINE, DRAW_TIME,
         PLACE, FIELD, ACTIVITY_RULE, NUMBERS, DIVISIONS, FEE, MEMO, ACTIVITY_STATE
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -84,12 +86,12 @@
     <insert id="insert" keyColumn="ACTIVITY_ID" keyProperty="activityId"
             parameterType="cn.sunhomo.club.domain.SunActivity" useGeneratedKeys="true">
         insert into SUN_ACTIVITY (ACTIVITY_NAME, ACTIVITY_TYPE, ACTIVITY_DATE,
-        START_TIME, END_TIME, DEADLINE,
+        START_TIME, END_TIME, DEADLINE, DRWA_TIME,
         PLACE, FIELD, ACTIVITY_RULE,
         NUMBERS, DIVISIONS, FEE, MEMO, ACTIVITY_STATE
         )
         values (#{activityName,jdbcType=VARCHAR}, #{activityType,jdbcType=TINYINT}, #{activityDate,jdbcType=VARCHAR},
-        #{startTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR}, #{deadline,jdbcType=VARCHAR},
+        #{startTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR}, #{deadline,jdbcType=VARCHAR}, #{drawTime,jdbcType=VARCHAR},
         #{place,jdbcType=VARCHAR}, #{field,jdbcType=VARCHAR}, #{activityRule,jdbcType=VARCHAR},
         #{numbers,jdbcType=INTEGER},#{divisions,jdbcType=INTEGER}, #{fee,jdbcType=INTEGER}, #{memo,jdbcType=VARCHAR}, #{activityState,jdbcType=TINYINT}
         )
@@ -115,6 +117,9 @@
             </if>
             <if test="deadline != null">
                 DEADLINE,
+            </if>
+            <if test="drawTime != null">
+                DRAW_TIME,
             </if>
             <if test="place != null">
                 PLACE,
@@ -159,6 +164,9 @@
             </if>
             <if test="deadline != null">
                 #{deadline,jdbcType=VARCHAR},
+            </if>
+            <if test="drawTime != null">
+                #{drawTime,jdbcType=VARCHAR},
             </if>
             <if test="place != null">
                 #{place,jdbcType=VARCHAR},
@@ -207,6 +215,9 @@
             <if test="deadline != null">
                 DEADLINE = #{deadline,jdbcType=VARCHAR},
             </if>
+            <if test="drawTime != null">
+                DRAW_TIME = #{drawTime,jdbcType=VARCHAR},
+            </if>
             <if test="place != null">
                 PLACE = #{place,jdbcType=VARCHAR},
             </if>
@@ -242,6 +253,7 @@
         START_TIME = #{startTime,jdbcType=VARCHAR},
         END_TIME = #{endTime,jdbcType=VARCHAR},
         DEADLINE = #{deadline,jdbcType=VARCHAR},
+        DRAW_TIME = #{drawTime,jdbcType=VARCHAR},
         PLACE = #{place,jdbcType=VARCHAR},
         FIELD = #{field,jdbcType=VARCHAR},
         ACTIVITY_RULE = #{activityRule,jdbcType=VARCHAR},
