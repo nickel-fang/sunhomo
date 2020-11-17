@@ -112,4 +112,19 @@ public class ActivityController extends BaseController {
         }
     }
 
+    @GetMapping("/divisionEdit/{id}")
+    public String divisionEdit(@PathVariable("id") Integer divisionId, ModelMap mmap) {
+        SunDivision division = divisionService.selectDivision(divisionId);
+        mmap.put("division", division);
+        mmap.put("activity", activityService.selectActivity(division.getActivityId()));
+        return prefix + "/divisionEdit";
+    }
+
+    @PostMapping("/divisionEditSave")
+    @ResponseBody
+    public AjaxResult divisionEditSave(SunDivision division) {
+        int result = divisionService.updateDivision(division);
+        return result == 1 ? AjaxResult.success() : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR);
+    }
+
 }

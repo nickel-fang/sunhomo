@@ -47,7 +47,8 @@ public enum ResultCode {
     DRAW_IS_NOT_ALLOWED_FOR_TIME(80005, "抽签时间未到"),
     DRAW_IS_NOT_NEEDED_FOR_LEADER(80006, "队长无须抽签"),
     DRAW_IS_DONE(80007, "您已抽过签"),
-    DRAW_IS_NOT_ALLOWED_FOR_OTHER_PERSON(80008, "只有报名者才能抽签");
+    DRAW_IS_NOT_ALLOWED_FOR_OTHER_PERSON(80008, "只有报名者才能抽签"),
+    DRAW_DIVISION_IS_NOT_CONFIGURED(80009, "分组未配置好");
 
     private int code;
 

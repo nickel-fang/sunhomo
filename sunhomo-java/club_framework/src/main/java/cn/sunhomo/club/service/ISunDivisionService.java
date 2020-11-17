@@ -9,6 +9,8 @@ public interface ISunDivisionService {
 
     public List<SunDivision> selectDivisions(Integer activityId);
 
+    public SunDivision selectDivision(Integer divisionId);
+
     public int updateDivision(SunDivision division);
 
     public int deleteDivisionById(String ids);

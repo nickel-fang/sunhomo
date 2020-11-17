@@ -25,6 +25,11 @@ public class SunDivisionService implements ISunDivisionService {
     }
 
     @Override
+    public SunDivision selectDivision(Integer divisionId) {
+        return divisionDao.selectByPrimaryKey(divisionId);
+    }
+
+    @Override
     public int updateDivision(SunDivision division) {
         return divisionDao.updateByPrimaryKeySelective(division);
     }

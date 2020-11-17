@@ -1,0 +1,16 @@
+  <view class="list">
+
+      <view class="opreate">
+        <text class="listIndex">序号</text>
+        <text class="listGroupName">组名</text>
+        <text class="listLeader">队长</text>
+        <text class="listMember">队员</text>
+      </view>
+      <view class="opreate" wx:for="{{divisions}}" wx:key="{{item.divisionId}}">
+        <text class="listIndex">{{index+1}}</text>
+        <text class="listGroupName">{{item.divisionName}}</text>
+        <text class="listLeader">{{item.leaderName}}</text>
+        <text class="listMember"><block wx:for="{{item.members}}"><text>{{item.memberName}}   </text></block></text>
+      </view>
+
+  </view>

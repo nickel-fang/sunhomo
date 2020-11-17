@@ -58,6 +58,18 @@ public class ActivityAPI {
     }
 
     /**
+     * 获取单个比赛活动分组情况
+     *
+     * @param activityId
+     * @return
+     */
+    @PostMapping("/getDivisions")
+    @ResponseBody
+    public List<SunDivision> getDivisions(@RequestBody Integer activityId) {
+        return divisionService.selectDivisions(activityId);
+    }
+
+    /**
      * 会员报名活动
      *
      * @param member
@@ -149,6 +161,9 @@ public class ActivityAPI {
 
         //队长无须抽签；或已抽过签
         List<SunDivision> divisions = divisionService.selectDivisions(activityId);
+        if (divisions.size() != activity.getDivisions()) {
+            return AjaxResult.failure(ResultCode.DRAW_DIVISION_IS_NOT_CONFIGURED);
+        }
         for (SunDivision division : divisions) {
             if (division.getLeader() == member.getMemberId()) {
                 return AjaxResult.failure(ResultCode.DRAW_IS_NOT_NEEDED_FOR_LEADER);

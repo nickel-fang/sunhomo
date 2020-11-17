@@ -1,0 +1,25 @@
+.list {
+  width: 100%;
+  position: relative;
+  top: 10rpx;
+  margin-bottom: 10rpx;
+}
+.opreate {
+  display: flex;
+  justify-content: space-between;
+  font-size: 24rpx;
+  box-sizing: border-box;
+  padding: 15rpx 15rpx;
+}
+.listIndex{
+  width: 10%;
+}
+.listGroupName{
+  width: 10%;
+}
+.listLeader{
+  width: 25%;
+}
+.listMember{
+  width: 55%;
+}

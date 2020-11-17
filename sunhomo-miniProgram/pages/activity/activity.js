@@ -187,20 +187,21 @@ Page({
             title: '抽签成功',
             icon: 'success'
           });
-          //TODO 跳转
-        } else if (res.data.code == 80005) {
-          wx.showToast({
-            title: '抽签时间未到',
-            icon: 'none'
+          //跳转
+          wx.navigateTo({
+            url: 'divisions?activityId=' + that.data.activity.activityId
           })
-        } else if (res.data.code == 80008) {
+        } else if (res.data.code == 80005 || res.data.code == 80008 || res.data.code == 80009) {
           wx.showToast({
-            title: '只有报名者才能抽签',
+            title: res.data.msg,
             icon: 'none'
           })
         } else if (res.data.code == 80006 || res.data.code == 80007) {
           //队长或已抽过签，直接跳转
-          //TODO 跳转
+          ///跳转
+          wx.navigateTo({
+            url: 'divisions?activityId=' + that.data.activity.activityId
+          })
         } else {
           wx.showToast({
             title: '系统错误',

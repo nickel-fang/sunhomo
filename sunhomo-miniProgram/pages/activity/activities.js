@@ -95,7 +95,7 @@ Page({
   //报名
   enroll:function(event){
     // console.log(event.currentTarget.dataset.activity.activityId);
-    var activity = event.currentTarget.dataset.activity;
+    //var activity = event.currentTarget.dataset.activity;
     // if(activity.activityType==2){
     //   wx.navigateTo({
     //     url: 'match?activityId='+event.currentTarget.dataset.activity.activityId
