@@ -23,10 +23,13 @@
 	<!-- <view class="header">
 		<view class="title">{{activity.memo}}</view>
 	</view> -->
-	<view style="text-align:center;">
+	<view style="text-align:center;margin-top:10rpx;">
 		<button size="mini" bindtap="enroll">报名</button>
 		<block wx:if="{{canDraw}}"><button size="mini" bindtap="draw">抽签</button></block>
 		<block wx:if="{{userInfo.isAdmin==1}}"><button size="mini" bindtap="copyEnroll">复制报名贴</button></block>
+	</view>
+	<view style="margin:10rpx;font-size: 32rpx;">
+		<text>{{activity.memo}}</text>
 	</view>
 	
 </view>

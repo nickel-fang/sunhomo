@@ -1,2 +1,4 @@
 <!--pages/mall/mall.wxml-->
-<text>comming soon!</text>
+<view style="text-align:center;margin-top: 400rpx;">
+	<h3>comming soon!</h3>
+</view>

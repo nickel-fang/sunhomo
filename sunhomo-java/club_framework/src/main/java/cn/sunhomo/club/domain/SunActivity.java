@@ -64,11 +64,6 @@ public class SunActivity extends BaseEntity {
     private String field;
 
     /**
-     * 活动规则
-     */
-    private String activityRule;
-
-    /**
      * 活动人数
      */
     private Integer numbers;
@@ -138,7 +133,6 @@ public class SunActivity extends BaseEntity {
             }
         }
 
-        if (StringUtils.isNotEmpty(activityRule)) sb.append("\n").append(activityRule).append("\n");
         if (StringUtils.isNotEmpty(memo)) sb.append("\n").append(memo);
         return sb.toString();
     }

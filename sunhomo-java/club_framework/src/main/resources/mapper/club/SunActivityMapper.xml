@@ -12,7 +12,6 @@
         <result column="DRAW_TIME" jdbcType="VARCHAR" property="drawTime"/>
         <result column="PLACE" jdbcType="VARCHAR" property="place"/>
         <result column="FIELD" jdbcType="VARCHAR" property="field"/>
-        <result column="ACTIVITY_RULE" jdbcType="VARCHAR" property="activityRule"/>
         <result column="NUMBERS" jdbcType="INTEGER" property="numbers"/>
         <result column="DIVISIONS" jdbcType="INTEGER" property="divisions"/>
         <result column="FEE" jdbcType="INTEGER" property="fee"/>
@@ -34,7 +33,6 @@
         <result column="DRAW_TIME" jdbcType="VARCHAR" property="drawTime"/>
         <result column="PLACE" jdbcType="VARCHAR" property="place"/>
         <result column="FIELD" jdbcType="VARCHAR" property="field"/>
-        <result column="ACTIVITY_RULE" jdbcType="VARCHAR" property="activityRule"/>
         <result column="NUMBERS" jdbcType="INTEGER" property="numbers"/>
         <result column="DIVISIONS" jdbcType="INTEGER" property="divisions"/>
         <result column="FEE" jdbcType="INTEGER" property="fee"/>
@@ -45,7 +43,7 @@
     </resultMap>
     <sql id="Base_Column_List">
         ACTIVITY_ID, ACTIVITY_NAME, ACTIVITY_TYPE, ACTIVITY_DATE, START_TIME, END_TIME, DEADLINE, DRAW_TIME,
-        PLACE, FIELD, ACTIVITY_RULE, NUMBERS, DIVISIONS, FEE, MEMO, ACTIVITY_STATE
+        PLACE, FIELD, NUMBERS, DIVISIONS, FEE, MEMO, ACTIVITY_STATE
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -87,12 +85,12 @@
             parameterType="cn.sunhomo.club.domain.SunActivity" useGeneratedKeys="true">
         insert into SUN_ACTIVITY (ACTIVITY_NAME, ACTIVITY_TYPE, ACTIVITY_DATE,
         START_TIME, END_TIME, DEADLINE, DRAW_TIME,
-        PLACE, FIELD, ACTIVITY_RULE,
+        PLACE, FIELD,
         NUMBERS, DIVISIONS, FEE, MEMO, ACTIVITY_STATE
         )
         values (#{activityName,jdbcType=VARCHAR}, #{activityType,jdbcType=TINYINT}, #{activityDate,jdbcType=VARCHAR},
         #{startTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR}, #{deadline,jdbcType=VARCHAR}, #{drawTime,jdbcType=VARCHAR},
-        #{place,jdbcType=VARCHAR}, #{field,jdbcType=VARCHAR}, #{activityRule,jdbcType=VARCHAR},
+        #{place,jdbcType=VARCHAR}, #{field,jdbcType=VARCHAR},
         #{numbers,jdbcType=INTEGER},#{divisions,jdbcType=INTEGER}, #{fee,jdbcType=INTEGER}, #{memo,jdbcType=VARCHAR}, #{activityState,jdbcType=TINYINT}
         )
     </insert>
@@ -126,9 +124,6 @@
             </if>
             <if test="field != null">
                 FIELD,
-            </if>
-            <if test="activityRule != null">
-                ACTIVITY_RULE,
             </if>
             <if test="numbers != null">
                 NUMBERS,
@@ -173,9 +168,6 @@
             </if>
             <if test="field != null">
                 #{field,jdbcType=VARCHAR},
-            </if>
-            <if test="activityRule != null">
-                #{activityRule,jdbcType=VARCHAR},
             </if>
             <if test="numbers != null">
                 #{numbers,jdbcType=INTEGER},
@@ -224,9 +216,6 @@
             <if test="field != null">
                 FIELD = #{field,jdbcType=VARCHAR},
             </if>
-            <if test="activityRule != null">
-                ACTIVITY_RULE = #{activityRule,jdbcType=VARCHAR},
-            </if>
             <if test="numbers != null">
                 NUMBERS = #{numbers,jdbcType=INTEGER},
             </if>
@@ -256,7 +245,6 @@
         DRAW_TIME = #{drawTime,jdbcType=VARCHAR},
         PLACE = #{place,jdbcType=VARCHAR},
         FIELD = #{field,jdbcType=VARCHAR},
-        ACTIVITY_RULE = #{activityRule,jdbcType=VARCHAR},
         NUMBERS = #{numbers,jdbcType=INTEGER},
         DIVISIONS = #{divisions,jdbcType=INTEGER},
         FEE = #{fee,jdbcType=INTEGER},
