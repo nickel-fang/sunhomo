@@ -59,7 +59,7 @@ public class PointJob extends QuartzJobBean {
                 if (updateMembers.get(member.getMemberId()) == null) {
                     //首次报名，奖励2分
                     if (member.getTotalPoint() == 0) {
-                        insertPointRecords.add(new SunPointRecord(null, member.getMemberId(), (byte) 5, 2, now));
+                        insertPointRecords.add(new SunPointRecord(null, member.getMemberId(), (byte) 5, "系统奖励：首次报名", 2, now));
                         member.addPoint(2);
                     }
                     updateMembers.put(member.getMemberId(), member);
@@ -68,10 +68,10 @@ public class PointJob extends QuartzJobBean {
                 if (activity1.getActivityType() == 2) {
                     //比赛活动，每个加2分，挂加1分
                     if (member.getIsMaster() == 0) {
-                        insertPointRecords.add(new SunPointRecord(null, member.getMemberId(), (byte) 2, 2, now));
+                        insertPointRecords.add(new SunPointRecord(null, member.getMemberId(), (byte) 2, "比赛活动：本人报名", 2, now));
                         updateMembers.get(member.getMemberId()).addPoint(2);
-                    } else {
-                        insertPointRecords.add(new SunPointRecord(null, member.getMemberId(), (byte) 2, 1, now));
+                    } else { //比分支应该不会出现，比赛报名逻辑已控制不能带挂报名参加比赛
+                        insertPointRecords.add(new SunPointRecord(null, member.getMemberId(), (byte) 2, "比赛报名：带挂报名", 1, now));
                         updateMembers.get(member.getMemberId()).addPoint(1);
                     }
 
@@ -80,14 +80,14 @@ public class PointJob extends QuartzJobBean {
                     if (member.getIsMaster() == 0) {
                         LocalDateTime activityStartTime = LocalDateTime.parse(activity1.getActivityDate() + " " + activity1.getStartTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
                         if (DateUtils.asLocalDateTime(member.getEnrollTime()).isBefore(activityStartTime.plusDays(-3))) {
-                            insertPointRecords.add(new SunPointRecord(null, member.getMemberId(), (byte) 1, 2, now));
+                            insertPointRecords.add(new SunPointRecord(null, member.getMemberId(), (byte) 1, "打球活动：本人早鸟报名", 2, now));
                             updateMembers.get(member.getMemberId()).addPoint(2);
                         } else {
-                            insertPointRecords.add(new SunPointRecord(null, member.getMemberId(), (byte) 1, 1, now));
+                            insertPointRecords.add(new SunPointRecord(null, member.getMemberId(), (byte) 1, "打球活动：本人报名", 1, now));
                             updateMembers.get(member.getMemberId()).addPoint(1);
                         }
                     } else {
-                        insertPointRecords.add(new SunPointRecord(null, member.getMemberId(), (byte) 1, 1, now));
+                        insertPointRecords.add(new SunPointRecord(null, member.getMemberId(), (byte) 1, "打球活动：带挂报名", 1, now));
                         updateMembers.get(member.getMemberId()).addPoint(1);
                     }
                 }

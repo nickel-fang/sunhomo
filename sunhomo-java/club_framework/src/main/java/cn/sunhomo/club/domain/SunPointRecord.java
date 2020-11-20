@@ -27,6 +27,11 @@ public class SunPointRecord implements Serializable {
     private Byte pointRecordType;
 
     /**
+     * 积分交易说明
+     */
+    private String pointRecordMemo;
+
+    /**
      * 积明交易额，获得积分为正数，消费积分为数
      */
     private Integer pointRecordValue;
