@@ -10,7 +10,7 @@
 				<view wx:else>{{index+1}}</view>
 				.<image class="member_icon" src="{{member.memberPhoto}}"></image>{{member.memberName}}
 				<view wx:if="{{member.isMaster!=0}}">+{{member.isMaster}}</view>
-				<block wx:if="{{member.isMaster==0}}">
+				<block wx:if="{{member.isMaster==0 && userInfo.isAdmin==1}}">
 					<!-- （<view wx:if="{{member.winNumber+member.loseNumber==0}}">无约战记录</view>
 					<view wx:else>胜率:{{member.ratio/100}}%</view>  -->
 					（积分:{{member.point}}）

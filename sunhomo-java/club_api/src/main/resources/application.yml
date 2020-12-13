@@ -1,27 +1,3 @@
-server:
-  port: 443
-  servlet:
-    context-path: /api
-  ssl:
-    key-store: classpath:server.jks
-    key-store-password: Ij1&IdQlkLXhR209
-    key-store-type: JKS
-
 spring:
-  datasource:
-    url: jdbc:mysql://124.70.145.232:3306/sunhomo_test?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
-    username: sunhomo
-    password: ironpearl
-
-mybatis:
-  # 搜索指定包别名
-  type-aliases-package: cn.sunhomo.**.domain
-  # 配置mapper的扫描，找到所有的mapper.xml映射文件
-  mapper-locations: classpath*:mapper/**/*Mapper.xml
-  # 加载全局的配置文件
-  config-location: classpath:mybatis/mybatis-config.xml
-
-weiChat:
-  miniProgram:
-    appId: wx0cac0d85b62f2830
-    appSecret: 1384a5076809cce29dd3de54675a6f8f
+  profiles:
+    active: dev
