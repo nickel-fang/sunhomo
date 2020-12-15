@@ -1,13 +1,14 @@
 <!--index.wxml-->
 <view class="container">
-  <!-- <view class="userinfo">
-    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+  <view class="userinfo">
+    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo">登录</button>
     <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+      <image class="userinfo-avatar" src="{{userInfo.memberPhoto}}" mode="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.memberName}}</text>
     </block>
-  </view> -->
+  </view>
   <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
+    <block wx:if="{{!hasUserInfo && canIUse}}"><text class="user-motto">登录后才可报名</text></block>
+    <!-- <text class="user-motto">{{motto}}</text> -->
   </view>
 </view>
