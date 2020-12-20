@@ -216,7 +216,7 @@
         </where>
 
     </update>
-    <select id="getPointRecordsByMemberID" resultType="cn.sunhomo.club.domain.SunPointRecord">
+    <select id="getPointRecordsByMemberID" resultMap="cn.sunhomo.club.mapper.SunPointRecordDao.BaseResultMap">
         SELECT * FROM SUN_POINT_RECORD WHERE MEMBER_ID=#{memberId,jdbcType=INTEGER} ORDER BY POINT_RECORD_ID DESC LIMIT 20
     </select>
 
@@ -225,5 +225,6 @@
         LEFT JOIN SUN_ACTIVITY SA ON SMTA.ACTIVITY_ID=SA.ACTIVITY_ID
         WHERE SMTA.MEMBER_ID=#{memberId,jdbcType=INTEGER} AND SA.ACTIVITY_STATE=3 AND SMTA.IS_MASTER=0
         ORDER BY SA.ACTIVITY_ID DESC
+        LIMIT 20
     </select>
 </mapper>

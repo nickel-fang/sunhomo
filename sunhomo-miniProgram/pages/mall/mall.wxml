@@ -1,4 +1,9 @@
-<!--pages/mall/mall.wxml-->
-<view style="text-align:center;margin-top: 400rpx;">
-	<h3>comming soon!</h3>
+<view class="container">
+	<view class="menu-wrp">
+		<view class="menu-list" wx:for="{{allGoods}}" wx:for-item="goods">
+			<image class="menu-img" src="{{goods.goodPhoto}}" data-goods="{{goods}}" bindtap="redeem"/>
+			<view class="menu-desc">{{goods.goodName}}（{{goods.value}}）</view>
+		</view>
+	</view>
+
 </view>
