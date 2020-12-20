@@ -2,10 +2,10 @@ server:
   port: 443
   servlet:
     context-path: /api
-  ssl:
-    key-store: classpath:server.jks
-    key-store-password: Ij1&IdQlkLXhR209
-    key-store-type: JKS
+#  ssl:
+#    key-store: classpath:server.jks
+#    key-store-password: Ij1&IdQlkLXhR209
+#    key-store-type: JKS
 
 spring:
   datasource:

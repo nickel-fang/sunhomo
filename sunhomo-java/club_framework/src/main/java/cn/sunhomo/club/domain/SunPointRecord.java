@@ -3,6 +3,7 @@ package cn.sunhomo.club.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -39,6 +40,7 @@ public class SunPointRecord implements Serializable {
     /**
      * 交易日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date pointRecordDate;
 
     private static final long serialVersionUID = 1L;

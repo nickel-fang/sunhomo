@@ -4,6 +4,8 @@
     "pages/activity/activity",
     "pages/activity/divisions",
     "pages/my/my",
+    "pages/my/myPoints",
+    "pages/my/myActivities",
     "pages/mall/mall"
   ],
   "window": {

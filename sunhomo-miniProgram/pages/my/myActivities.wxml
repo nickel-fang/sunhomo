@@ -1,0 +1,15 @@
+<view class="header-box">
+	<image class="avatar" src="{{userInfo.memberPhoto}}" mode="aspectFill"></image>
+	<view class="r">
+		<view>最近参加的活动</view>
+	</view>
+</view>
+<view class="container">
+	<view class="space"></view>
+	<block wx:for="{{myActivities}}" wx:for-item="activity">
+		<view class="menu-item">
+			<view class="l">{{activity.activityDate}}    {{activity.activityName}}</view>
+		</view>
+		<view class="line"></view>
+	</block>
+</view>

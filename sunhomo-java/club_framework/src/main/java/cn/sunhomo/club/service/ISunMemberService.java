@@ -1,6 +1,8 @@
 package cn.sunhomo.club.service;
 
+import cn.sunhomo.club.domain.SunActivity;
 import cn.sunhomo.club.domain.SunMember;
+import cn.sunhomo.club.domain.SunPointRecord;
 
 import java.util.List;
 
@@ -16,4 +18,8 @@ public interface ISunMemberService {
     public int deleteMember(String ids);
 
     public int insertMember(SunMember member);
+
+    List<SunPointRecord> getPointRecordsByMemberID(Integer memberId);
+
+    List<SunActivity> getActivitiesByMemberID(Integer memberId);
 }

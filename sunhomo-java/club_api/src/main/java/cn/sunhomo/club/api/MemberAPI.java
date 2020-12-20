@@ -1,5 +1,7 @@
 package cn.sunhomo.club.api;
 
+import cn.sunhomo.club.domain.SunActivity;
+import cn.sunhomo.club.domain.SunPointRecord;
 import cn.sunhomo.core.AjaxResult;
 import cn.sunhomo.util.StringUtils;
 import com.alibaba.fastjson.JSON;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping("/club/member")
@@ -59,6 +62,20 @@ public class MemberAPI {
         member.setSignDate(new Date());
         memberService.insertMember(member);
         return new AjaxResult<SunMember>(1,"会员添加成功",memberService.selectMember(member.getOpenid()));
+    }
+
+    @PostMapping("/myPointRecords")
+    @ResponseBody
+    public List<SunPointRecord> myPointRecords(@RequestBody SunMember member){
+        List<SunPointRecord> pointRecords = memberService.getPointRecordsByMemberID(member.getMemberId());
+        return pointRecords;
+    }
+
+    @PostMapping("/myActivities")
+    @ResponseBody
+    public List<SunActivity> myActivities(@RequestBody SunMember member){
+        List<SunActivity> activities = memberService.getActivitiesByMemberID(member.getMemberId());
+        return activities;
     }
 
 }

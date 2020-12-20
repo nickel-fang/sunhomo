@@ -65,6 +65,7 @@
   font-size:34rpx;
   color:#333;
   line-height:104rpx;
+  padding-left: 5rpx;
 }
 .menu-item .r {
   font-size:32rpx;

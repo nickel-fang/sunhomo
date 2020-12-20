@@ -71,7 +71,7 @@ public class PointJob extends QuartzJobBean {
                         insertPointRecords.add(new SunPointRecord(null, member.getMemberId(), (byte) 2, "比赛活动：本人报名", 2, now));
                         updateMembers.get(member.getMemberId()).addPoint(2);
                     } else { //比分支应该不会出现，比赛报名逻辑已控制不能带挂报名参加比赛
-                        insertPointRecords.add(new SunPointRecord(null, member.getMemberId(), (byte) 2, "比赛报名：带挂报名", 1, now));
+                        insertPointRecords.add(new SunPointRecord(null, member.getMemberId(), (byte) 2, "比赛活动：带挂报名", 1, now));
                         updateMembers.get(member.getMemberId()).addPoint(1);
                     }
 

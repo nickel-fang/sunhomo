@@ -1,5 +1,55 @@
 <!--index.wxml-->
+<view wx:if="{{!hasUserInfo && canIUse}}" class="header-box">
+	<image class="avatar" src="/images/nologin2.png"></image>
+	<button plain custom-class="btn" size="small" open-type="getUserInfo" lang="zh_CN" bind:getuserinfo="getUserInfo">立即登录</button>
+</view>
+<view wx:else class="header-box">
+	<image class="avatar" src="{{userInfo.memberPhoto}}" mode="aspectFill"></image>
+	<view class="r">
+		<view>{{userInfo.memberName}}</view>
+	</view>
+</view>
+
 <view class="container">
+	<view class="asset">
+		<view class='item' bindtap='goAsset'>
+			<view wx:if="{{userInfo.totalPoint<5}}">赤铁</view>
+      <view wx:elif="{{userInfo.totalPoint>=5 && userInfo.totalPoint<20}}">青铜</view>
+      <view wx:elif="{{userInfo.totalPoint>=20 && userInfo.totalPoint<50}}">白银</view>
+      <view wx:elif="{{userInfo.totalPoint>=50 && userInfo.totalPoint<100}}">黄金</view>
+      <view wx:elif="{{userInfo.totalPoint>=100 && userInfo.totalPoint<200}}">铂金</view>
+      <view wx:elif="{{userInfo.totalPoint>=200 && userInfo.totalPoint<500}}">钻石</view>
+      <view wx:elif="{{userInfo.totalPoint>=500 && userInfo.totalPoint<1000}}">星耀</view>
+      <view wx:elif="{{userInfo.totalPoint>=1000}}">王者</view>
+      <view wx:else>赤铁</view>
+			<view>等级</view>
+		</view>
+		<view class='item right' bindtap='goAsset'>
+			<view>{{userInfo.yearPoint}}</view>
+			<view>年度积分</view>
+		</view>
+		<view class='item right' bindtap='goScore'>
+			<view>{{userInfo.point}}</view>
+			<view>积分</view>
+		</view>
+	</view>
+  <view class="space"></view>
+  <navigator url="/pages/my/myPoints">
+    <view class="menu-item">
+      <view class="l">我的积分</view>
+      <image class="next" src="/images/arrowright.png"></image>
+    </view>
+  </navigator>
+  <view class="line"></view>
+  <navigator url="/pages/my/myActivities">
+    <view class="menu-item">
+      <view class="l">我的活动</view>
+      <image class="next" src="/images/arrowright.png"></image>
+    </view>
+  </navigator>
+  <view class="line"></view>
+</view>
+<!-- <view class="container">
   <view class="userinfo">
     <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo">登录</button>
     <block wx:else>
@@ -9,6 +59,5 @@
   </view>
   <view class="usermotto">
     <block wx:if="{{!hasUserInfo && canIUse}}"><text class="user-motto">登录后才可报名</text></block>
-    <!-- <text class="user-motto">{{motto}}</text> -->
   </view>
-</view>
+</view> -->

@@ -1,6 +1,8 @@
 package cn.sunhomo.club.mapper;
 
+import cn.sunhomo.club.domain.SunActivity;
 import cn.sunhomo.club.domain.SunMember;
+import cn.sunhomo.club.domain.SunPointRecord;
 
 import java.util.List;
 
@@ -26,4 +28,8 @@ public interface SunMemberDao {
     int updateByPrimaryKey(SunMember record);
 
     void batchUpdate(List<SunMember> updateMembers);
+
+    List<SunPointRecord> getPointRecordsByMemberID(Integer memberId);
+
+    List<SunActivity> getActivitiesByMemberID(Integer memberId);
 }

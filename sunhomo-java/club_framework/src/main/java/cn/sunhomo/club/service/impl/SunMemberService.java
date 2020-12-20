@@ -1,6 +1,8 @@
 package cn.sunhomo.club.service.impl;
 
+import cn.sunhomo.club.domain.SunActivity;
 import cn.sunhomo.club.domain.SunMember;
+import cn.sunhomo.club.domain.SunPointRecord;
 import cn.sunhomo.club.mapper.SunMemberDao;
 import cn.sunhomo.club.service.ISunMemberService;
 import cn.sunhomo.util.StringUtils;
@@ -36,12 +38,22 @@ public class SunMemberService implements ISunMemberService {
 
     @Override
     public int deleteMember(String ids) {
-        int[] memberIds = StringUtils.toIntArray(ids,",");
+        int[] memberIds = StringUtils.toIntArray(ids, ",");
         return memberDao.deleteByPrimaryKey(memberIds);
     }
 
     @Override
     public int insertMember(SunMember member) {
         return memberDao.insertSelective(member);
+    }
+
+    @Override
+    public List<SunPointRecord> getPointRecordsByMemberID(Integer memberId) {
+        return memberDao.getPointRecordsByMemberID(memberId);
+    }
+
+    @Override
+    public List<SunActivity> getActivitiesByMemberID(Integer memberId) {
+        return memberDao.getActivitiesByMemberID(memberId);
     }
 }
