@@ -50,4 +50,12 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         }
         return sb.toString();
     }
+
+    public static boolean isNotnull(Object object) {
+        return !isNull(object);
+    }
+
+    private static boolean isNull(Object object) {
+        return object == null;
+    }
 }

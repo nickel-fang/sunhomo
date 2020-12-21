@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sunhomo.sys.mapper.SysMenuDao">
+  <resultMap id="BaseResultMap" type="cn.sunhomo.sys.domain.SysMenu">
+    <!--@mbg.generated-->
+    <!--@Table SYS_MENU-->
+    <id column="MENU_ID" jdbcType="INTEGER" property="menuId" />
+    <result column="MENU_NAME" jdbcType="VARCHAR" property="menuName" />
+    <result column="PARENT_ID" jdbcType="INTEGER" property="parentId" />
+    <result column="ORDER_NUM" jdbcType="INTEGER" property="orderNum" />
+    <result column="URL" jdbcType="VARCHAR" property="url" />
+    <result column="TARGET" jdbcType="VARCHAR" property="target" />
+    <result column="MENU_TYPE" jdbcType="CHAR" property="menuType" />
+    <result column="VISIBLE" jdbcType="CHAR" property="visible" />
+    <result column="PERMS" jdbcType="VARCHAR" property="perms" />
+    <result column="ICON" jdbcType="VARCHAR" property="icon" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    MENU_ID, MENU_NAME, PARENT_ID, ORDER_NUM, URL, TARGET, MENU_TYPE, VISIBLE, PERMS, 
+    ICON, REMARK
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_MENU
+    where MENU_ID = #{menuId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from SYS_MENU
+    where MENU_ID = #{menuId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="MENU_ID" keyProperty="menuId" parameterType="cn.sunhomo.sys.domain.SysMenu" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into SYS_MENU (MENU_NAME, PARENT_ID, ORDER_NUM, 
+      URL, TARGET, MENU_TYPE, 
+      VISIBLE, PERMS, ICON, 
+      REMARK)
+    values (#{menuName,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, #{orderNum,jdbcType=INTEGER}, 
+      #{url,jdbcType=VARCHAR}, #{target,jdbcType=VARCHAR}, #{menuType,jdbcType=CHAR}, 
+      #{visible,jdbcType=CHAR}, #{perms,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="MENU_ID" keyProperty="menuId" parameterType="cn.sunhomo.sys.domain.SysMenu" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into SYS_MENU
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="menuName != null">
+        MENU_NAME,
+      </if>
+      <if test="parentId != null">
+        PARENT_ID,
+      </if>
+      <if test="orderNum != null">
+        ORDER_NUM,
+      </if>
+      <if test="url != null">
+        URL,
+      </if>
+      <if test="target != null">
+        TARGET,
+      </if>
+      <if test="menuType != null">
+        MENU_TYPE,
+      </if>
+      <if test="visible != null">
+        VISIBLE,
+      </if>
+      <if test="perms != null">
+        PERMS,
+      </if>
+      <if test="icon != null">
+        ICON,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="menuName != null">
+        #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNum != null">
+        #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="target != null">
+        #{target,jdbcType=VARCHAR},
+      </if>
+      <if test="menuType != null">
+        #{menuType,jdbcType=CHAR},
+      </if>
+      <if test="visible != null">
+        #{visible,jdbcType=CHAR},
+      </if>
+      <if test="perms != null">
+        #{perms,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.sunhomo.sys.domain.SysMenu">
+    <!--@mbg.generated-->
+    update SYS_MENU
+    <set>
+      <if test="menuName != null">
+        MENU_NAME = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        PARENT_ID = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNum != null">
+        ORDER_NUM = #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        URL = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="target != null">
+        TARGET = #{target,jdbcType=VARCHAR},
+      </if>
+      <if test="menuType != null">
+        MENU_TYPE = #{menuType,jdbcType=CHAR},
+      </if>
+      <if test="visible != null">
+        VISIBLE = #{visible,jdbcType=CHAR},
+      </if>
+      <if test="perms != null">
+        PERMS = #{perms,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        ICON = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where MENU_ID = #{menuId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.sunhomo.sys.domain.SysMenu">
+    <!--@mbg.generated-->
+    update SYS_MENU
+    set MENU_NAME = #{menuName,jdbcType=VARCHAR},
+      PARENT_ID = #{parentId,jdbcType=INTEGER},
+      ORDER_NUM = #{orderNum,jdbcType=INTEGER},
+      URL = #{url,jdbcType=VARCHAR},
+      TARGET = #{target,jdbcType=VARCHAR},
+      MENU_TYPE = #{menuType,jdbcType=CHAR},
+      VISIBLE = #{visible,jdbcType=CHAR},
+      PERMS = #{perms,jdbcType=VARCHAR},
+      ICON = #{icon,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR}
+    where MENU_ID = #{menuId,jdbcType=INTEGER}
+  </update>
+  <select id="selectMenuPermsByUserId" resultType="string">
+    select distinct m.PERMS
+    from SYS_MENU m
+    left join SYS_ROLE_MENU rm on m.MENU_ID = rm.MENU_ID
+    left join SYS_USER_ROLE ur on rm.ROLE_ID = ur.ROLE_ID
+    left join SYS_ROLE r on r.ROLE_ID = ur.ROLE_ID
+    where m.VISIBLE = '0' and r.STATUS = '0' and ur.USER_ID = #{userId}
+  </select>
+</mapper>

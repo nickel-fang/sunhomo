@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sunhomo.sys.mapper.SysRoleDao">
+  <resultMap id="BaseResultMap" type="cn.sunhomo.sys.domain.SysRole">
+    <!--@mbg.generated-->
+    <!--@Table SYS_ROLE-->
+    <id column="ROLE_ID" jdbcType="INTEGER" property="roleId" />
+    <result column="ROLE_NAME" jdbcType="VARCHAR" property="roleName" />
+    <result column="ROLE_KEY" jdbcType="VARCHAR" property="roleKey" />
+    <result column="ROLE_SORT" jdbcType="INTEGER" property="roleSort" />
+    <result column="STATUS" jdbcType="CHAR" property="status" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    ROLE_ID, ROLE_NAME, ROLE_KEY, ROLE_SORT, `STATUS`, REMARK
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from SYS_ROLE
+    where ROLE_ID = #{roleId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from SYS_ROLE
+    where ROLE_ID = #{roleId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="ROLE_ID" keyProperty="roleId" parameterType="cn.sunhomo.sys.domain.SysRole" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into SYS_ROLE (ROLE_NAME, ROLE_KEY, ROLE_SORT,
+      `STATUS`, REMARK)
+    values (#{roleName,jdbcType=VARCHAR}, #{roleKey,jdbcType=VARCHAR}, #{roleSort,jdbcType=INTEGER},
+      #{status,jdbcType=CHAR}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="ROLE_ID" keyProperty="roleId" parameterType="cn.sunhomo.sys.domain.SysRole" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into SYS_ROLE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleName != null">
+        ROLE_NAME,
+      </if>
+      <if test="roleKey != null">
+        ROLE_KEY,
+      </if>
+      <if test="roleSort != null">
+        ROLE_SORT,
+      </if>
+      <if test="status != null">
+        `STATUS`,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roleName != null">
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleKey != null">
+        #{roleKey,jdbcType=VARCHAR},
+      </if>
+      <if test="roleSort != null">
+        #{roleSort,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.sunhomo.sys.domain.SysRole">
+    <!--@mbg.generated-->
+    update SYS_ROLE
+    <set>
+      <if test="roleName != null">
+        ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleKey != null">
+        ROLE_KEY = #{roleKey,jdbcType=VARCHAR},
+      </if>
+      <if test="roleSort != null">
+        ROLE_SORT = #{roleSort,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        `STATUS` = #{status,jdbcType=CHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ROLE_ID = #{roleId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.sunhomo.sys.domain.SysRole">
+    <!--@mbg.generated-->
+    update SYS_ROLE
+    set ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+      ROLE_KEY = #{roleKey,jdbcType=VARCHAR},
+      ROLE_SORT = #{roleSort,jdbcType=INTEGER},
+      `STATUS` = #{status,jdbcType=CHAR},
+      REMARK = #{remark,jdbcType=VARCHAR}
+    where ROLE_ID = #{roleId,jdbcType=INTEGER}
+  </update>
+  <select id="selectRoleKeysByUserId" resultType="string">
+    select distinct R.ROLE_KEY
+    from SYS_ROLE r
+    left join SYS_USER_ROLE ur on ur.ROLE_ID = r.ROLE_ID
+    WHERE ur.USER_ID = #{userId}
+  </select>
+</mapper>
