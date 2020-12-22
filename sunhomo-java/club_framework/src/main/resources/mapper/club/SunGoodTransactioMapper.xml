@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sunhomo.club.mapper.SunGoodTransactionDao">
+  <resultMap id="BaseResultMap" type="cn.sunhomo.club.domain.SunGoodTransaction">
+    <id column="GOOD_TRANSACTION_ID" jdbcType="INTEGER" property="goodTransactionId" />
+    <result column="GOOD_ID" jdbcType="INTEGER" property="goodId" />
+    <result column="MEMBER_ID" jdbcType="INTEGER" property="memberId" />
+    <result column="GOOD_TRANSACTION_DATE" jdbcType="DATE" property="goodTransactionDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    GOOD_TRANSACTION_ID, GOOD_ID, MEMBER_ID, GOOD_TRANSACTION_DATE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SUN_GOOD_TRANSACTION
+    where GOOD_TRANSACTION_ID = #{goodTransactionId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from SUN_GOOD_TRANSACTION
+    where GOOD_TRANSACTION_ID = #{goodTransactionId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="GOOD_TRANSACTION_ID" keyProperty="goodTransactionId" parameterType="cn.sunhomo.club.domain.SunGoodTransaction" useGeneratedKeys="true">
+    insert into SUN_GOOD_TRANSACTION (GOOD_ID, MEMBER_ID, GOOD_TRANSACTION_DATE
+      )
+    values (#{goodId,jdbcType=INTEGER}, #{memberId,jdbcType=INTEGER}, #{goodTransactionDate,jdbcType=DATE}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="GOOD_TRANSACTION_ID" keyProperty="goodTransactionId" parameterType="cn.sunhomo.club.domain.SunGoodTransaction" useGeneratedKeys="true">
+    insert into SUN_GOOD_TRANSACTION
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="goodId != null">
+        GOOD_ID,
+      </if>
+      <if test="memberId != null">
+        MEMBER_ID,
+      </if>
+      <if test="goodTransactionDate != null">
+        GOOD_TRANSACTION_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="goodId != null">
+        #{goodId,jdbcType=INTEGER},
+      </if>
+      <if test="memberId != null">
+        #{memberId,jdbcType=INTEGER},
+      </if>
+      <if test="goodTransactionDate != null">
+        #{goodTransactionDate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.sunhomo.club.domain.SunGoodTransaction">
+    update SUN_GOOD_TRANSACTION
+    <set>
+      <if test="goodId != null">
+        GOOD_ID = #{goodId,jdbcType=INTEGER},
+      </if>
+      <if test="memberId != null">
+        MEMBER_ID = #{memberId,jdbcType=INTEGER},
+      </if>
+      <if test="goodTransactionDate != null">
+        GOOD_TRANSACTION_DATE = #{goodTransactionDate,jdbcType=DATE},
+      </if>
+    </set>
+    where GOOD_TRANSACTION_ID = #{goodTransactionId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.sunhomo.club.domain.SunGoodTransaction">
+    update SUN_GOOD_TRANSACTION
+    set GOOD_ID = #{goodId,jdbcType=INTEGER},
+      MEMBER_ID = #{memberId,jdbcType=INTEGER},
+      GOOD_TRANSACTION_DATE = #{goodTransactionDate,jdbcType=DATE}
+    where GOOD_TRANSACTION_ID = #{goodTransactionId,jdbcType=INTEGER}
+  </update>
+</mapper>

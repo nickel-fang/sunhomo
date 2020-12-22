@@ -111,8 +111,8 @@ public class SunActivity extends BaseEntity {
             member = members.get(i);
             sb.append(i + 1).append(". ").append(member.getMemberName());
             if (member.getIsMaster() == 0) {
-                //主报人。 暂时不显示积分//TODO
-//                sb.append("（积分:").append(member.getPoint()).append("）\n");
+                //主报人
+                sb.append("（年度积分:").append(member.getYearPoint()).append("）\n");
             } else {
                 sb.append(" +" + member.getIsMaster()).append("\n");
             }
@@ -126,7 +126,7 @@ public class SunActivity extends BaseEntity {
                 sb.append(i - numbers + 1).append(". ").append(member.getMemberName());
                 if (member.getIsMaster() == 0) {
                     //主报人
-                    sb.append("(积分:").append(member.getPoint()).append(")\n");
+                    sb.append("(年度积分:").append(member.getYearPoint()).append(")\n");
                 } else {
                     sb.append(" +" + member.getIsMaster()).append("\n");
                 }

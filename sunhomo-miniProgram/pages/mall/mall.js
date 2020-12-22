@@ -94,6 +94,7 @@ Page({
   },
 
   redeem: function (event) {
+    var that = this;
     var goods = event.currentTarget.dataset.goods;
     if (this.data.userInfo.point >= goods.value) {
       wx.showModal({
@@ -110,12 +111,17 @@ Page({
                   wx.showToast({
                     title: '兑换成功',
                     icon: 'success'
-                  })
+                  });
+                  app.globalData.userInfo = res.data.data;
+                  that.setData({
+                    userInfo: app.globalData.userInfo
+                  });
+                  wx.setStorageSync('pointChange',1);
                 }else{
                   wx.showToast({
                     title: '兑换失败',
                     icon: 'error'
-                  })
+                  });
                 }
               }
             })

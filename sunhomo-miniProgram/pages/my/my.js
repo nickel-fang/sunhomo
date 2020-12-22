@@ -41,6 +41,16 @@ Page({
       })
     }
   },
+
+  onShow: function () {
+    if(app.globalData.userInfo && wx.getStorageSync('pointChange')){
+      this.setData({
+        userInfo: app.globalData.userInfo
+      });
+      wx.removeStorageSync('pointChange');
+    }
+  },
+
   getUserInfo: function (e) {
     // console.log(e)
     // app.globalData.userInfo = e.detail.userInfo
