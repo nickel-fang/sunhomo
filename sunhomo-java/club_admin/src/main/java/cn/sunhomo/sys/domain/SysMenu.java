@@ -3,12 +3,14 @@ package cn.sunhomo.sys.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
 * @author: Nickel Fang
 * @date: 2020/12/21 16:01
 */
 @Data
-@AllArgsConstructor
 public class SysMenu {
     /**
     * 菜单ID
@@ -64,4 +66,6 @@ public class SysMenu {
     * 备注
     */
     private String remark;
+
+    private List<SysMenu> children = new ArrayList<SysMenu>();
 }

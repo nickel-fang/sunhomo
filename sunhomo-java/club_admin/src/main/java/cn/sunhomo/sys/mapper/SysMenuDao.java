@@ -23,4 +23,8 @@ public interface SysMenuDao {
     int updateByPrimaryKey(SysMenu record);
 
     List<String> selectMenuPermsByUserId(Integer userId);
+
+    List<SysMenu> selectMenus();
+
+    List<SysMenu> selectMenusByUserId(Integer userId);
 }

@@ -1,6 +1,7 @@
 package cn.sunhomo.sys.service;
 
 import cn.sunhomo.sys.domain.SysMenu;
+import cn.sunhomo.sys.domain.SysUser;
 
 import java.util.List;
 import java.util.Set;
@@ -15,4 +16,6 @@ public interface ISysMenuService {
     List<SysMenu> selectSysMenus();
 
     Set<String> selectMenuPermsByUserId(Integer userId);
+
+    List<SysMenu> selectSysMenusByUser(SysUser user);
 }

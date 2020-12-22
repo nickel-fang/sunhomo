@@ -172,4 +172,21 @@
     left join SYS_ROLE r on r.ROLE_ID = ur.ROLE_ID
     where m.VISIBLE = '0' and r.STATUS = '0' and ur.USER_ID = #{userId}
   </select>
+  <select id="selectMenus" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from SYS_MENU
+    where MENU_TYPE in ('M', 'C') and VISIBLE=0
+    order by PARENT_ID, ORDER_NUM
+  </select>
+  <select id="selectMenusByUserId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from SYS_MENU m
+    left join SYS_ROLE_MENU rm on m.MENU_ID = rm.MENU_ID
+    left join SYS_USER_ROLE ur on rm.ROLE_ID = ur.ROLE_ID
+    left join SYS_ROLE ro on ur.ROLE_ID = ro.ROLE_ID
+    where ur.USER_ID = #{userId} and m.MENU_TYPE in ('M', 'C') and m.VISIBLE = 0  AND ro.STATUS = 0
+    order by m.PARENT_ID, m.ORDER_NUM
+  </select>
 </mapper>

@@ -31,7 +31,7 @@ public class SysUserService implements ISysUserService {
     @Override
     public SysUser login(String username, String password) throws Exception {
         SysUser user = sysUserMapper.selectUserByLoginName(username);
-        if (user == null || user.getPassword().equals(encryptPassword(username, password, user.getSalt()))) {
+        if (user == null || !user.getPassword().equals(encryptPassword(username, password, user.getSalt()))) {
             throw new Exception("login fail");
         }
         return user;

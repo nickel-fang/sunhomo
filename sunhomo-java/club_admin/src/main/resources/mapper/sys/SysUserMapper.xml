@@ -119,6 +119,6 @@
     select
     <include refid="Base_Column_List" />
     from SYS_USER
-    where LOGIN_NAME = {userName}
+    where LOGIN_NAME = #{username}
   </select>
 </mapper>
