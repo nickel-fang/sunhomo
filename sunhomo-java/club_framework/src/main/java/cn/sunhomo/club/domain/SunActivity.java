@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -136,6 +138,15 @@ public class SunActivity extends BaseEntity {
         if (StringUtils.isNotEmpty(memo)) sb.append("\n").append(memo);
         return sb.toString();
     }
+
+    //比赛类型的活动，同时抽签时间已到
+    public boolean isCanDraw() {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime draw = LocalDateTime.parse(drawTime,dateTimeFormatter);
+        return activityType==2 && LocalDateTime.now().isAfter(draw);
+    }
+
+    private boolean canDraw;
 
     private static final long serialVersionUID = 1L;
 }

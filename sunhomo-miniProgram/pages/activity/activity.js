@@ -8,7 +8,6 @@ Page({
   data: {
     activity: {},
     userInfo: null,
-    canDraw: false
   },
 
   /**
@@ -31,7 +30,6 @@ Page({
       success: function (res) {
         that.setData({
           activity: res.data,
-          canDraw: res.data.activityType==2 && (new Date() > new Date(res.data.drawTime))
         });
         //隐藏loading 提示框
         wx.hideLoading();
