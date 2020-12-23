@@ -15,7 +15,7 @@
 					<view wx:else>胜率:{{member.ratio/100}}%</view>  -->
 					（年度积分:{{member.yearPoint}}）
 				</block>
-				<block wx:if="{{member.memberId==userInfo.memberId}}"><button class="mini-btn" size="mini" bindtap="quit" data-master="{{member.isMaster}}">退报</button></block>
+				<block wx:if="{{member.memberId==userInfo.memberI || userInfo.isAdmin==1}}"><button class="mini-btn" size="mini" bindtap="quit" data-memberid="{{member.memberId}}" data-master="{{member.isMaster}}">退报</button></block>
 			</view>
 		</block>
 	</view>

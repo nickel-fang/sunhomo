@@ -100,13 +100,13 @@ public class ActivityAPI {
      */
     @PostMapping("/quit/{activityId}/{isMaster}")
     @ResponseBody
-    public AjaxResult<SunActivity> quit(@PathVariable("activityId") Integer activityId, @PathVariable("isMaster") Byte isMaster, @RequestBody SunMember member) {
+    public AjaxResult<SunActivity> quit(@PathVariable("activityId") Integer activityId, @PathVariable("isMaster") Byte isMaster, @RequestBody Integer memberId) {
         SunActivity activity = activityService.selectActivity(activityId);
         int result;
         //根据活动取消报名截止时间来判断是否可进行取消操作
         //截止时间之前，可取消
         if (LocalDateTime.now().isBefore(LocalDateTime.parse(activity.getDeadline(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))) {
-            result = activityService.quit(activityId, isMaster, member);
+            result = activityService.quit(activityId, isMaster, memberId);
             return result == 1 ? AjaxResult.success(activityService.selectActivity(activityId)) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, activityService.selectActivity(activityId));
         }
 
@@ -127,7 +127,7 @@ public class ActivityAPI {
                 //有替补可取消。但在等锁的过程中，被别的人取消了，所以此时重新获取下活动报名数
                 return AjaxResult.failure(ResultCode.BUSINESS_AFTER_APPOINTED_TIME, activityService.selectActivity(activityId));
             }
-            result = activityService.quit(activityId, isMaster, member);
+            result = activityService.quit(activityId, isMaster, memberId);
             return result == 1 ? AjaxResult.success(activityService.selectActivity(activityId)) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, activityService.selectActivity(activityId));
         } finally {
             lock.unlock();

@@ -63,8 +63,8 @@ public class SunActivityService implements ISunActivityService {
     }
 
     @Override
-    public int quit(Integer activityId, Byte isMaster, SunMember member) {
-        return activityDao.deleteMemberToActivity(activityId, member.getMemberId(), isMaster);
+    public int quit(Integer activityId, Byte isMaster, Integer memberId) {
+        return activityDao.deleteMemberToActivity(activityId, memberId, isMaster);
     }
 
     @Override

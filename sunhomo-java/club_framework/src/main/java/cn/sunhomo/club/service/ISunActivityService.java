@@ -18,7 +18,7 @@ public interface ISunActivityService {
 
     public int enroll(Integer activityId, SunMember member);
 
-    int quit(Integer activityId, Byte isMaster, SunMember member);
+    int quit(Integer activityId, Byte isMaster, Integer memberId);
 
     //某个活动，同一人（包括挂）所有的报名
     List<Byte> selectCount(Integer activityId, Integer memberId);
