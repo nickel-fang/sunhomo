@@ -1,0 +1,26 @@
+<view class="header-box">
+	<image class="avatar" src="{{userInfo.memberPhoto}}" mode="aspectFill"></image>
+	<view class="r">
+		<view>年度积分排名TOP10</view>
+	</view>
+</view>
+<!-- <view class="weui-cells weui-cells_after-title">
+	<block wx:for="{{myYearPointRange}}" wx:for-item="range">
+		<view class="weui-cell weui-cell_example ">
+			<view class="weui-cell__hd">{{range.memberId}}、 </view>
+			<view class="weui-cell__bd"><image src="{{range.memberPhoto}}" class="member_icon"></image>{{range.memberName}}</view>
+			<view class="weui-cell__ft">{{range.yearPoint}}分</view>
+		</view>
+	</block>
+</view> -->
+<view class="container">
+	<view class="space"></view>
+	<block wx:for="{{myYearPointRange}}" wx:for-item="range">
+		<view class="menu-item">
+			<view class="l">{{range.memberId}}、 <image class="member_icon" src="{{range.memberPhoto}}"></image>
+				{{range.memberName}}</view>
+			<view class="r"> {{range.yearPoint}}分 </view>
+		</view>
+		<view class="line"></view>
+	</block>
+</view>

@@ -6,6 +6,8 @@
     "pages/my/my",
     "pages/my/myPoints",
     "pages/my/myActivities",
+    "pages/my/myRedeem",
+    "pages/my/myYearPointRange",
     "pages/mall/mall"
   ],
   "window": {

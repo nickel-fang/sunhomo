@@ -1,6 +1,7 @@
 package cn.sunhomo.club.api;
 
 import cn.sunhomo.club.domain.SunActivity;
+import cn.sunhomo.club.domain.SunGoodTransaction;
 import cn.sunhomo.club.domain.SunPointRecord;
 import cn.sunhomo.core.AjaxResult;
 import cn.sunhomo.util.StringUtils;
@@ -43,15 +44,15 @@ public class MemberAPI {
         WeiChatObject weiChatObject = JSON.parseObject(object, WeiChatObject.class);
         if (StringUtils.isEmpty(weiChatObject.getOpenid())) {
             log.error("wx.login失败");
-            return new AjaxResult(500,"wx.login失败！",null);
+            return new AjaxResult(500, "wx.login失败！", null);
         }
         SunMember member = memberService.selectMember(weiChatObject.getOpenid());
         if (member == null) { //数据库无该会员
-            return new AjaxResult<String>(-1,"数据库无该会员！",weiChatObject.getOpenid());
+            return new AjaxResult<String>(-1, "数据库无该会员！", weiChatObject.getOpenid());
         } else if (StringUtils.isEmpty(member.getMemberName())) { //
-            return new AjaxResult<SunMember>(0,"数据库中有此会员，但信息不全！",member);
+            return new AjaxResult<SunMember>(0, "数据库中有此会员，但信息不全！", member);
         } else { //数据库中有此会员，信息全
-            return new AjaxResult<SunMember>(1,"数据库中有此会员，信息全！",member);
+            return new AjaxResult<SunMember>(1, "数据库中有此会员，信息全！", member);
         }
     }
 
@@ -61,21 +62,35 @@ public class MemberAPI {
 
         member.setSignDate(new Date());
         memberService.insertMember(member);
-        return new AjaxResult<SunMember>(1,"会员添加成功",memberService.selectMember(member.getOpenid()));
+        return new AjaxResult<SunMember>(1, "会员添加成功", memberService.selectMember(member.getOpenid()));
     }
 
     @PostMapping("/myPointRecords")
     @ResponseBody
-    public List<SunPointRecord> myPointRecords(@RequestBody SunMember member){
-        List<SunPointRecord> pointRecords = memberService.getPointRecordsByMemberID(member.getMemberId());
+    public List<SunPointRecord> myPointRecords(@RequestBody Integer memberId) {
+        List<SunPointRecord> pointRecords = memberService.getPointRecordsByMemberID(memberId);
         return pointRecords;
     }
 
     @PostMapping("/myActivities")
     @ResponseBody
-    public List<SunActivity> myActivities(@RequestBody SunMember member){
-        List<SunActivity> activities = memberService.getActivitiesByMemberID(member.getMemberId());
+    public List<SunActivity> myActivities(@RequestBody Integer memberId) {
+        List<SunActivity> activities = memberService.getActivitiesByMemberID(memberId);
         return activities;
+    }
+
+    @PostMapping("/myRedeem")
+    @ResponseBody
+    public List<SunGoodTransaction> myRedeem(@RequestBody Integer memberId) {
+        List<SunGoodTransaction> goodTransactions = memberService.getGoodTransactionsByMemberID(memberId);
+        return goodTransactions;
+    }
+
+    @PostMapping("/myYearPointRange")
+    @ResponseBody
+    public List<SunMember> myYearPointRange(@RequestBody SunMember member) {
+        List<SunMember> members = memberService.getTop10YearPointByMember(member);
+        return members;
     }
 
 }

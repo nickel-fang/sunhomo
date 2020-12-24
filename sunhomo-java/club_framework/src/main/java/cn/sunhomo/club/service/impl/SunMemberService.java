@@ -1,6 +1,7 @@
 package cn.sunhomo.club.service.impl;
 
 import cn.sunhomo.club.domain.SunActivity;
+import cn.sunhomo.club.domain.SunGoodTransaction;
 import cn.sunhomo.club.domain.SunMember;
 import cn.sunhomo.club.domain.SunPointRecord;
 import cn.sunhomo.club.mapper.SunMemberDao;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SunMemberService implements ISunMemberService {
@@ -55,5 +57,27 @@ public class SunMemberService implements ISunMemberService {
     @Override
     public List<SunActivity> getActivitiesByMemberID(Integer memberId) {
         return memberDao.getActivitiesByMemberID(memberId);
+    }
+
+    @Override
+    public List<SunGoodTransaction> getGoodTransactionsByMemberID(Integer memberId) {
+        return memberDao.getGoodTransactionsByMemberID(memberId);
+    }
+
+    @Override
+    public List<SunMember> getTop10YearPointByMember(SunMember me) {
+        List<SunMember> members = memberDao.getTop10YearPointByOpenID(me.getOpenid());
+        int yearPoint = members.get(0).getYearPoint();
+        int range = 1;
+        for (SunMember member : members) {
+            if (member.getYearPoint() == yearPoint) {
+                //与前面的年度积分一样，并列排名
+                member.setMemberId(range);
+            } else {
+                yearPoint = member.getYearPoint();
+                range = member.getMemberId();
+            }
+        }
+        return members;
     }
 }

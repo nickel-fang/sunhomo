@@ -48,6 +48,19 @@
     </view>
   </navigator>
   <view class="line"></view>
+  <navigator url="/pages/my/myRedeem">
+    <view class="menu-item">
+      <view class="l">我的兑换</view>
+      <image class="next" src="/images/arrowright.png"></image>
+    </view>
+  </navigator>
+  <view class="line"></view>  <navigator url="/pages/my/myYearPointRange">
+    <view class="menu-item">
+      <view class="l">我的年度排名</view>
+      <image class="next" src="/images/arrowright.png"></image>
+    </view>
+  </navigator>
+  <view class="line"></view>
 </view>
 <!-- <view class="container">
   <view class="userinfo">

@@ -81,3 +81,9 @@
 .menu-item button {
   margin: 0;
 }
+
+.member_icon{
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 32rpx;
+}

@@ -141,9 +141,12 @@ public class SunActivity extends BaseEntity {
 
     //比赛类型的活动，同时抽签时间已到
     public boolean isCanDraw() {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime draw = LocalDateTime.parse(drawTime,dateTimeFormatter);
-        return activityType==2 && LocalDateTime.now().isAfter(draw);
+        if (activityType == 2) {
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime draw = LocalDateTime.parse(drawTime, dateTimeFormatter);
+            return LocalDateTime.now().isAfter(draw);
+        }
+        return false;
     }
 
     private boolean canDraw;

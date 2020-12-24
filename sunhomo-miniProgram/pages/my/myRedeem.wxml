@@ -1,15 +1,15 @@
 <view class="header-box">
 	<image class="avatar" src="{{userInfo.memberPhoto}}" mode="aspectFill"></image>
 	<view class="r">
-		<view>最近积分交易记录</view>
+		<view>最近兑换记录</view>
 	</view>
 </view>
 <view class="container">
 	<view class="space"></view>
-	<block wx:for="{{myPointRecords}}" wx:for-item="pointRecord">
+	<block wx:for="{{myRedeem}}" wx:for-item="redeem">
 		<view class="menu-item">
-			<view class="l">{{pointRecord.pointRecordDate}} {{pointRecord.pointRecordMemo}}</view>
-			<view class="r">{{pointRecord.pointRecordValue}}</view>
+			<view class="l">{{redeem.goodTransactionDate}} {{redeem.goodName}}</view>
+			<view class="r"><block wx:if="{{redeem.state==1}}">未交付</block><block wx:else>已交付</block></view>
 		</view>
 		<view class="line"></view>
 	</block>

@@ -18,7 +18,7 @@
         <result column="IS_ADMIN" jdbcType="TINYINT" property="isAdmin"/>
     </resultMap>
     <sql id="Base_Column_List">
-    MEMBER_ID, OPENID, MEMBER_NAME, MEMBER_PHOTO, TOTAL_POINT, YEAR_POINT, POINT, WIN_NUMBER, 
+    MEMBER_ID, OPENID, MEMBER_NAME, MEMBER_PHOTO, TOTAL_POINT, YEAR_POINT, POINT, WIN_NUMBER,
     LOSE_NUMBER, RATIO, SIGN_DATE, IS_ADMIN
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -62,13 +62,13 @@
     </delete>
     <insert id="insert" keyColumn="MEMBER_ID" keyProperty="memberId" parameterType="cn.sunhomo.club.domain.SunMember"
             useGeneratedKeys="true">
-    insert into SUN_MEMBER (OPENID, MEMBER_NAME, MEMBER_PHOTO, 
-      TOTAL_POINT, YEAR_POINT, POINT, 
-      WIN_NUMBER, LOSE_NUMBER, RATIO, 
+    insert into SUN_MEMBER (OPENID, MEMBER_NAME, MEMBER_PHOTO,
+      TOTAL_POINT, YEAR_POINT, POINT,
+      WIN_NUMBER, LOSE_NUMBER, RATIO,
       SIGN_DATE)
-    values (#{openid,jdbcType=VARCHAR}, #{memberName,jdbcType=VARCHAR}, #{memberPhoto,jdbcType=VARCHAR}, 
-      #{totalPoint,jdbcType=INTEGER}, #{yearPoint,jdbcType=INTEGER}, #{point,jdbcType=INTEGER}, 
-      #{winNumber,jdbcType=INTEGER}, #{loseNumber,jdbcType=INTEGER}, #{ratio,jdbcType=SMALLINT}, 
+    values (#{openid,jdbcType=VARCHAR}, #{memberName,jdbcType=VARCHAR}, #{memberPhoto,jdbcType=VARCHAR},
+      #{totalPoint,jdbcType=INTEGER}, #{yearPoint,jdbcType=INTEGER}, #{point,jdbcType=INTEGER},
+      #{winNumber,jdbcType=INTEGER}, #{loseNumber,jdbcType=INTEGER}, #{ratio,jdbcType=SMALLINT},
       #{signDate,jdbcType=DATE})
   </insert>
     <insert id="insertSelective" keyColumn="MEMBER_ID" keyProperty="memberId"
@@ -226,5 +226,19 @@
         WHERE SMTA.MEMBER_ID=#{memberId,jdbcType=INTEGER} AND SA.ACTIVITY_STATE=3 AND SMTA.IS_MASTER=0
         ORDER BY SA.ACTIVITY_ID DESC
         LIMIT 20
+    </select>
+    <select id="getGoodTransactionsByMemberID" resultMap="cn.sunhomo.club.mapper.SunGoodTransactionDao.BaseResultMap">
+        select SGT.GOOD_TRANSACTION_ID, SGT.GOOD_ID, SGT.MEMBER_ID, SGT.GOOD_TRANSACTION_DATE, SGT.STATE, SG.GOOD_NAME
+        from SUN_GOOD_TRANSACTION SGT
+        left join SUN_GOOD SG on SGT.GOOD_ID = SG.GOOD_ID
+        where SGT.MEMBER_ID = #{memberId,jdbcType=INTEGER}
+        order by SGT.GOOD_TRANSACTION_DATE desc
+        limit 20
+    </select>
+    <select id="getTop10YearPointByOpenID" resultMap="BaseResultMap">
+        SELECT * FROM(
+        SELECT @rowno:=@rowno+1 as MEMBER_ID, SM.OPENID, SM.MEMBER_NAME, SM.MEMBER_PHOTO, SM.YEAR_POINT from SUN_MEMBER SM ,(select @rowno:=0) t
+        ORDER BY SM.YEAR_POINT DESC, SM.MEMBER_ID ASC) temp
+        WHERE temp.MEMBER_ID &lt;= 10 OR temp.OPENID= #{signDate,jdbcType=VARCHAR}
     </select>
 </mapper>

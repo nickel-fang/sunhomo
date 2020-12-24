@@ -25,7 +25,7 @@ Page({
     wx.request({
       url: app.globalData.APIUrl + '/club/member/myActivities',
       method: 'POST',
-      data: app.globalData.userInfo,
+      data: app.globalData.userInfo.memberId,
       success: function (res) {
         that.setData({
           myActivities: res.data

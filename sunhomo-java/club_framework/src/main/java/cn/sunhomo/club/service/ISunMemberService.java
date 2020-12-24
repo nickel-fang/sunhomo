@@ -1,6 +1,7 @@
 package cn.sunhomo.club.service;
 
 import cn.sunhomo.club.domain.SunActivity;
+import cn.sunhomo.club.domain.SunGoodTransaction;
 import cn.sunhomo.club.domain.SunMember;
 import cn.sunhomo.club.domain.SunPointRecord;
 
@@ -22,4 +23,8 @@ public interface ISunMemberService {
     List<SunPointRecord> getPointRecordsByMemberID(Integer memberId);
 
     List<SunActivity> getActivitiesByMemberID(Integer memberId);
+
+    List<SunGoodTransaction> getGoodTransactionsByMemberID(Integer memberId);
+
+    List<SunMember> getTop10YearPointByMember(SunMember member);
 }

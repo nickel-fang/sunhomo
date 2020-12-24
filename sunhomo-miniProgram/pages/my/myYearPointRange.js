@@ -6,7 +6,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    myPointRecords: [],
+    myYearPointRange: [],
     userInfo: {}
   },
 
@@ -23,12 +23,12 @@ Page({
     var that = this;
     //初始化this.data.activities
     wx.request({
-      url: app.globalData.APIUrl + '/club/member/myPointRecords',
+      url: app.globalData.APIUrl + '/club/member/myYearPointRange',
       method: 'POST',
-      data: app.globalData.userInfo.memberId,
+      data: app.globalData.userInfo,
       success: function (res) {
         that.setData({
-          myPointRecords: res.data
+          myYearPointRange: res.data
         });
         //隐藏loading 提示框
         wx.hideLoading();

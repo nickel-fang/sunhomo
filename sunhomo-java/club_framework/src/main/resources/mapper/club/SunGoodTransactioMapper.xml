@@ -6,24 +6,27 @@
     <result column="GOOD_ID" jdbcType="INTEGER" property="goodId" />
     <result column="MEMBER_ID" jdbcType="INTEGER" property="memberId" />
     <result column="GOOD_TRANSACTION_DATE" jdbcType="DATE" property="goodTransactionDate" />
+    <result column="STATE" jdbcType="TINYINT" property="state" />
+    <result column="GOOD_NAME" jdbcType="VARCHAR" property="goodName" />
   </resultMap>
   <sql id="Base_Column_List">
-    GOOD_TRANSACTION_ID, GOOD_ID, MEMBER_ID, GOOD_TRANSACTION_DATE
+    SGT.GOOD_TRANSACTION_ID, SGT.GOOD_ID, SGT.MEMBER_ID, SGT.GOOD_TRANSACTION_DATE, SGT.STATE, SG.GOOD_NAME
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
-    from SUN_GOOD_TRANSACTION
-    where GOOD_TRANSACTION_ID = #{goodTransactionId,jdbcType=INTEGER}
+    from SUN_GOOD_TRANSACTION SGT
+    left join SUN_GOOD SG on SGT.GOOD_ID = SG.GOOD_ID
+    where SGT.GOOD_TRANSACTION_ID = #{goodTransactionId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from SUN_GOOD_TRANSACTION
     where GOOD_TRANSACTION_ID = #{goodTransactionId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" keyColumn="GOOD_TRANSACTION_ID" keyProperty="goodTransactionId" parameterType="cn.sunhomo.club.domain.SunGoodTransaction" useGeneratedKeys="true">
-    insert into SUN_GOOD_TRANSACTION (GOOD_ID, MEMBER_ID, GOOD_TRANSACTION_DATE
+    insert into SUN_GOOD_TRANSACTION (GOOD_ID, MEMBER_ID, GOOD_TRANSACTION_DATE, STATE
       )
-    values (#{goodId,jdbcType=INTEGER}, #{memberId,jdbcType=INTEGER}, #{goodTransactionDate,jdbcType=DATE}
+    values (#{goodId,jdbcType=INTEGER}, #{memberId,jdbcType=INTEGER}, #{goodTransactionDate,jdbcType=DATE}, #{state,jdbcType=TINYINT}
       )
   </insert>
   <insert id="insertSelective" keyColumn="GOOD_TRANSACTION_ID" keyProperty="goodTransactionId" parameterType="cn.sunhomo.club.domain.SunGoodTransaction" useGeneratedKeys="true">
@@ -38,6 +41,9 @@
       <if test="goodTransactionDate != null">
         GOOD_TRANSACTION_DATE,
       </if>
+      <if test="state != null">
+        STATE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="goodId != null">
@@ -48,6 +54,9 @@
       </if>
       <if test="goodTransactionDate != null">
         #{goodTransactionDate,jdbcType=DATE},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=TINYINT},
       </if>
     </trim>
   </insert>
@@ -63,6 +72,9 @@
       <if test="goodTransactionDate != null">
         GOOD_TRANSACTION_DATE = #{goodTransactionDate,jdbcType=DATE},
       </if>
+      <if test="state != null">
+        STATE = #{state,jdbcType=TINYINT},
+      </if>
     </set>
     where GOOD_TRANSACTION_ID = #{goodTransactionId,jdbcType=INTEGER}
   </update>
@@ -70,7 +82,8 @@
     update SUN_GOOD_TRANSACTION
     set GOOD_ID = #{goodId,jdbcType=INTEGER},
       MEMBER_ID = #{memberId,jdbcType=INTEGER},
-      GOOD_TRANSACTION_DATE = #{goodTransactionDate,jdbcType=DATE}
+      GOOD_TRANSACTION_DATE = #{goodTransactionDate,jdbcType=DATE},
+      STATE = #{state,jdbcType=TINYINT}
     where GOOD_TRANSACTION_ID = #{goodTransactionId,jdbcType=INTEGER}
   </update>
 </mapper>
