@@ -134,10 +134,10 @@ Page({
     wx.showModal({
       content: '确定退报？',
       confirmColor: '#2EA7E0',
-      success(res){
+      success(res) {
         if (res.confirm) {
           wx.request({
-            url: app.globalData.APIUrl + '/club/activity/quit/' + that.data.activity.activityId + "/" + event.currentTarget.dataset.master,
+            url: app.globalData.APIUrl + '/club/activity/quit/' + that.data.activity.activityId + "/" + event.currentTarget.dataset.master + "/" + that.data.userInfo.isAdmin,
             method: 'POST',
             data: event.currentTarget.dataset.memberid,
             success: function (res) {
@@ -167,7 +167,7 @@ Page({
               })
             }
           })
-        }else if (res.cancel) {
+        } else if (res.cancel) {
 
         }
       }
