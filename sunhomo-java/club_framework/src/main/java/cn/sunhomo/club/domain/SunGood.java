@@ -5,7 +5,7 @@ import lombok.Data;
 
 /**
  * SUN_GOOD
- * @author 
+ * @author
  */
 @Data
 public class SunGood extends BaseEntity {
@@ -20,6 +20,10 @@ public class SunGood extends BaseEntity {
      * 商品图片
      */
     private String goodPhoto;
+    /**
+     * 量词
+     */
+    private String quantifier;
 
     /**
      * 兑换所需积分

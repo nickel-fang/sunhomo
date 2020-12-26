@@ -5,12 +5,13 @@
     <id column="GOOD_ID" jdbcType="INTEGER" property="goodId" />
     <result column="GOOD_NAME" jdbcType="VARCHAR" property="goodName" />
     <result column="GOOD_PHOTO" jdbcType="VARCHAR" property="goodPhoto" />
+    <result column="QUANTIFIER" jdbcType="VARCHAR" property="quantifier" />
     <result column="VALUE" jdbcType="INTEGER" property="value" />
     <result column="STOCK" jdbcType="INTEGER" property="stock" />
     <result column="EXCHANGE" jdbcType="INTEGER" property="exchange" />
   </resultMap>
   <sql id="Base_Column_List">
-    GOOD_ID, GOOD_NAME, GOOD_PHOTO, `VALUE`, STOCK, EXCHANGE
+    GOOD_ID, GOOD_NAME, GOOD_PHOTO, QUANTIFIER, `VALUE`, STOCK, EXCHANGE
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -28,9 +29,9 @@
     where GOOD_ID = #{goodId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" keyColumn="GOOD_ID" keyProperty="goodId" parameterType="cn.sunhomo.club.domain.SunGood" useGeneratedKeys="true">
-    insert into SUN_GOOD (GOOD_NAME, GOOD_PHOTO, `VALUE`, 
+    insert into SUN_GOOD (GOOD_NAME, GOOD_PHOTO, QUANTIFIER, `VALUE`,
       STOCK, EXCHANGE)
-    values (#{goodName,jdbcType=VARCHAR}, #{goodPhoto,jdbcType=VARCHAR}, #{value,jdbcType=INTEGER}, 
+    values (#{goodName,jdbcType=VARCHAR}, #{goodPhoto,jdbcType=VARCHAR}, #{quantifier,jdbcType=VARCHAR}, #{value,jdbcType=INTEGER},
       #{stock,jdbcType=INTEGER}, #{exchange,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="GOOD_ID" keyProperty="goodId" parameterType="cn.sunhomo.club.domain.SunGood" useGeneratedKeys="true">
@@ -41,6 +42,9 @@
       </if>
       <if test="goodPhoto != null">
         GOOD_PHOTO,
+      </if>
+      <if test="quantifier != null">
+        QUANTIFIER,
       </if>
       <if test="value != null">
         `VALUE`,
@@ -58,6 +62,9 @@
       </if>
       <if test="goodPhoto != null">
         #{goodPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="quantifier != null">
+        #{quantifier,jdbcType=VARCHAR},
       </if>
       <if test="value != null">
         #{value,jdbcType=INTEGER},
@@ -79,6 +86,9 @@
       <if test="goodPhoto != null">
         GOOD_PHOTO = #{goodPhoto,jdbcType=VARCHAR},
       </if>
+      <if test="quantifier != null">
+        QUANTIFIER = #{quantifier,jdbcType=VARCHAR},
+      </if>
       <if test="value != null">
         `VALUE` = #{value,jdbcType=INTEGER},
       </if>
@@ -95,6 +105,7 @@
     update SUN_GOOD
     set GOOD_NAME = #{goodName,jdbcType=VARCHAR},
       GOOD_PHOTO = #{goodPhoto,jdbcType=VARCHAR},
+      QUANTIFIER = #{quantifier,jdbcType=VARCHAR},
       `VALUE` = #{value,jdbcType=INTEGER},
       STOCK = #{stock,jdbcType=INTEGER},
       EXCHANGE = #{exchange,jdbcType=INTEGER}

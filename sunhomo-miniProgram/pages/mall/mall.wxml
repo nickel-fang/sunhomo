@@ -2,7 +2,7 @@
 	<view class="menu-wrp">
 		<view class="menu-list" wx:for="{{allGoods}}" wx:for-item="goods">
 			<image class="menu-img" src="{{goods.goodPhoto}}" data-goods="{{goods}}" bindtap="redeem"/>
-			<view class="menu-desc">{{goods.goodName}}（{{goods.value}} 分）</view>
+			<view class="menu-desc">{{goods.goodName}}（{{goods.value}}分/{{goods.quantifier}}）</view>
 		</view>
 	</view>
 
