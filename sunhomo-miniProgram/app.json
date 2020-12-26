@@ -8,6 +8,7 @@
     "pages/my/myActivities",
     "pages/my/myRedeem",
     "pages/my/myYearPointRange",
+    "pages/my/about",
     "pages/mall/mall"
   ],
   "window": {

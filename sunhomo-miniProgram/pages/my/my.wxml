@@ -14,14 +14,14 @@
 	<view class="asset">
 		<view class='item' bindtap='goAsset'>
 			<view wx:if="{{userInfo.totalPoint<5}}">赤铁</view>
-      <view wx:elif="{{userInfo.totalPoint>=5 && userInfo.totalPoint<20}}">青铜</view>
-      <view wx:elif="{{userInfo.totalPoint>=20 && userInfo.totalPoint<50}}">白银</view>
-      <view wx:elif="{{userInfo.totalPoint>=50 && userInfo.totalPoint<100}}">黄金</view>
-      <view wx:elif="{{userInfo.totalPoint>=100 && userInfo.totalPoint<200}}">铂金</view>
-      <view wx:elif="{{userInfo.totalPoint>=200 && userInfo.totalPoint<500}}">钻石</view>
-      <view wx:elif="{{userInfo.totalPoint>=500 && userInfo.totalPoint<1000}}">星耀</view>
-      <view wx:elif="{{userInfo.totalPoint>=1000}}">王者</view>
-      <view wx:else>赤铁</view>
+			<view wx:elif="{{userInfo.totalPoint>=5 && userInfo.totalPoint<20}}">青铜</view>
+			<view wx:elif="{{userInfo.totalPoint>=20 && userInfo.totalPoint<50}}">白银</view>
+			<view wx:elif="{{userInfo.totalPoint>=50 && userInfo.totalPoint<100}}">黄金</view>
+			<view wx:elif="{{userInfo.totalPoint>=100 && userInfo.totalPoint<200}}">铂金</view>
+			<view wx:elif="{{userInfo.totalPoint>=200 && userInfo.totalPoint<500}}">钻石</view>
+			<view wx:elif="{{userInfo.totalPoint>=500 && userInfo.totalPoint<1000}}">星耀</view>
+			<view wx:elif="{{userInfo.totalPoint>=1000}}">王者</view>
+			<view wx:else>赤铁</view>
 			<view>等级</view>
 		</view>
 		<view class='item right' bindtap='goAsset'>
@@ -33,34 +33,47 @@
 			<view>积分</view>
 		</view>
 	</view>
-  <view class="space"></view>
-  <navigator url="/pages/my/myPoints">
-    <view class="menu-item">
-      <view class="l">我的积分</view>
-      <image class="next" src="/images/arrowright.png"></image>
-    </view>
-  </navigator>
-  <view class="line"></view>
-  <navigator url="/pages/my/myActivities">
-    <view class="menu-item">
-      <view class="l">我的活动</view>
-      <image class="next" src="/images/arrowright.png"></image>
-    </view>
-  </navigator>
-  <view class="line"></view>
-  <navigator url="/pages/my/myRedeem">
-    <view class="menu-item">
-      <view class="l">我的兑换</view>
-      <image class="next" src="/images/arrowright.png"></image>
-    </view>
-  </navigator>
-  <view class="line"></view>  <navigator url="/pages/my/myYearPointRange">
-    <view class="menu-item">
-      <view class="l">我的年度排名</view>
-      <image class="next" src="/images/arrowright.png"></image>
-    </view>
-  </navigator>
-  <view class="line"></view>
+	<view class="space"></view>
+	<navigator url="/pages/my/myPoints">
+		<view class="menu-item">
+			<view class="l">我的积分</view>
+			<image class="next" src="/images/arrowright.png"></image>
+		</view>
+	</navigator>
+	<view class="line"></view>
+	<navigator url="/pages/my/myActivities">
+		<view class="menu-item">
+			<view class="l">我的活动</view>
+			<image class="next" src="/images/arrowright.png"></image>
+		</view>
+	</navigator>
+	<view class="line"></view>
+	<navigator url="/pages/my/myRedeem">
+		<view class="menu-item">
+			<view class="l">我的兑换</view>
+			<image class="next" src="/images/arrowright.png"></image>
+		</view>
+	</navigator>
+	<view class="line"></view>
+	<navigator url="/pages/my/myYearPointRange">
+		<view class="menu-item">
+			<view class="l">我的年度排名</view>
+			<image class="next" src="/images/arrowright.png"></image>
+		</view>
+	</navigator>
+	<view class="space"></view>
+		<navigator url="/pages/my/about">
+		<view class="menu-item">
+			<view class="l">会员规则及权益（2021年版）</view>
+			<image class="next" src="/images/arrowright.png"></image>
+		</view>
+	</navigator>
+	<view class="line"></view>
+	<view class="menu-item">
+		<view class="l">小程序版本</view>
+		<view class="r">V2.2.0</view>
+	</view>
+
 </view>
 <!-- <view class="container">
   <view class="userinfo">

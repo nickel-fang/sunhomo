@@ -1,0 +1,59 @@
+<view class="container">
+	<view class="menu-item">
+		<view class="title">报名及退报规则</view>
+	</view>
+	<view class="menu-item">
+		<view class="l">1、活动开始前24小时可自行免费退报；</view>
+	</view>
+	<view class="menu-item">
+		<view class="l">2、活动当天的前一天，如有替补可自行免费退报；</view>
+	</view>
+	<view class="menu-item">
+		<view class="l">3、活动当天如有替补，请在微信群确认后免费退报；否则正常交费；</view>
+	</view>
+	<view class="menu-item">
+		<view class="l">4、替补达4人时，场馆如有空余场地，可加场；</view>
+	</view>
+	<view class="menu-item">
+		<view class="l">5、普通打球活动可带挂报名，多次报名，自动带挂；比赛活动须本人报名，才能抽签分组；</view>
+	</view>
+
+	<view class="space"></view>
+
+	<view class="menu-item">
+		<view class="title">积分规则（积分可在积分商城兑换商品）</view>
+	</view>
+	<view class="menu-item">
+		<view class="l">1、活动开始前72小时报名，早鸟积2分；其他时间报名积1分；</view>
+	</view>
+  <view class="menu-item">
+		<view class="l">2、带挂报名，每带一挂，挂主积1分，挂不积分；</view>
+	</view>
+  <view class="menu-item">
+		<view class="l">3、拉新人进群，新人首次报名，两人各积5分；</view>
+	</view>
+  <view class="menu-item">
+		<view class="l">4、比赛活动报名，积2分；</view>
+	</view>
+
+	<view class="space"></view>
+
+	<view class="menu-item">
+		<view class="title">会员</view>
+	</view>
+	<view class="menu-item">
+		<view class="l">1、等级（按累积总积分划分赤铁、青铜、白银、黄金、铂金、钻石、星耀、王者）</view>
+	</view>
+  <view class="menu-item">
+		<view class="l">2、年度积分（每年单独累积，当年排名前三的给予奖励。第一名送京东自营价值1000元羽毛球拍，第二名送京东自营价值500元羽毛球拍，第三名送京东200元E卡；积分相同，单挑一局决名次）</view>
+	</view>
+  <view class="menu-item">
+		<view class="l">3、积分（会员的实时积分）</view>
+	</view>
+
+  	<view class="space"></view>
+
+	<view class="menu-item">
+		<view class="title">以上规则最终解释权归“北京-狼巢新窝”微信群。</view>
+	</view>
+</view>
