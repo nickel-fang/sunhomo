@@ -238,7 +238,7 @@
     <select id="getTop10YearPointByOpenID" resultMap="BaseResultMap">
         SELECT * FROM(
         SELECT @rowno:=@rowno+1 as MEMBER_ID, SM.OPENID, SM.MEMBER_NAME, SM.MEMBER_PHOTO, SM.YEAR_POINT from SUN_MEMBER SM ,(select @rowno:=0) t
-        ORDER BY SM.YEAR_POINT DESC, SM.MEMBER_ID ASC) temp
-        WHERE temp.MEMBER_ID &lt;= 10 OR temp.OPENID= #{signDate,jdbcType=VARCHAR}
+        ORDER BY SM.YEAR_POINT DESC, SM.MEMBER_ID DESC) temp
+        WHERE temp.MEMBER_ID &lt;= 10 OR temp.OPENID= #{openId,jdbcType=VARCHAR}
     </select>
 </mapper>
