@@ -11,8 +11,12 @@ public interface ISunBattleService {
 
     public int deleteByPrimaryKey(Integer[] ids);
 
+    public SunBattle selectByPrimaryKey(Integer battleId);
+
     public List<SunBattle> selectBattlesByActivityId(Integer activityId);
 
     //查询某会员参加过的约战活动
     public List<SunBattle> selectBattlesByMemberId(Integer memberId);
+
+    int cancelBattle(SunBattle battle);
 }

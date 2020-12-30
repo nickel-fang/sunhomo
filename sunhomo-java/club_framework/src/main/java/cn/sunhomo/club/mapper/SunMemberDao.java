@@ -38,4 +38,6 @@ public interface SunMemberDao {
     List<SunGoodTransaction> getGoodTransactionsByMemberID(Integer memberId);
 
     List<SunMember> getTop10YearPointByOpenID(String openId);
+
+    void addPoint(@Param("battlers") Integer[] battlers, @Param("point") int point);
 }

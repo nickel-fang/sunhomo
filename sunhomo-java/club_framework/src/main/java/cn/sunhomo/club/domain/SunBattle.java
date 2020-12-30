@@ -1,22 +1,29 @@
 package cn.sunhomo.club.domain;
 
-import java.util.Date;
-
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
- * SUN_BATTLE
- *
- * @author
+ * @author: Nickel Fang
+ * @date: 2020/12/30 13:31
  */
 @Data
-public class SunBattle extends BaseEntity{
+@AllArgsConstructor
+@NoArgsConstructor
+public class SunBattle extends BaseEntity {
+    private static final long serialVersionUID = 1L;
     private Integer battleId;
 
     /**
      * 所属活动, ACTIVITY.ACTIVITY_ID
      */
     private Integer activityId;
+
+    /**
+     * 约战类型，1：单打， 2：双打
+     */
+    private Byte battleType;
 
     /**
      * 选手A1，MEMBER.MEMBER_ID
@@ -49,7 +56,7 @@ public class SunBattle extends BaseEntity{
     /**
      * 约战的日期，冗余字段，可取ACTIVITY.ACTIVITY_DATE
      */
-    private Date battleDate;
+    private String battleDate;
 
     /**
      * 约战的押注，多少个积分
@@ -57,7 +64,7 @@ public class SunBattle extends BaseEntity{
     private Integer battlePoint;
 
     /**
-     * 约战的状态， -1 取消； 1111分别表示4位选手的应战确认，A1肯定为1，因为A1为发起者
+     * 约战的状态， -1 取消；1 已结束； 1111分别表示4位选手的应战确认，A1肯定为1，因为A1为发起者
      */
     private Integer battleState;
 
@@ -65,6 +72,4 @@ public class SunBattle extends BaseEntity{
      * 约战结束，1为A胜，-1为A负
      */
     private Byte battleResult;
-
-    private static final long serialVersionUID = 1L;
 }

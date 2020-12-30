@@ -2,8 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.sunhomo.club.mapper.SunBattleDao">
     <resultMap id="BaseResultMap" type="cn.sunhomo.club.domain.SunBattle">
+        <!--@mbg.generated-->
+        <!--@Table SUN_BATTLE-->
         <id column="BATTLE_ID" jdbcType="INTEGER" property="battleId"/>
         <result column="ACTIVITY_ID" jdbcType="INTEGER" property="activityId"/>
+        <result column="BATTLE_TYPE" jdbcType="TINYINT" property="battleType"/>
         <result column="A1" jdbcType="INTEGER" property="a1"/>
         <result column="A2" jdbcType="INTEGER" property="a2"/>
         <result column="B1" jdbcType="INTEGER" property="b1"/>
@@ -12,63 +15,47 @@
         <result column="A2_NAME" jdbcType="VARCHAR" property="a2Name"/>
         <result column="B1_NAME" jdbcType="VARCHAR" property="b1Name"/>
         <result column="B2_NAME" jdbcType="VARCHAR" property="b2Name"/>
-        <result column="BATTLE_DATE" jdbcType="DATE" property="battleDate"/>
+        <result column="BATTLE_DATE" jdbcType="VARCHAR" property="battleDate"/>
         <result column="BATTLE_POINT" jdbcType="INTEGER" property="battlePoint"/>
         <result column="BATTLE_STATE" jdbcType="INTEGER" property="battleState"/>
         <result column="BATTLE_RESULT" jdbcType="TINYINT" property="battleResult"/>
     </resultMap>
     <sql id="Base_Column_List">
-    BATTLE_ID, ACTIVITY_ID, A1, A2, B1, B2, A1_NAME, A2_NAME, B1_NAME, B2_NAME, BATTLE_DATE, 
-    BATTLE_POINT, BATTLE_STATE, BATTLE_RESULT
-  </sql>
+        <!--@mbg.generated-->
+        BATTLE_ID, ACTIVITY_ID, BATTLE_TYPE, A1, A2, B1, B2, A1_NAME, A2_NAME, B1_NAME, B2_NAME,
+        BATTLE_DATE, BATTLE_POINT, BATTLE_STATE, BATTLE_RESULT
+    </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
         select
         <include refid="Base_Column_List"/>
         from SUN_BATTLE
         where BATTLE_ID = #{battleId,jdbcType=INTEGER}
     </select>
-    <select id="selectBattlesByActivityId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from SUN_BATTLE
-        where ACTIVITY_ID = #{activityId,jdbcType=INTEGER}
-    </select>
-    <select id="selectBattlesByMemberId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from SUN_BATTLE
-        where A1 = #{memberId,jdbcType=INTEGER}
-        or A2 = #{memberId,jdbcType=INTEGER}
-        or B1 = #{memberId,jdbcType=INTEGER}
-        or B2 = #{memberId,jdbcType=INTEGER}
-        order by BATTLE_DATE desc
-    </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-        delete from SUN_BATTLE
-        where BATTLE_ID in
-        <foreach collection="ids" item="battleId" open="(" separator="," close=")">
-            #{battleId}
-        </foreach>
-    </delete>
     <insert id="insert" keyColumn="BATTLE_ID" keyProperty="battleId" parameterType="cn.sunhomo.club.domain.SunBattle"
             useGeneratedKeys="true">
-    insert into SUN_BATTLE (ACTIVITY_ID, A1, A2, 
-      B1, B2, A1_NAME, A2_NAME, 
-      B1_NAME, B2_NAME, BATTLE_DATE, 
-      BATTLE_POINT, BATTLE_STATE, BATTLE_RESULT
-      )
-    values (#{activityId,jdbcType=INTEGER}, #{a1,jdbcType=INTEGER}, #{a2,jdbcType=INTEGER}, 
-      #{b1,jdbcType=INTEGER}, #{b2,jdbcType=INTEGER}, #{a1Name,jdbcType=VARCHAR}, #{a2Name,jdbcType=VARCHAR}, 
-      #{b1Name,jdbcType=VARCHAR}, #{b2Name,jdbcType=VARCHAR}, #{battleDate,jdbcType=DATE}, 
-      #{battlePoint,jdbcType=INTEGER}, #{battleState,jdbcType=INTEGER}, #{battleResult,jdbcType=TINYINT}
-      )
-  </insert>
+        <!--@mbg.generated-->
+        insert into SUN_BATTLE (ACTIVITY_ID, BATTLE_TYPE, A1,
+        A2, B1, B2, A1_NAME,
+        A2_NAME, B1_NAME, B2_NAME,
+        BATTLE_DATE, BATTLE_POINT, BATTLE_STATE,
+        BATTLE_RESULT)
+        values (#{activityId,jdbcType=INTEGER}, #{battleType,jdbcType=TINYINT}, #{a1,jdbcType=INTEGER},
+        #{a2,jdbcType=INTEGER}, #{b1,jdbcType=INTEGER}, #{b2,jdbcType=INTEGER}, #{a1Name,jdbcType=VARCHAR},
+        #{a2Name,jdbcType=VARCHAR}, #{b1Name,jdbcType=VARCHAR}, #{b2Name,jdbcType=VARCHAR},
+        #{battleDate,jdbcType=VARCHAR}, #{battlePoint,jdbcType=INTEGER}, #{battleState,jdbcType=INTEGER},
+        #{battleResult,jdbcType=TINYINT})
+    </insert>
     <insert id="insertSelective" keyColumn="BATTLE_ID" keyProperty="battleId"
             parameterType="cn.sunhomo.club.domain.SunBattle" useGeneratedKeys="true">
+        <!--@mbg.generated-->
         insert into SUN_BATTLE
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="activityId != null">
                 ACTIVITY_ID,
+            </if>
+            <if test="battleType != null">
+                BATTLE_TYPE,
             </if>
             <if test="a1 != null">
                 A1,
@@ -111,6 +98,9 @@
             <if test="activityId != null">
                 #{activityId,jdbcType=INTEGER},
             </if>
+            <if test="battleType != null">
+                #{battleType,jdbcType=TINYINT},
+            </if>
             <if test="a1 != null">
                 #{a1,jdbcType=INTEGER},
             </if>
@@ -150,10 +140,14 @@
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="cn.sunhomo.club.domain.SunBattle">
+        <!--@mbg.generated-->
         update SUN_BATTLE
         <set>
             <if test="activityId != null">
                 ACTIVITY_ID = #{activityId,jdbcType=INTEGER},
+            </if>
+            <if test="battleType != null">
+                BATTLE_TYPE = #{battleType,jdbcType=TINYINT},
             </if>
             <if test="a1 != null">
                 A1 = #{a1,jdbcType=INTEGER},
@@ -195,20 +189,45 @@
         where BATTLE_ID = #{battleId,jdbcType=INTEGER}
     </update>
     <update id="updateByPrimaryKey" parameterType="cn.sunhomo.club.domain.SunBattle">
-    update SUN_BATTLE
-    set ACTIVITY_ID = #{activityId,jdbcType=INTEGER},
-      A1 = #{a1,jdbcType=INTEGER},
-      A2 = #{a2,jdbcType=INTEGER},
-      B1 = #{b1,jdbcType=INTEGER},
-      B2 = #{b2,jdbcType=INTEGER},
-      A1_NAME = #{a1Name,jdbcType=VARCHAR},
-      A2_NAME = #{a2Name,jdbcType=VARCHAR},
-      B1_NAME = #{b1Name,jdbcType=VARCHAR},
-      B2_NAME = #{b2Name,jdbcType=VARCHAR},
-      BATTLE_DATE = #{battleDate,jdbcType=VARCHAR},
-      BATTLE_POINT = #{battlePoint,jdbcType=INTEGER},
-      BATTLE_STATE = #{battleState,jdbcType=INTEGER},
-      BATTLE_RESULT = #{battleResult,jdbcType=TINYINT}
-    where BATTLE_ID = #{battleId,jdbcType=INTEGER}
-  </update>
+        <!--@mbg.generated-->
+        update SUN_BATTLE
+        set ACTIVITY_ID = #{activityId,jdbcType=INTEGER},
+        BATTLE_TYPE = #{battleType,jdbcType=TINYINT},
+        A1 = #{a1,jdbcType=INTEGER},
+        A2 = #{a2,jdbcType=INTEGER},
+        B1 = #{b1,jdbcType=INTEGER},
+        B2 = #{b2,jdbcType=INTEGER},
+        A1_NAME = #{a1Name,jdbcType=VARCHAR},
+        A2_NAME = #{a2Name,jdbcType=VARCHAR},
+        B1_NAME = #{b1Name,jdbcType=VARCHAR},
+        B2_NAME = #{b2Name,jdbcType=VARCHAR},
+        BATTLE_DATE = #{battleDate,jdbcType=VARCHAR},
+        BATTLE_POINT = #{battlePoint,jdbcType=INTEGER},
+        BATTLE_STATE = #{battleState,jdbcType=INTEGER},
+        BATTLE_RESULT = #{battleResult,jdbcType=TINYINT}
+        where BATTLE_ID = #{battleId,jdbcType=INTEGER}
+    </update>
+    <select id="selectBattlesByActivityId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from SUN_BATTLE
+        where ACTIVITY_ID = #{activityId,jdbcType=INTEGER}
+    </select>
+    <select id="selectBattlesByMemberId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from SUN_BATTLE
+        where A1 = #{memberId,jdbcType=INTEGER}
+        or A2 = #{memberId,jdbcType=INTEGER}
+        or B1 = #{memberId,jdbcType=INTEGER}
+        or B2 = #{memberId,jdbcType=INTEGER}
+        order by BATTLE_DATE desc
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from SUN_BATTLE
+        where BATTLE_ID in
+        <foreach close=")" collection="array" item="battleId" open="(" separator=",">
+            #{battleId}
+        </foreach>
+    </delete>
 </mapper>

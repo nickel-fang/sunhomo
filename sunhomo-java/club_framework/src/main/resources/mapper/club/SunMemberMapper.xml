@@ -241,4 +241,11 @@
         ORDER BY SM.YEAR_POINT DESC, SM.MEMBER_ID DESC) temp
         WHERE temp.MEMBER_ID &lt;= 10 OR temp.OPENID= #{openId,jdbcType=VARCHAR}
     </select>
+    <update id="addPoint">
+        UPDATE SUN_MEMBER SET POINT = POINT + #{point,jdbcType=INTEGER}
+        WHERE MEMBER_ID IN
+        <foreach close=")" collection="battlers" item="battler" open="(" separator=",">
+            #{battler}
+        </foreach>
+    </update>
 </mapper>

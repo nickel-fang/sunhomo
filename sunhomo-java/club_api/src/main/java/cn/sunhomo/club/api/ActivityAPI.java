@@ -95,7 +95,9 @@ public class ActivityAPI {
      * 取消报名
      *
      * @param activityId
-     * @param member
+     * @param isMaster
+     * @param isAdmin
+     * @param memberId
      * @return
      */
     @PostMapping("/quit/{activityId}/{isMaster}/{isAdmin}")
