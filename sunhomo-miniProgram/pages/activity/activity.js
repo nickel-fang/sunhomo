@@ -109,17 +109,17 @@ Page({
         } else if (res.data.code == 80003) {
           wx.showToast({
             title: '活动已开始',
-            icon: 'none'
+            icon: 'error'
           })
         } else if (res.data.code == 80004) {
           wx.showToast({
             title: '比赛不能代报',
-            icon: 'none'
+            icon: 'error'
           })
         } else {
           wx.showToast({
             title: '系统错误',
-            icon: 'none'
+            icon: 'error'
           })
         }
         that.setData({
@@ -149,17 +149,17 @@ Page({
               } else if (res.data.code == 80002) {
                 wx.showToast({
                   title: '请联系群委会退报',
-                  icon: 'none'
+                  icon: 'error'
                 })
               } else if (res.data.code == 80001) {
                 wx.showToast({
                   title: '已过退报时间',
-                  icon: 'none'
+                  icon: 'error'
                 })
               } else {
                 wx.showToast({
                   title: '系统错误',
-                  icon: 'none'
+                  icon: 'error'
                 })
               }
               that.setData({
@@ -205,7 +205,7 @@ Page({
         } else if (res.data.code == 80005 || res.data.code == 80008 || res.data.code == 80009) {
           wx.showToast({
             title: res.data.msg,
-            icon: 'none'
+            icon: 'error'
           })
         } else if (res.data.code == 80006 || res.data.code == 80007) {
           //队长或已抽过签，直接跳转
@@ -216,7 +216,7 @@ Page({
         } else {
           wx.showToast({
             title: '系统错误',
-            icon: 'none'
+            icon: 'error'
           })
         }
       }

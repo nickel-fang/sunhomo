@@ -9,6 +9,7 @@
     "pages/my/myRedeem",
     "pages/my/myYearPointRange",
     "pages/my/about",
+    "pages/my/redeemManagement",
     "pages/mall/mall"
   ],
   "window": {

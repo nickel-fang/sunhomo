@@ -48,7 +48,7 @@ public class GoodAPI {
         goodTransaction.setGoodTransactionId(goodTransactionId);
         goodTransaction.setState((byte) 2);
         int result = goodService.consign(goodTransaction);
-        return result == 1 ? AjaxResult.success() : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR);
+        return result == 1 ? AjaxResult.success(goodService.selectRedeems(1, null)) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, goodService.selectRedeems(1, null));
     }
 
     //获取兑换列表

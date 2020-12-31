@@ -1,7 +1,8 @@
 <!--index.wxml-->
 <view wx:if="{{!hasUserInfo && canIUse}}" class="header-box">
 	<image class="avatar" src="/images/nologin2.png"></image>
-	<button plain custom-class="btn" size="small" open-type="getUserInfo" lang="zh_CN" bind:getuserinfo="getUserInfo">立即登录</button>
+	<button plain custom-class="btn" size="small" open-type="getUserInfo" lang="zh_CN"
+		bind:getuserinfo="getUserInfo">立即登录</button>
 </view>
 <view wx:else class="header-box">
 	<image class="avatar" src="{{userInfo.memberPhoto}}" mode="aspectFill"></image>
@@ -12,7 +13,7 @@
 
 <view class="container">
 	<view class="asset">
-		<view class='item' bindtap='goAsset'>
+		<view class='item'>
 			<view wx:if="{{userInfo.totalPoint<5}}">赤铁</view>
 			<view wx:elif="{{userInfo.totalPoint>=5 && userInfo.totalPoint<20}}">青铜</view>
 			<view wx:elif="{{userInfo.totalPoint>=20 && userInfo.totalPoint<50}}">白银</view>
@@ -24,11 +25,11 @@
 			<view wx:else>赤铁</view>
 			<view>等级</view>
 		</view>
-		<view class='item right' bindtap='goAsset'>
+		<view class='item right'>
 			<view>{{userInfo.yearPoint}}</view>
 			<view>年度积分</view>
 		</view>
-		<view class='item right' bindtap='goScore'>
+		<view class='item right'>
 			<view>{{userInfo.point}}</view>
 			<view>积分</view>
 		</view>
@@ -61,8 +62,17 @@
 			<image class="next" src="/images/arrowright.png"></image>
 		</view>
 	</navigator>
+	<block wx:if="{{userInfo.isAdmin==1}}">
+		<view class="space"></view>
+		<navigator url="/pages/my/redeemManagement">
+			<view class="menu-item">
+				<view class="l">商品兑换管理</view>
+				<image class="next" src="/images/arrowright.png"></image>
+			</view>
+		</navigator>
+	</block>
 	<view class="space"></view>
-		<navigator url="/pages/my/about">
+	<navigator url="/pages/my/about">
 		<view class="menu-item">
 			<view class="l">会员规则及权益（2021年版）</view>
 			<image class="next" src="/images/arrowright.png"></image>
