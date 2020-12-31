@@ -22,6 +22,7 @@ public class BattleAPI {
     @Autowired
     private ISunActivityService activityService;
 
+    //发起挑战
     @PostMapping("/battle")
     @ResponseBody
     public AjaxResult<SunBattle> battle(@RequestBody SunBattle battle) {
@@ -29,11 +30,20 @@ public class BattleAPI {
         return result == 1 ? AjaxResult.success(battle) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, battle);
     }
 
+    //取消挑战
     @PostMapping("/cancel/{battleId}")
     @ResponseBody
     public AjaxResult<SunActivity> cancel(@PathVariable("battleId") Integer battleId) {
         SunBattle battle = battleService.selectByPrimaryKey(battleId);
         int result = battleService.cancelBattle(battle);
         return result == 1 ? AjaxResult.success(activityService.selectActivity(battle.getActivityId())) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, activityService.selectActivity(battle.getActivityId()));
+    }
+
+    //挑战战绩， state为1 A方胜， -1 A方输
+    @PostMapping("/setResult/{battleId}/{battleResult}")
+    @ResponseBody
+    public AjaxResult<SunBattle> setResult(@PathVariable("battleId") Integer battleId, @PathVariable("battleResult") Byte battleResult) {
+        int result = battleService.setResult(battleId, battleResult);
+        return result == 1 ? AjaxResult.success(battleService.selectByPrimaryKey(battleId)) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, battleService.selectByPrimaryKey(battleId));
     }
 }

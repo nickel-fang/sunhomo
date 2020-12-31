@@ -1,89 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.sunhomo.club.mapper.SunGoodTransactionDao">
-  <resultMap id="BaseResultMap" type="cn.sunhomo.club.domain.SunGoodTransaction">
-    <id column="GOOD_TRANSACTION_ID" jdbcType="INTEGER" property="goodTransactionId" />
-    <result column="GOOD_ID" jdbcType="INTEGER" property="goodId" />
-    <result column="MEMBER_ID" jdbcType="INTEGER" property="memberId" />
-    <result column="GOOD_TRANSACTION_DATE" jdbcType="DATE" property="goodTransactionDate" />
-    <result column="STATE" jdbcType="TINYINT" property="state" />
-    <result column="GOOD_NAME" jdbcType="VARCHAR" property="goodName" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    SGT.GOOD_TRANSACTION_ID, SGT.GOOD_ID, SGT.MEMBER_ID, SGT.GOOD_TRANSACTION_DATE, SGT.STATE, SG.GOOD_NAME
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from SUN_GOOD_TRANSACTION SGT
-    left join SUN_GOOD SG on SGT.GOOD_ID = SG.GOOD_ID
-    where SGT.GOOD_TRANSACTION_ID = #{goodTransactionId,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from SUN_GOOD_TRANSACTION
-    where GOOD_TRANSACTION_ID = #{goodTransactionId,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" keyColumn="GOOD_TRANSACTION_ID" keyProperty="goodTransactionId" parameterType="cn.sunhomo.club.domain.SunGoodTransaction" useGeneratedKeys="true">
-    insert into SUN_GOOD_TRANSACTION (GOOD_ID, MEMBER_ID, GOOD_TRANSACTION_DATE, STATE
-      )
-    values (#{goodId,jdbcType=INTEGER}, #{memberId,jdbcType=INTEGER}, #{goodTransactionDate,jdbcType=DATE}, #{state,jdbcType=TINYINT}
-      )
-  </insert>
-  <insert id="insertSelective" keyColumn="GOOD_TRANSACTION_ID" keyProperty="goodTransactionId" parameterType="cn.sunhomo.club.domain.SunGoodTransaction" useGeneratedKeys="true">
-    insert into SUN_GOOD_TRANSACTION
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="goodId != null">
-        GOOD_ID,
-      </if>
-      <if test="memberId != null">
-        MEMBER_ID,
-      </if>
-      <if test="goodTransactionDate != null">
-        GOOD_TRANSACTION_DATE,
-      </if>
-      <if test="state != null">
-        STATE,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="goodId != null">
-        #{goodId,jdbcType=INTEGER},
-      </if>
-      <if test="memberId != null">
-        #{memberId,jdbcType=INTEGER},
-      </if>
-      <if test="goodTransactionDate != null">
-        #{goodTransactionDate,jdbcType=DATE},
-      </if>
-      <if test="state != null">
-        #{state,jdbcType=TINYINT},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.sunhomo.club.domain.SunGoodTransaction">
-    update SUN_GOOD_TRANSACTION
-    <set>
-      <if test="goodId != null">
-        GOOD_ID = #{goodId,jdbcType=INTEGER},
-      </if>
-      <if test="memberId != null">
+    <resultMap id="BaseResultMap" type="cn.sunhomo.club.domain.SunGoodTransaction">
+        <id column="GOOD_TRANSACTION_ID" jdbcType="INTEGER" property="goodTransactionId"/>
+        <result column="GOOD_ID" jdbcType="INTEGER" property="goodId"/>
+        <result column="MEMBER_ID" jdbcType="INTEGER" property="memberId"/>
+        <result column="MEMBER_NAME" jdbcType="VARCHAR" property="memberName"/>
+        <result column="GOOD_TRANSACTION_DATE" jdbcType="DATE" property="goodTransactionDate"/>
+        <result column="STATE" jdbcType="TINYINT" property="state"/>
+        <result column="GOOD_NAME" jdbcType="VARCHAR" property="goodName"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        SGT.GOOD_TRANSACTION_ID, SGT.GOOD_ID, SGT.MEMBER_ID, SGT.GOOD_TRANSACTION_DATE, SGT.STATE, SG.GOOD_NAME
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from SUN_GOOD_TRANSACTION SGT
+        left join SUN_GOOD SG on SGT.GOOD_ID = SG.GOOD_ID
+        where SGT.GOOD_TRANSACTION_ID = #{goodTransactionId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from SUN_GOOD_TRANSACTION
+        where GOOD_TRANSACTION_ID = #{goodTransactionId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="GOOD_TRANSACTION_ID" keyProperty="goodTransactionId"
+            parameterType="cn.sunhomo.club.domain.SunGoodTransaction" useGeneratedKeys="true">
+        insert into SUN_GOOD_TRANSACTION (GOOD_ID, MEMBER_ID, GOOD_TRANSACTION_DATE, STATE
+        )
+        values (#{goodId,jdbcType=INTEGER}, #{memberId,jdbcType=INTEGER}, #{goodTransactionDate,jdbcType=DATE},
+        #{state,jdbcType=TINYINT}
+        )
+    </insert>
+    <insert id="insertSelective" keyColumn="GOOD_TRANSACTION_ID" keyProperty="goodTransactionId"
+            parameterType="cn.sunhomo.club.domain.SunGoodTransaction" useGeneratedKeys="true">
+        insert into SUN_GOOD_TRANSACTION
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodId != null">
+                GOOD_ID,
+            </if>
+            <if test="memberId != null">
+                MEMBER_ID,
+            </if>
+            <if test="goodTransactionDate != null">
+                GOOD_TRANSACTION_DATE,
+            </if>
+            <if test="state != null">
+                STATE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="goodId != null">
+                #{goodId,jdbcType=INTEGER},
+            </if>
+            <if test="memberId != null">
+                #{memberId,jdbcType=INTEGER},
+            </if>
+            <if test="goodTransactionDate != null">
+                #{goodTransactionDate,jdbcType=DATE},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.sunhomo.club.domain.SunGoodTransaction">
+        update SUN_GOOD_TRANSACTION
+        <set>
+            <if test="goodId != null">
+                GOOD_ID = #{goodId,jdbcType=INTEGER},
+            </if>
+            <if test="memberId != null">
+                MEMBER_ID = #{memberId,jdbcType=INTEGER},
+            </if>
+            <if test="goodTransactionDate != null">
+                GOOD_TRANSACTION_DATE = #{goodTransactionDate,jdbcType=DATE},
+            </if>
+            <if test="state != null">
+                STATE = #{state,jdbcType=TINYINT},
+            </if>
+        </set>
+        where GOOD_TRANSACTION_ID = #{goodTransactionId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.sunhomo.club.domain.SunGoodTransaction">
+        update SUN_GOOD_TRANSACTION
+        set GOOD_ID = #{goodId,jdbcType=INTEGER},
         MEMBER_ID = #{memberId,jdbcType=INTEGER},
-      </if>
-      <if test="goodTransactionDate != null">
         GOOD_TRANSACTION_DATE = #{goodTransactionDate,jdbcType=DATE},
-      </if>
-      <if test="state != null">
-        STATE = #{state,jdbcType=TINYINT},
-      </if>
-    </set>
-    where GOOD_TRANSACTION_ID = #{goodTransactionId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="cn.sunhomo.club.domain.SunGoodTransaction">
-    update SUN_GOOD_TRANSACTION
-    set GOOD_ID = #{goodId,jdbcType=INTEGER},
-      MEMBER_ID = #{memberId,jdbcType=INTEGER},
-      GOOD_TRANSACTION_DATE = #{goodTransactionDate,jdbcType=DATE},
-      STATE = #{state,jdbcType=TINYINT}
-    where GOOD_TRANSACTION_ID = #{goodTransactionId,jdbcType=INTEGER}
-  </update>
+        STATE = #{state,jdbcType=TINYINT}
+        where GOOD_TRANSACTION_ID = #{goodTransactionId,jdbcType=INTEGER}
+    </update>
+    <select id="selectRedeems" resultMap="cn.sunhomo.club.mapper.SunGoodTransactionDao.BaseResultMap">
+        select SGT.*, SM.MEMBER_NAME, SG.GOOD_NAME
+        from SUN_GOOD_TRANSACTION SGT
+        left join SUN_MEMBER SM on SGT.MEMBER_ID = SM.MEMBER_ID
+        left join SUN_GOOD SG on SGT.GOOD_ID = SG.GOOD_ID
+        where SGT.STATE = #{goodTransactionState,jdbcType=INTEGER}
+        order by SGT.GOOD_TRANSACTION_ID desc
+        <if test="limit != null">
+            limit #{limit,jdbcType=INTEGER}
+        </if>
+    </select>
 </mapper>

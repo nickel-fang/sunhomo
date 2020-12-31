@@ -1,6 +1,7 @@
 package cn.sunhomo.club.api;
 
 import cn.sunhomo.club.domain.SunGood;
+import cn.sunhomo.club.domain.SunGoodTransaction;
 import cn.sunhomo.club.domain.SunMember;
 import cn.sunhomo.club.service.ISunGoodService;
 import cn.sunhomo.core.AjaxResult;
@@ -26,6 +27,7 @@ public class GoodAPI {
         return list;
     }
 
+    //兑换商品
     @PostMapping("/redeem/{goodId}")
     @ResponseBody
     public AjaxResult<SunMember> redeem(@PathVariable("goodId") Integer goodId, @RequestBody SunMember member) {
@@ -36,5 +38,25 @@ public class GoodAPI {
         member.setPoint(member.getPoint() - goods.getValue());
         goodService.redeem(goods, member);
         return AjaxResult.success(member);
+    }
+
+    //交付商品
+    @PostMapping("/consign/{goodTransactionId}")
+    @ResponseBody
+    public AjaxResult<List<SunGoodTransaction>> consign(@PathVariable("goodTransactionId") Integer goodTransactionId) {
+        SunGoodTransaction goodTransaction = new SunGoodTransaction();
+        goodTransaction.setGoodTransactionId(goodTransactionId);
+        goodTransaction.setState((byte) 2);
+        int result = goodService.consign(goodTransaction);
+        return result == 1 ? AjaxResult.success() : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR);
+    }
+
+    //获取兑换列表
+    @PostMapping("/getRedeems/{goodTransactionState}")
+    @ResponseBody
+    public List<SunGoodTransaction> getRedeems(@PathVariable("goodTransactionState") Integer goodTransactionState) {
+        Integer limit = null;
+        if (goodTransactionState == 2) limit = 20;
+        return goodService.selectRedeems(goodTransactionState, limit);
     }
 }

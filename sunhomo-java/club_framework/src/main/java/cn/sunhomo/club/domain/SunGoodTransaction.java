@@ -5,6 +5,7 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * SUN_GOOD_TRANSACTION
@@ -13,6 +14,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class SunGoodTransaction extends BaseEntity {
     private Integer goodTransactionId;
 
@@ -25,6 +27,8 @@ public class SunGoodTransaction extends BaseEntity {
      * 商品兑换人， MEMBER.MEMBER_ID
      */
     private Integer memberId;
+
+    private String memberName;
 
     /**
      * 商品兑换日期

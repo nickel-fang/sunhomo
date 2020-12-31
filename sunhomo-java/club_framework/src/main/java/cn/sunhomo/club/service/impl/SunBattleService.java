@@ -45,6 +45,14 @@ public class SunBattleService implements ISunBattleService {
     }
 
     @Override
+    public int setResult(Integer battleId, Byte battleResult) {
+        SunBattle battle = new SunBattle();
+        battle.setBattleId(battleId);
+        battle.setBattleResult(battleResult);
+        return battleDao.updateByPrimaryKeySelective(battle);
+    }
+
+    @Override
     public int updateBattle(SunBattle battle) {
         return battleDao.updateByPrimaryKey(battle);
     }

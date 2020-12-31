@@ -1,6 +1,9 @@
 package cn.sunhomo.club.mapper;
 
 import cn.sunhomo.club.domain.SunGoodTransaction;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface SunGoodTransactionDao {
     int deleteByPrimaryKey(Integer goodTransactionId);
@@ -14,4 +17,6 @@ public interface SunGoodTransactionDao {
     int updateByPrimaryKeySelective(SunGoodTransaction record);
 
     int updateByPrimaryKey(SunGoodTransaction record);
+
+    List<SunGoodTransaction> selectRedeems(@Param("goodTransactionState") Integer goodTransactionState, @Param("limit") Integer limit);
 }

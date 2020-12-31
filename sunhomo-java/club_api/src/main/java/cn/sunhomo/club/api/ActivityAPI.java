@@ -160,7 +160,7 @@ public class ActivityAPI {
         //是否报过名
         boolean isEnrolled = false;
         for (SunMember sunMember : activity.getMembers()) {
-            if (sunMember.getMemberId() == member.getMemberId()) {
+            if (sunMember.getMemberId().intValue() == member.getMemberId().intValue()) {
                 isEnrolled = true;
                 break;
             }
@@ -173,11 +173,11 @@ public class ActivityAPI {
             return AjaxResult.failure(ResultCode.DRAW_DIVISION_IS_NOT_CONFIGURED);
         }
         for (SunDivision division : divisions) {
-            if (division.getLeader() == member.getMemberId()) {
+            if (division.getLeader().intValue() == member.getMemberId().intValue()) {
                 return AjaxResult.failure(ResultCode.DRAW_IS_NOT_NEEDED_FOR_LEADER);
             }
             for (SunMember sunMember : division.getMembers()) {
-                if (sunMember.getMemberId() == member.getMemberId()) {
+                if (sunMember.getMemberId().intValue() == member.getMemberId().intValue()) {
                     return AjaxResult.failure(ResultCode.DRAW_IS_DONE);
                 }
             }

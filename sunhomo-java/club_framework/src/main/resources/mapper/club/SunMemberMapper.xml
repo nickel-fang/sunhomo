@@ -232,7 +232,7 @@
         from SUN_GOOD_TRANSACTION SGT
         left join SUN_GOOD SG on SGT.GOOD_ID = SG.GOOD_ID
         where SGT.MEMBER_ID = #{memberId,jdbcType=INTEGER}
-        order by SGT.GOOD_TRANSACTION_DATE desc
+        order by SGT.GOOD_TRANSACTION_ID desc
         limit 20
     </select>
     <select id="getTop10YearPointByOpenID" resultMap="BaseResultMap">

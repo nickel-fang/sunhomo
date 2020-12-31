@@ -80,9 +80,18 @@ public class SunMember extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
 
-    public void addPoint(int point) {
+    public void addAllPoint(int point) {
         this.totalPoint += point;
         this.yearPoint += point;
+        this.point += point;
+    }
+
+    public void addYearAndRealPoint(int point) {
+        this.yearPoint += point;
+        this.point += point;
+    }
+
+    public void addRealPoint(int point) {
         this.point += point;
     }
 }

@@ -19,4 +19,6 @@ public interface ISunBattleService {
     public List<SunBattle> selectBattlesByMemberId(Integer memberId);
 
     int cancelBattle(SunBattle battle);
+
+    int setResult(Integer battleId, Byte state);
 }

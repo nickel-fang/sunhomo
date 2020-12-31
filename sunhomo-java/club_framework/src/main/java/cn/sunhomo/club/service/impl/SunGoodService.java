@@ -54,11 +54,21 @@ public class SunGoodService implements ISunGoodService {
         newMember.setPoint(member.getPoint());
         memberDao.updateByPrimaryKeySelective(newMember);
 
-        SunGoodTransaction goodTransaction = new SunGoodTransaction(null, goods.getGoodId(), member.getMemberId(), new Date(), (byte) 1, goods.getGoodName());
+        SunGoodTransaction goodTransaction = new SunGoodTransaction(null, goods.getGoodId(), member.getMemberId(), null, new Date(), (byte) 1, goods.getGoodName());
         goodTransactionDao.insert(goodTransaction);
 
         SunPointRecord pointRecord = new SunPointRecord(null, member.getMemberId(), (byte) 4, "兑换商品：" + goods.getGoodName(), -goods.getValue(), new Date());
         pointRecordDao.insert(pointRecord);
+    }
+
+    @Override
+    public int consign(SunGoodTransaction goodTransaction) {
+        return goodTransactionDao.updateByPrimaryKeySelective(goodTransaction);
+    }
+
+    @Override
+    public List<SunGoodTransaction> selectRedeems(Integer goodTransactionState, Integer limit) {
+        return goodTransactionDao.selectRedeems(goodTransactionState, limit);
     }
 
 }

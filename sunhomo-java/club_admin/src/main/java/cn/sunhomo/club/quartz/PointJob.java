@@ -1,9 +1,11 @@
 package cn.sunhomo.club.quartz;
 
 import cn.sunhomo.club.domain.SunActivity;
+import cn.sunhomo.club.domain.SunBattle;
 import cn.sunhomo.club.domain.SunMember;
 import cn.sunhomo.club.domain.SunPointRecord;
 import cn.sunhomo.club.service.ISunActivityService;
+import cn.sunhomo.club.service.ISunBattleService;
 import cn.sunhomo.club.service.ISunPointService;
 import cn.sunhomo.util.DateUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +31,9 @@ public class PointJob extends QuartzJobBean {
 
     @Autowired
     private ISunPointService pointService;
+
+    @Autowired
+    private ISunBattleService battleService;
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
@@ -60,7 +65,7 @@ public class PointJob extends QuartzJobBean {
                     //首次报名，奖励2分
                     if (member.getTotalPoint() == 0) {
                         insertPointRecords.add(new SunPointRecord(null, member.getMemberId(), (byte) 5, "系统奖励：首次报名", 2, now));
-                        member.addPoint(2);
+                        member.addAllPoint(2);
                     }
                     updateMembers.put(member.getMemberId(), member);
                 }
@@ -69,10 +74,10 @@ public class PointJob extends QuartzJobBean {
                     //比赛活动，每个加2分，挂加1分
                     if (member.getIsMaster() == 0) {
                         insertPointRecords.add(new SunPointRecord(null, member.getMemberId(), (byte) 2, "比赛活动：本人报名", 2, now));
-                        updateMembers.get(member.getMemberId()).addPoint(2);
+                        updateMembers.get(member.getMemberId()).addAllPoint(2);
                     } else { //比分支应该不会出现，比赛报名逻辑已控制不能带挂报名参加比赛
                         insertPointRecords.add(new SunPointRecord(null, member.getMemberId(), (byte) 2, "比赛活动：带挂报名", 1, now));
-                        updateMembers.get(member.getMemberId()).addPoint(1);
+                        updateMembers.get(member.getMemberId()).addAllPoint(1);
                     }
 
                 } else if (activity1.getActivityType() == 1) {
@@ -81,20 +86,24 @@ public class PointJob extends QuartzJobBean {
                         LocalDateTime activityStartTime = LocalDateTime.parse(activity1.getActivityDate() + " " + activity1.getStartTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
                         if (DateUtils.asLocalDateTime(member.getEnrollTime()).isBefore(activityStartTime.plusDays(-3))) {
                             insertPointRecords.add(new SunPointRecord(null, member.getMemberId(), (byte) 1, "打球活动：本人早鸟报名", 2, now));
-                            updateMembers.get(member.getMemberId()).addPoint(2);
+                            updateMembers.get(member.getMemberId()).addAllPoint(2);
                         } else {
                             insertPointRecords.add(new SunPointRecord(null, member.getMemberId(), (byte) 1, "打球活动：本人报名", 1, now));
-                            updateMembers.get(member.getMemberId()).addPoint(1);
+                            updateMembers.get(member.getMemberId()).addAllPoint(1);
                         }
                     } else {
                         insertPointRecords.add(new SunPointRecord(null, member.getMemberId(), (byte) 1, "打球活动：带挂报名", 1, now));
-                        updateMembers.get(member.getMemberId()).addPoint(1);
+                        updateMembers.get(member.getMemberId()).addAllPoint(1);
                     }
                 }
             }
 
             pointService.updateMembersPoint(new ArrayList<SunMember>(updateMembers.values()), insertPointRecords);
         }
+
+        //TODO 处理约战积分
+
+
         log.info("-------完成自动化处理积分累积-------");
     }
 }
