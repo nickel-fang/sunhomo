@@ -64,7 +64,7 @@ public class PointJob extends QuartzJobBean {
                 if (updateMembers.get(member.getMemberId()) == null) {
                     //首次报名，奖励2分
                     if (member.getTotalPoint() == 0) {
-                        insertPointRecords.add(new SunPointRecord(null, member.getMemberId(), (byte) 5, "系统奖励：首次报名", 2, now));
+                        insertPointRecords.add(new SunPointRecord(null, member.getMemberId(), (byte) 5, "系统奖励：小程序首次报名", 2, now));
                         member.addAllPoint(2);
                     }
                     updateMembers.put(member.getMemberId(), member);
@@ -97,6 +97,78 @@ public class PointJob extends QuartzJobBean {
                     }
                 }
             }
+
+
+            //处理约战积分
+            List<SunBattle> battles = battleService.selectBattlesByActivityId(activity1.getActivityId());
+            for (SunBattle battle : battles) {
+                SunMember a1 = updateMembers.get(battle.getA1());
+                SunMember a2 = updateMembers.get(battle.getA2());
+                SunMember b1 = updateMembers.get(battle.getB1());
+                SunMember b2 = updateMembers.get(battle.getB2());
+
+                //结束的约战，才调整积分
+                if (battle.getBattleState() == 1) {
+                    //恢复暂扣实时积分
+                    a1.addRealPoint(battle.getBattlePoint());
+                    a2.addRealPoint(battle.getBattlePoint());
+                    b1.addRealPoint(battle.getBattlePoint());
+                    b2.addRealPoint(battle.getBattlePoint());
+
+                    //A胜
+                    if (battle.getBattleResult() == 1) {
+                        a1.addYearAndRealPoint(battle.getBattlePoint());
+                        a2.addYearAndRealPoint(battle.getBattlePoint());
+                        b1.addYearAndRealPoint(-battle.getBattlePoint());
+                        b2.addYearAndRealPoint(-battle.getBattlePoint());
+
+                        //修改战绩
+                        a1.setWinNumber(a1.getWinNumber() + 1);
+                        a1.setRatio((short) (a1.getWinNumber() * 10000 / (a1.getWinNumber() + a1.getLoseNumber())));
+
+                        a2.setWinNumber(a2.getWinNumber() + 1);
+                        a2.setRatio((short) (a2.getWinNumber() * 10000 / (a2.getWinNumber() + a2.getLoseNumber())));
+
+                        b1.setLoseNumber(b1.getLoseNumber() + 1);
+                        b1.setRatio((short) (b1.getWinNumber() * 10000 / (b1.getWinNumber() + b1.getLoseNumber())));
+
+                        b2.setLoseNumber(b2.getLoseNumber() + 1);
+                        b2.setRatio((short) (b2.getWinNumber() * 10000 / (b2.getWinNumber() + b2.getLoseNumber())));
+
+                        //积分记录
+                        insertPointRecords.add(new SunPointRecord(null, a1.getMemberId(), (byte) 3, "约战：胜", battle.getBattlePoint(), now));
+                        insertPointRecords.add(new SunPointRecord(null, a2.getMemberId(), (byte) 3, "约战：胜", battle.getBattlePoint(), now));
+                        insertPointRecords.add(new SunPointRecord(null, b1.getMemberId(), (byte) 3, "约战：负", -battle.getBattlePoint(), now));
+                        insertPointRecords.add(new SunPointRecord(null, b2.getMemberId(), (byte) 3, "约战：负", -battle.getBattlePoint(), now));
+
+                    } else {
+                        a1.addYearAndRealPoint(-battle.getBattlePoint());
+                        a2.addYearAndRealPoint(-battle.getBattlePoint());
+                        b1.addYearAndRealPoint(battle.getBattlePoint());
+                        b2.addYearAndRealPoint(battle.getBattlePoint());
+
+                        //修改战绩
+                        a1.setLoseNumber(a1.getLoseNumber() + 1);
+                        a1.setRatio((short) (a1.getWinNumber() * 10000 / (a1.getWinNumber() + a1.getLoseNumber())));
+
+                        a2.setLoseNumber(a2.getLoseNumber() + 1);
+                        a2.setRatio((short) (a2.getWinNumber() * 10000 / (a2.getWinNumber() + a2.getLoseNumber())));
+
+                        b1.setWinNumber(b1.getWinNumber() + 1);
+                        b1.setRatio((short) (b1.getWinNumber() * 10000 / (b1.getWinNumber() + b1.getLoseNumber())));
+
+                        b2.setWinNumber(b2.getWinNumber() + 1);
+                        b2.setRatio((short) (b2.getWinNumber() * 10000 / (b2.getWinNumber() + b2.getLoseNumber())));
+
+                        //积分记录
+                        insertPointRecords.add(new SunPointRecord(null, a1.getMemberId(), (byte) 3, "约战：负", -battle.getBattlePoint(), now));
+                        insertPointRecords.add(new SunPointRecord(null, a2.getMemberId(), (byte) 3, "约战：负", -battle.getBattlePoint(), now));
+                        insertPointRecords.add(new SunPointRecord(null, b1.getMemberId(), (byte) 3, "约战：胜", battle.getBattlePoint(), now));
+                        insertPointRecords.add(new SunPointRecord(null, b2.getMemberId(), (byte) 3, "约战：胜", battle.getBattlePoint(), now));
+                    }
+                }
+            }
+
 
             pointService.updateMembersPoint(new ArrayList<SunMember>(updateMembers.values()), insertPointRecords);
         }

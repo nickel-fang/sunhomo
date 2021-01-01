@@ -29,18 +29,18 @@ public class SunBattleService implements ISunBattleService {
     @Override
     @Transactional
     public int insertBattle(SunBattle battle) {
-        //暂扣参战人员的个人积分
+        //暂扣参战人员的个人实时积分
         Integer[] battlers = {battle.getA1(), battle.getA2(), battle.getB1(), battle.getB2()};
-        memberDao.addPoint(battlers, -battle.getBattlePoint());
+        memberDao.addRealPoint(battlers, -battle.getBattlePoint());
         return battleDao.insert(battle);
     }
 
     @Override
     @Transactional
     public int cancelBattle(SunBattle battle) {
-        //恢复暂扣的个人积分
+        //恢复暂扣的个人实时积分
         Integer[] battlers = {battle.getA1(), battle.getA2(), battle.getB1(), battle.getB2()};
-        memberDao.addPoint(battlers, battle.getBattlePoint());
+        memberDao.addRealPoint(battlers, battle.getBattlePoint());
         return battleDao.deleteByPrimaryKey(new Integer[]{battle.getBattleId()});
     }
 

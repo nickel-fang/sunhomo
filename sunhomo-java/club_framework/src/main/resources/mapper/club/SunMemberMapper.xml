@@ -208,6 +208,21 @@
                     when MEMBER_ID=#{member.memberId} then #{member.point}
                 </foreach>
             </trim>
+            <trim prefix="WIN_NUMBER=case" suffix="end,">
+                <foreach collection="list" item="member">
+                    when MEMBER_ID=#{member.memberId} then #{member.winNumber}
+                </foreach>
+            </trim>
+            <trim prefix="LOSE_NUMBER=case" suffix="end,">
+                <foreach collection="list" item="member">
+                    when MEMBER_ID=#{member.memberId} then #{member.loseNumber}
+                </foreach>
+            </trim>
+            <trim prefix="RATIO=case" suffix="end,">
+                <foreach collection="list" item="member">
+                    when MEMBER_ID=#{member.memberId} then #{member.ratio}
+                </foreach>
+            </trim>
         </trim>
         <where>
             <foreach collection="list" item="member" separator="or">
@@ -241,7 +256,7 @@
         ORDER BY SM.YEAR_POINT DESC, SM.MEMBER_ID DESC) temp
         WHERE temp.MEMBER_ID &lt;= 10 OR temp.OPENID= #{openId,jdbcType=VARCHAR}
     </select>
-    <update id="addPoint">
+    <update id="addRealPoint">
         UPDATE SUN_MEMBER SET POINT = POINT + #{point,jdbcType=INTEGER}
         WHERE MEMBER_ID IN
         <foreach close=")" collection="battlers" item="battler" open="(" separator=",">
