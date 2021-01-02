@@ -75,15 +75,9 @@
   text-align: right;
 }
 .menu-item .next {
-  width: 30rpx;
-  height: 30rpx;
+  width: 40rpx;
+  height: 40rpx;
 }
 .menu-item button {
   margin: 0;
-}
-
-.member_icon{
-  width: 40rpx;
-  height: 40rpx;
-  border-radius: 32rpx;
 }

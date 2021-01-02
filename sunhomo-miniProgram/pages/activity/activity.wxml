@@ -10,10 +10,10 @@
 				<view wx:else>{{index+1}}</view>
 				.<image class="member_icon" src="{{member.memberPhoto}}"></image>{{member.memberName}}
 				<view wx:if="{{member.isMaster!=0}}">+{{member.isMaster}}</view>
-				<block wx:if="{{member.isMaster==0 && userInfo.isAdmin==1}}">
+				<block wx:if="{{member.isMaster==0}}">
 					<!-- （<view wx:if="{{member.winNumber+member.loseNumber==0}}">无约战记录</view>
 					<view wx:else>胜率:{{member.ratio/100}}%</view>  -->
-					（年度积分:{{member.yearPoint}}）
+					（积分:{{member.yearPoint}}/{{member.point}}）
 				</block>
 				<block wx:if="{{member.memberId==userInfo.memberId || userInfo.isAdmin==1}}"><button class="mini-btn" size="mini" bindtap="quit" data-memberid="{{member.memberId}}" data-master="{{member.isMaster}}">退报</button></block>
 			</view>

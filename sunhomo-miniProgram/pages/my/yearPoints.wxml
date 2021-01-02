@@ -1,0 +1,16 @@
+<view class="header-box">
+	<image class="avatar" src="{{userInfo.memberPhoto}}" mode="aspectFill"></image>
+	<view class="r">
+		<view>最近年度积分记录</view>
+	</view>
+</view>
+<view class="container">
+	<view class="space"></view>
+	<block wx:for="{{yearPointRecords}}" wx:for-item="pointRecord">
+		<view class="menu-item">
+			<view class="l">{{pointRecord.pointRecordDate}} {{pointRecord.pointRecordMemo}}</view>
+			<view class="r">{{pointRecord.pointRecordValue}}</view>
+		</view>
+		<view class="line"></view>
+	</block>
+</view>

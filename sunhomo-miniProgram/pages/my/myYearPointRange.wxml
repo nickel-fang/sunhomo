@@ -16,10 +16,10 @@
 <view class="container">
 	<view class="space"></view>
 	<block wx:for="{{myYearPointRange}}" wx:for-item="range">
-		<view class="menu-item">
+		<view class="menu-item" data-topmember="{{range}}" bindtap="viewYearPoints">
 			<view class="l">{{range.memberId}}、 <image class="member_icon" src="{{range.memberPhoto}}"></image>
 				{{range.memberName}}</view>
-			<view class="r"> {{range.yearPoint}}分 </view>
+			<view class="r">{{range.yearPoint}}分 <image class="next" src="/images/arrowright.png"></image></view>
 		</view>
 		<view class="line"></view>
 	</block>

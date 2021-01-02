@@ -1,6 +1,13 @@
 <view class="container">
-	<view class="header">
-		<view class="title">报名活动</view>
+
+	<view class="banner" wx:if="{{ads.length>0}}">
+		<swiper indicator-dots="{{true}}" autoplay="{{true}}" interval="{{4000}}" duration="{{1000}}">
+			<block wx:for="{{ads}}">
+				<swiper-item>
+					<image src="{{item.adImg}}" class="slide-image" />
+				</swiper-item>
+			</block>
+		</swiper>
 	</view>
 
 	<view class="menu-list">
@@ -11,7 +18,7 @@
 					<br/>活动时间：{{activity.activityDate}} ({{activity.startTime}}-{{activity.endTime}})
 					<br/>活动地点：{{activity.place}} ({{activity.field}})
 					<br/>活动费用：{{activity.fee}}元/人
-					<br/>活动人数：{{activity.numbers}}人<block wx:if="{{activity.activityType==1}}">（替补达4人视情况加场）</block>
+					<br/>活动人数：{{activity.members.length}}/{{activity.numbers}}人<block wx:if="{{activity.activityType==1}}">（替补达4人视情况加场）</block>
 					</text>
 					<image class="menu-item-arrow " src="/images/arrowright.png">
 					</image>

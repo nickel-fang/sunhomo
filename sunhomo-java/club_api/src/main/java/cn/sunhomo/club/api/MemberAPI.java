@@ -72,6 +72,13 @@ public class MemberAPI {
         return pointRecords;
     }
 
+    @PostMapping("/yearPointRecords")
+    @ResponseBody
+    public List<SunPointRecord> yearPointRecords(@RequestBody Integer memberId) {
+        List<SunPointRecord> pointRecords = memberService.getYearPointRecordsByMemberID(memberId);
+        return pointRecords;
+    }
+
     @PostMapping("/myActivities")
     @ResponseBody
     public List<SunActivity> myActivities(@RequestBody Integer memberId) {

@@ -3,11 +3,13 @@
     "pages/activity/activities",
     "pages/activity/activity",
     "pages/activity/divisions",
+    "pages/battle/battles",
     "pages/my/my",
     "pages/my/myPoints",
     "pages/my/myActivities",
     "pages/my/myRedeem",
     "pages/my/myYearPointRange",
+    "pages/my/yearPoints",
     "pages/my/about",
     "pages/my/redeemManagement",
     "pages/mall/mall"
@@ -26,7 +28,11 @@
       "text": "活动",
       "iconPath": "images/010.png",
       "selectedIconPath": "images/010_s.png"
-
+    }, {
+      "pagePath": "pages/battle/battles",
+      "text": "约战",
+      "iconPath": "images/852.png",
+      "selectedIconPath": "images/852_s.png"
     }, {
       "pagePath": "pages/mall/mall",
       "text": "积分商城",

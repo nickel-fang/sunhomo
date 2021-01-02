@@ -55,6 +55,11 @@ public class SunMemberService implements ISunMemberService {
     }
 
     @Override
+    public List<SunPointRecord> getYearPointRecordsByMemberID(Integer memberId) {
+        return memberDao.getYearPointRecordsByMemberID(memberId);
+    }
+
+    @Override
     public List<SunActivity> getActivitiesByMemberID(Integer memberId) {
         return memberDao.getActivitiesByMemberID(memberId);
     }

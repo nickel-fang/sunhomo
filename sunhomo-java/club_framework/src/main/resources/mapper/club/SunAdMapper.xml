@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sunhomo.club.mapper.SunAdDao">
+    <resultMap id="BaseResultMap" type="cn.sunhomo.club.domain.SunAd">
+        <id column="AD_ID" jdbcType="INTEGER" property="adId"/>
+        <result column="AD_NAME" jdbcType="VARCHAR" property="adName"/>
+        <result column="AD_IMG" jdbcType="VARCHAR" property="adImg"/>
+        <result column="AD_URL" jdbcType="VARCHAR" property="adUrl"/>
+        <result column="AD_STATE" jdbcType="TINYINT" property="adState"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    AD_ID, AD_NAME, AD_IMG, AD_URL, AD_STATE
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from SUN_AD
+        where AD_ID = #{adId,jdbcType=INTEGER}
+    </select>
+    <insert id="insert" keyColumn="AD_ID" keyProperty="adId" parameterType="cn.sunhomo.club.domain.SunAd"
+            useGeneratedKeys="true">
+    insert into SUN_AD (AD_NAME, AD_IMG, AD_URL, 
+      AD_STATE)
+    values (#{adName,jdbcType=VARCHAR}, #{adImg,jdbcType=VARCHAR}, #{adUrl,jdbcType=VARCHAR}, 
+      #{adState,jdbcType=TINYINT})
+  </insert>
+    <select id="selectAllOnShow" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from SUN_AD
+        where AD_STATE=1
+    </select>
+</mapper>

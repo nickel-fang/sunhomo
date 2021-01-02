@@ -6,7 +6,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    activities:[]
+    activities: [],
+    ads: []
   },
 
   /**
@@ -16,27 +17,39 @@ Page({
     this.getData();
   },
 
-  getData(){
+  getData() {
     var that = this;
     //初始化this.data.activities
     wx.request({
-      url: app.globalData.APIUrl+'/club/activity/list',
+      url: app.globalData.APIUrl + '/club/activity/list',
       method: 'POST',
       data: {
-        "activityState" : 1
+        "activityState": 1
       },
-      success: function(res){
+      success: function (res) {
         that.setData({
           activities: res.data
         });
-         //隐藏loading 提示框
-         wx.hideLoading();
-         //隐藏导航条加载动画
-         wx.hideNavigationBarLoading();
-         //停止下拉刷新
-         wx.stopPullDownRefresh();
+        //隐藏loading 提示框
+        wx.hideLoading();
+        //隐藏导航条加载动画
+        wx.hideNavigationBarLoading();
+        //停止下拉刷新
+        wx.stopPullDownRefresh();
       }
-    })
+    });
+
+    //获取轮播图
+    wx.request({
+      url: app.globalData.APIUrl + '/club/ad/list',
+      method: 'POST',
+      data: null,
+      success: res => {
+        that.setData({
+          ads: res.data
+        });
+      }
+    });
   },
 
   /**
@@ -93,7 +106,7 @@ Page({
   },
 
   //报名
-  enroll:function(event){
+  enroll: function (event) {
     // console.log(event.currentTarget.dataset.activity.activityId);
     //var activity = event.currentTarget.dataset.activity;
     // if(activity.activityType==2){
@@ -106,7 +119,7 @@ Page({
     //   })
     // }
     wx.navigateTo({
-      url: 'activity?activityId='+event.currentTarget.dataset.activity.activityId
+      url: 'activity?activityId=' + event.currentTarget.dataset.activity.activityId
     })
   }
 })

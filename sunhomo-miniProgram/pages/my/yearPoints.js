@@ -1,4 +1,4 @@
-// pages/my/myPoints.js
+// pages/my/yearPoints.js
 const app = getApp();
 Page({
 
@@ -6,8 +6,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    myYearPointRange: [],
-    userInfo: {}
+    userInfo: null,
+    yearPointRecords: []
   },
 
   /**
@@ -15,27 +15,21 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      userInfo: app.globalData.userInfo
+      userInfo: JSON.parse(options.topMember)
     });
     this.getData();
   },
+
   getData() {
     var that = this;
-    //初始化this.data.activities
     wx.request({
-      url: app.globalData.APIUrl + '/club/member/myYearPointRange',
+      url: app.globalData.APIUrl + '/club/member/yearPointRecords',
       method: 'POST',
-      data: app.globalData.userInfo,
+      data: that.data.userInfo.memberId,
       success: function (res) {
         that.setData({
-          myYearPointRange: res.data
+          yearPointRecords: res.data
         });
-        //隐藏loading 提示框
-        wx.hideLoading();
-        //隐藏导航条加载动画
-        wx.hideNavigationBarLoading();
-        //停止下拉刷新
-        wx.stopPullDownRefresh();
       }
     })
   },
@@ -72,11 +66,7 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    wx.showNavigationBarLoading();
-    wx.showLoading({
-      title: '刷新中...'
-    });
-    this.getData();
+
   },
 
   /**
@@ -91,10 +81,5 @@ Page({
    */
   onShareAppMessage: function () {
 
-  },
-  viewYearPoints: function(event){
-    wx.navigateTo({
-      url: 'yearPoints?topMember=' +  JSON.stringify(event.currentTarget.dataset.topmember)
-    })
   }
 })

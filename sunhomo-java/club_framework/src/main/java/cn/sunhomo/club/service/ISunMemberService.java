@@ -27,4 +27,6 @@ public interface ISunMemberService {
     List<SunGoodTransaction> getGoodTransactionsByMemberID(Integer memberId);
 
     List<SunMember> getTop10YearPointByMember(SunMember member);
+
+    List<SunPointRecord> getYearPointRecordsByMemberID(Integer memberId);
 }

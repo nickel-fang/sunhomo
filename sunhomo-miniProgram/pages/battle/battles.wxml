@@ -1,0 +1,15 @@
+<view class="container">
+  <image class="banner" src="https://img9.doubanio.com/view/photo/l/public/p2629618815.webp"></image>
+  <view class="menu-item">
+    <view class="title">约战功能即将上线！！</view>
+  </view>
+  <view class="menu-item">
+    <view class="l">1、想挑战群内高手吗？</view>
+  </view>
+  <view class="menu-item">
+    <view class="l">2、打球这方面我一直拿捏的sisi的，不服来战，随时约起来。</view>
+  </view>
+  <view class="menu-item">
+    <view class="l">3、让打球充满竞技性，快来赢取别人的积分吧，</view>
+  </view>
+</view>
