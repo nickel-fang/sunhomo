@@ -114,7 +114,7 @@ public class SunActivity extends BaseEntity {
             sb.append(i + 1).append(". ").append(member.getMemberName());
             if (member.getIsMaster() == 0) {
                 //主报人
-                sb.append("（年度积分:").append(member.getYearPoint()).append("）\n");
+                sb.append("（积分:").append(member.getYearPoint()).append("/").append(member.getPoint()).append("）\n");
             } else {
                 sb.append(" +" + member.getIsMaster()).append("\n");
             }
@@ -128,7 +128,7 @@ public class SunActivity extends BaseEntity {
                 sb.append(i - numbers + 1).append(". ").append(member.getMemberName());
                 if (member.getIsMaster() == 0) {
                     //主报人
-                    sb.append("(年度积分:").append(member.getYearPoint()).append(")\n");
+                    sb.append("(积分:").append(member.getYearPoint()).append("/").append(member.getPoint()).append(")\n");
                 } else {
                     sb.append(" +" + member.getIsMaster()).append("\n");
                 }
