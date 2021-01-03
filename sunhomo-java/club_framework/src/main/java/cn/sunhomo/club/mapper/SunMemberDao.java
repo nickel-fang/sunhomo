@@ -41,5 +41,5 @@ public interface SunMemberDao {
 
     void addRealPoint(@Param("battlers") Integer[] battlers, @Param("point") int point);
 
-    List<SunPointRecord> getYearPointRecordsByMemberID(Integer memberId);
+    List<SunPointRecord> getYearPointRecordsByMemberID(String openid);
 }

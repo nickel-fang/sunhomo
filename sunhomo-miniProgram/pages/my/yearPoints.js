@@ -25,7 +25,7 @@ Page({
     wx.request({
       url: app.globalData.APIUrl + '/club/member/yearPointRecords',
       method: 'POST',
-      data: that.data.userInfo.memberId,
+      data: that.data.userInfo.openid,
       success: function (res) {
         that.setData({
           yearPointRecords: res.data

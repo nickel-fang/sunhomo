@@ -236,7 +236,7 @@
     </select>
     
     <select id="getYearPointRecordsByMemberID" resultMap="cn.sunhomo.club.mapper.SunPointRecordDao.BaseResultMap">
-        SELECT * FROM SUN_POINT_RECORD WHERE MEMBER_ID=#{memberId,jdbcType=INTEGER} AND POINT_RECORD_TYPE!=4 ORDER BY POINT_RECORD_ID DESC LIMIT 20
+        SELECT * FROM SUN_POINT_RECORD WHERE OPENID=#{openid,jdbcType=VARCHAR} AND POINT_RECORD_TYPE!=4 ORDER BY POINT_RECORD_ID DESC LIMIT 20
     </select>
 
     <select id="getActivitiesByMemberID" resultMap="cn.sunhomo.club.mapper.SunActivityDao.BaseResultMap">
