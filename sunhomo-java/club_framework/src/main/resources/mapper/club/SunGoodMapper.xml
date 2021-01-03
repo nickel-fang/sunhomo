@@ -23,6 +23,7 @@
     select
     <include refid="Base_Column_List" />
     from SUN_GOOD
+    order by VALUE
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from SUN_GOOD
