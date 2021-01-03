@@ -54,7 +54,16 @@ public class ActivityAPI {
     @PostMapping("/getActivity")
     @ResponseBody
     public SunActivity getActivity(@RequestBody Integer activityId) {
-        return activityService.selectActivity(activityId);
+        SunActivity activity = activityService.selectActivity(activityId);
+
+        //比赛类型的活动，同时抽签时间已到
+        if (activity.getActivityType() == 2) {
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime draw = LocalDateTime.parse(activity.getDrawTime(), dateTimeFormatter);
+            if (LocalDateTime.now().isAfter(draw))
+                activity.setCanDraw(true);
+        }
+        return activity;
     }
 
     /**
