@@ -235,9 +235,9 @@
         SELECT * FROM SUN_POINT_RECORD WHERE MEMBER_ID=#{memberId,jdbcType=INTEGER} ORDER BY POINT_RECORD_ID DESC LIMIT 20
     </select>
 
-    <select id="getYearPointRecordsByMemberID" resultMap="cn.sunhomo.club.mapper.SunPointRecordDao.BaseResultMap">
+    <select id="getYearPointRecordsByOpenID" resultMap="cn.sunhomo.club.mapper.SunPointRecordDao.BaseResultMap">
         SELECT SPR.* FROM SUN_POINT_RECORD SPR,SUN_MEMBER SM WHERE SPR.MEMBER_ID=SM.MEMBER_ID
-        AND SM.OPENID=#{openid,jdbcType=VARCHAR} AND SPR.POINT_RECORD_TYPE!=4
+        AND SM.OPENID=#{openid,jdbcType=VARCHAR} AND SPR.POINT_RECORD_TYPE &lt; 100
         ORDER BY SPR.POINT_RECORD_ID DESC LIMIT 20
     </select>
 

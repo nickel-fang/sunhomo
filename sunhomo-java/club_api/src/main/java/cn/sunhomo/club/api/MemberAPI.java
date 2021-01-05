@@ -75,7 +75,7 @@ public class MemberAPI {
     @PostMapping("/yearPointRecords")
     @ResponseBody
     public List<SunPointRecord> yearPointRecords(@RequestBody String openid) {
-        List<SunPointRecord> pointRecords = memberService.getYearPointRecordsByMemberID(openid);
+        List<SunPointRecord> pointRecords = memberService.getYearPointRecordsByOpenID(openid);
         return pointRecords;
     }
 

@@ -23,7 +23,7 @@ public class SunPointRecord implements Serializable {
     private Integer memberId;
 
     /**
-     * 积分交易类型 1：参加打球活动 2：参加比赛活动 3：约战 4：兑换商品 5:系统奖励积分
+     * 积分交易类型（>100只影响实时积分） 1：参加打球活动 2：参加比赛活动 3：约战  5:系统奖励积分 101：兑换商品 102：系统奖励实时积分 103：约战押注
      */
     private Byte pointRecordType;
 

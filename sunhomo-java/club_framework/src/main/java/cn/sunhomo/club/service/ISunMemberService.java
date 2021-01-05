@@ -28,5 +28,5 @@ public interface ISunMemberService {
 
     List<SunMember> getTop10YearPointByMember(SunMember member);
 
-    List<SunPointRecord> getYearPointRecordsByMemberID(String openid);
+    List<SunPointRecord> getYearPointRecordsByOpenID(String openid);
 }

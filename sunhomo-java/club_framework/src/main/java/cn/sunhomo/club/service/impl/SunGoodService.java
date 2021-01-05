@@ -57,7 +57,7 @@ public class SunGoodService implements ISunGoodService {
         SunGoodTransaction goodTransaction = new SunGoodTransaction(null, goods.getGoodId(), member.getMemberId(), null, new Date(), (byte) 1, goods.getGoodName());
         goodTransactionDao.insert(goodTransaction);
 
-        SunPointRecord pointRecord = new SunPointRecord(null, member.getMemberId(), (byte) 4, "兑换商品：" + goods.getGoodName(), -goods.getValue(), new Date());
+        SunPointRecord pointRecord = new SunPointRecord(null, member.getMemberId(), (byte) 101, "兑换商品：" + goods.getGoodName(), -goods.getValue(), new Date());
         pointRecordDao.insert(pointRecord);
     }
 
