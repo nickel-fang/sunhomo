@@ -100,7 +100,46 @@ public class SunActivity extends BaseEntity {
      */
     private String content;
 
-    public String getContent() {
+    public void setContent() {
+        if (members == null) return;
+        StringBuilder sb = new StringBuilder();
+        sb.append("@所有人：请使用本群微信小程序进行活动报名\n")
+                .append(activityName).append("\n")
+                .append("1.活动时间：").append(activityDate).append("（").append(startTime).append(" - ").append(endTime).append("）").append("\n")
+                .append("2.活动地点：").append(place).append("（").append(field).append("）\n")
+                .append("3.活动费用：").append(fee).append("元/人").append("\n\n");
+        SunMember member;
+        for (int i = 0; i < members.size() && i < numbers; i++) {
+            member = members.get(i);
+            sb.append(i + 1).append(". ").append(member.getMemberName());
+            if (member.getIsMaster() == 0) {
+                //主报人
+                sb.append("（积分:").append(member.getYearPoint()).append("/").append(member.getPoint()).append("）\n");
+            } else {
+                sb.append(" +" + member.getIsMaster()).append("\n");
+            }
+
+        }
+        //有替补
+        if (members.size() > numbers) {
+            sb.append("替补：\n");
+            for (int i = numbers; i < members.size(); i++) {
+                member = members.get(i);
+                sb.append(i - numbers + 1).append(". ").append(member.getMemberName());
+                if (member.getIsMaster() == 0) {
+                    //主报人
+                    sb.append("(积分:").append(member.getYearPoint()).append("/").append(member.getPoint()).append(")\n");
+                } else {
+                    sb.append(" +" + member.getIsMaster()).append("\n");
+                }
+            }
+        }
+
+        if (StringUtils.isNotEmpty(memo)) sb.append("\n").append(memo);
+        this.content = sb.toString();
+    }
+
+    /*public String getContent() {
         if (members == null) return null;
         StringBuilder sb = new StringBuilder();
         sb.append("@所有人：请使用本群微信小程序进行活动报名\n")
@@ -137,7 +176,7 @@ public class SunActivity extends BaseEntity {
 
         if (StringUtils.isNotEmpty(memo)) sb.append("\n").append(memo);
         return sb.toString();
-    }
+    }*/
 
     private boolean canDraw;
 

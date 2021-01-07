@@ -17,27 +17,6 @@
         <result column="FEE" jdbcType="INTEGER" property="fee"/>
         <result column="MEMO" jdbcType="VARCHAR" property="memo"/>
         <result column="ACTIVITY_STATE" jdbcType="TINYINT" property="activityState"/>
-       <!-- <collection property="divisions" ofType="cn.sunhomo.club.domain.SunDivision" column="ACTIVITY_ID"
-                    select="cn.sunhomo.club.mapper.SunDivisionDao.selectByActivityId"></collection>-->
-        <collection property="members" ofType="cn.sunhomo.club.domain.SunMember" column="ACTIVITY_ID"
-                    select="cn.sunhomo.club.mapper.SunMemberDao.selectMembersByActivityId"></collection>
-    </resultMap>
-    <resultMap id="ListResultMap" type="cn.sunhomo.club.domain.SunActivity">
-        <id column="ACTIVITY_ID" jdbcType="INTEGER" property="activityId"/>
-        <result column="ACTIVITY_NAME" jdbcType="VARCHAR" property="activityName"/>
-        <result column="ACTIVITY_TYPE" jdbcType="TINYINT" property="activityType"/>
-        <result column="ACTIVITY_DATE" jdbcType="DATE" property="activityDate"/>
-        <result column="START_TIME" jdbcType="VARCHAR" property="startTime"/>
-        <result column="END_TIME" jdbcType="VARCHAR" property="endTime"/>
-        <result column="DEADLINE" jdbcType="VARCHAR" property="deadline"/>
-        <result column="DRAW_TIME" jdbcType="VARCHAR" property="drawTime"/>
-        <result column="PLACE" jdbcType="VARCHAR" property="place"/>
-        <result column="FIELD" jdbcType="VARCHAR" property="field"/>
-        <result column="NUMBERS" jdbcType="INTEGER" property="numbers"/>
-        <result column="DIVISIONS" jdbcType="INTEGER" property="divisions"/>
-        <result column="FEE" jdbcType="INTEGER" property="fee"/>
-        <result column="MEMO" jdbcType="VARCHAR" property="memo"/>
-        <result column="ACTIVITY_STATE" jdbcType="TINYINT" property="activityState"/>
         <collection property="members" ofType="cn.sunhomo.club.domain.SunMember" column="ACTIVITY_ID"
                     select="cn.sunhomo.club.mapper.SunMemberDao.selectMembersByActivityId"></collection>
     </resultMap>
@@ -51,7 +30,7 @@
         from SUN_ACTIVITY
         where ACTIVITY_ID = #{activityId,jdbcType=INTEGER}
     </select>
-    <select id="selectActivities" parameterType="cn.sunhomo.club.domain.SunActivity" resultMap="ListResultMap">
+    <select id="selectActivities" parameterType="cn.sunhomo.club.domain.SunActivity" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from SUN_ACTIVITY
@@ -72,6 +51,13 @@
             AND ACTIVITY_DATE &lt;= #{params.endTime}
         </if>
         order by ACTIVITY_DATE asc
+    </select>
+    <select id="getActivitiesForBattle" resultMap="BaseResultMap">
+        select
+        SA.ACTIVITY_ID, SA.ACTIVITY_NAME, SA.ACTIVITY_TYPE, SA.ACTIVITY_DATE, SA.START_TIME, SA.END_TIME, SA.NUMBERS, SA.ACTIVITY_STATE
+        from SUN_ACTIVITY SA
+        inner join SUN_MEMBER_TO_ACTIVITY SMTA on SA.ACTIVITY_ID=SMTA.ACTIVITY_ID
+        where SMTA.MEMBER_ID =#{memberId} and SA.ACTIVITY_TYPE=1 and SA.ACTIVITY_STATE=1 and SMTA.IS_MASTER=0
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete from SUN_ACTIVITY

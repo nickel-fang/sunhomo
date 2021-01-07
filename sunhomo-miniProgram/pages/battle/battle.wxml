@@ -1,0 +1,48 @@
+<form bindsubmit="bindSubmit">
+  <block wx:if="{{activities.length==1}}">
+    <view>当前活动：{{activityName}}</view>
+  </block>
+  <block wx:else>
+    <picker mode="selector" bindchange="bindActivityChange" range="{{activities}}" range-key="activityName"
+      value="{{activityIndex}}">
+      <view class="picker">
+        当前活动：<block wx:if="{{activityName}}">{{activityName}}</block>
+        <block wx:else>请选择活动</block>
+      </view>
+    </picker>
+  </block>
+
+  <block wx:if="{{a1}}">
+    <view>A1:{{a1Name}}</view>
+  </block>
+  <block wx:else>
+    <picker mode="selector" bindchange="bindA1Change" range="{{members}}" range-key="memberName" value="{{a1Index}}">
+      <view class="picker">
+        A1：<block wx:if="{{a1}}">{{a1Name}}</block>
+        <block wx:else>请选择A1</block>
+      </view>
+    </picker>
+  </block>
+
+  <picker mode="selector" bindchange="bindA2Change" range="{{members}}" range-key="memberName" value="{{a2Index}}">
+    <view class="picker">
+      A2：<block wx:if="{{a2}}">{{a2Name}}</block>
+      <block wx:else>请选择A2</block>
+    </view>
+  </picker>
+  <picker mode="selector" bindchange="bindB1Change" range="{{members}}" range-key="memberName" value="{{b1Index}}">
+    <view class="picker">
+      B1：<block wx:if="{{b1}}">{{b1Name}}</block>
+      <block wx:else>请选择B1</block>
+    </view>
+  </picker>
+  <picker mode="selector" bindchange="bindB2Change" range="{{members}}" range-key="memberName" value="{{b2Index}}">
+    <view class="picker">
+      B2：<block wx:if="{{b2}}">{{b2Name}}</block>
+      <block wx:else>请选择B2</block>
+    </view>
+  </picker>
+  <view style="text-align:center;margin-top:10rpx;">
+    <button type="primary" size="mini" formType="submit">确定</button>
+  </view>
+</form>

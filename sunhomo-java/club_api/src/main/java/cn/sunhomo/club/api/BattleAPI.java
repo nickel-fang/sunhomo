@@ -9,6 +9,8 @@ import cn.sunhomo.core.ResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author: Nickel Fang
  * @date: 2020/12/30 14:55
@@ -22,6 +24,19 @@ public class BattleAPI {
     @Autowired
     private ISunActivityService activityService;
 
+
+    /**
+     * 获取约战列表 [今天, )
+     *
+     * @return
+     */
+    @PostMapping("/list")
+    @ResponseBody
+    public List<SunBattle> list() {
+        List<SunBattle> list = battleService.selectBattlesFromNow();
+        return list;
+    }
+
     //发起挑战
     @PostMapping("/battle")
     @ResponseBody
@@ -30,20 +45,16 @@ public class BattleAPI {
         return result == 1 ? AjaxResult.success(battle) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, battle);
     }
 
-    //取消挑战
-    @PostMapping("/cancel/{battleId}")
+    /**
+     * 更新
+     * @param battle
+     * @return
+     */
+    @PostMapping("/confirmAndCancelAndWin")
     @ResponseBody
-    public AjaxResult<SunActivity> cancel(@PathVariable("battleId") Integer battleId) {
-        SunBattle battle = battleService.selectByPrimaryKey(battleId);
-        int result = battleService.cancelBattle(battle);
-        return result == 1 ? AjaxResult.success(activityService.selectActivity(battle.getActivityId())) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, activityService.selectActivity(battle.getActivityId()));
+    public AjaxResult<List<SunBattle>> confirmAndCancelAndWin(@RequestBody SunBattle battle) {
+        int result = battleService.confirmAndCancelAndWin(battle);
+        return result == 1 ? AjaxResult.success(battleService.selectBattlesFromNow()) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, battleService.selectBattlesFromNow());
     }
 
-    //挑战战绩， state为1 A方胜， -1 A方输
-    @PostMapping("/setResult/{battleId}/{battleResult}")
-    @ResponseBody
-    public AjaxResult<SunBattle> setResult(@PathVariable("battleId") Integer battleId, @PathVariable("battleResult") Byte battleResult) {
-        int result = battleService.setResult(battleId, battleResult);
-        return result == 1 ? AjaxResult.success(battleService.selectByPrimaryKey(battleId)) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, battleService.selectByPrimaryKey(battleId));
-    }
 }

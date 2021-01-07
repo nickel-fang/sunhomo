@@ -20,4 +20,6 @@ public interface SunBattleDao {
     List<SunBattle> selectBattlesByActivityId(Integer activityId);
 
     List<SunBattle> selectBattlesByMemberId(Integer memberId);
+
+    List<SunBattle> selectBattlesFromNow(String now);
 }

@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.DateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,19 +40,21 @@ public class SunBattleService implements ISunBattleService {
 
     @Override
     @Transactional
-    public int cancelBattle(SunBattle battle) {
-        //恢复暂扣的个人实时积分
-        Integer[] battlers = {battle.getA1(), battle.getA2(), battle.getB1(), battle.getB2()};
-        memberDao.addRealPoint(battlers, battle.getBattlePoint());
-        return battleDao.deleteByPrimaryKey(new Integer[]{battle.getBattleId()});
+    public int confirmAndCancelAndWin(SunBattle battle) {
+        //取消要退回个人实时积分
+        if (battle.getBattleState() != null && battle.getBattleState() == -1) {
+            SunBattle oldBattle = battleDao.selectByPrimaryKey(battle.getBattleId());
+            Integer[] battlers = {oldBattle.getA1(), oldBattle.getA2(), oldBattle.getB1(), oldBattle.getB2()};
+            memberDao.addRealPoint(battlers, oldBattle.getBattlePoint());
+        }
+        return battleDao.updateByPrimaryKeySelective(battle);
     }
 
     @Override
-    public int setResult(Integer battleId, Byte battleResult) {
-        SunBattle battle = new SunBattle();
-        battle.setBattleId(battleId);
-        battle.setBattleResult(battleResult);
-        return battleDao.updateByPrimaryKeySelective(battle);
+    public List<SunBattle> selectBattlesFromNow() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String now = LocalDate.now().format(formatter);
+        return battleDao.selectBattlesFromNow(now);
     }
 
     @Override

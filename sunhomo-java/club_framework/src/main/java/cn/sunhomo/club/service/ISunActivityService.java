@@ -22,4 +22,6 @@ public interface ISunActivityService {
 
     //某个活动，同一人（包括挂）所有的报名
     List<Byte> selectCount(Integer activityId, Integer memberId);
+
+    List<SunActivity> getActivitiesForBattle(Integer memberId);
 }

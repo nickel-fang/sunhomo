@@ -46,6 +46,19 @@ public class ActivityAPI {
     }
 
     /**
+     * 获取用户当前主报名的普能打球活动, 所有状态为1的
+     *
+     * @param memberId
+     * @return
+     */
+    @PostMapping("/getActivitiesForBattle")
+    @ResponseBody
+    public List<SunActivity> getActivitiesForBattle(@RequestBody Integer memberId) {
+        List<SunActivity> list = activityService.getActivitiesForBattle(memberId);
+        return list;
+    }
+
+    /**
      * 获取单个活动详情
      *
      * @param activityId
@@ -55,6 +68,7 @@ public class ActivityAPI {
     @ResponseBody
     public SunActivity getActivity(@RequestBody Integer activityId) {
         SunActivity activity = activityService.selectActivity(activityId);
+        activity.setContent();
 
         //比赛类型的活动，同时抽签时间已到
         if (activity.getActivityType() == 2) {

@@ -7,9 +7,11 @@ import cn.sunhomo.club.service.ISunActivityService;
 import cn.sunhomo.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.security.provider.Sun;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SunActivityService implements ISunActivityService {
@@ -70,5 +72,15 @@ public class SunActivityService implements ISunActivityService {
     @Override
     public List<Byte> selectCount(Integer activityId, Integer memberId) {
         return activityDao.selectCount(activityId, memberId);
+    }
+
+    @Override
+    public List<SunActivity> getActivitiesForBattle(Integer memberId) {
+        //需要过滤掉挂和替补，同时有超过3积分的
+        List<SunActivity> activitiesForBattle = activityDao.getActivitiesForBattle(memberId);
+        for (SunActivity activity : activitiesForBattle) {
+            activity.setMembers(activity.getMembers().stream().limit(activity.getNumbers()).filter(m -> m.getIsMaster() == 0).filter(m -> m.getPoint() >= 3).collect(Collectors.toList()));
+        }
+        return activitiesForBattle;
     }
 }

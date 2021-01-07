@@ -19,11 +19,12 @@
         <result column="BATTLE_POINT" jdbcType="INTEGER" property="battlePoint"/>
         <result column="BATTLE_STATE" jdbcType="INTEGER" property="battleState"/>
         <result column="BATTLE_RESULT" jdbcType="TINYINT" property="battleResult"/>
+        <result column="IS_PEAK" jdbcType="TINYINT" property="isPeak"/>
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
         BATTLE_ID, ACTIVITY_ID, BATTLE_TYPE, A1, A2, B1, B2, A1_NAME, A2_NAME, B1_NAME, B2_NAME,
-        BATTLE_DATE, BATTLE_POINT, BATTLE_STATE, BATTLE_RESULT
+        BATTLE_DATE, BATTLE_POINT, BATTLE_STATE, BATTLE_RESULT, IS_PEAK
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         <!--@mbg.generated-->
@@ -39,12 +40,12 @@
         A2, B1, B2, A1_NAME,
         A2_NAME, B1_NAME, B2_NAME,
         BATTLE_DATE, BATTLE_POINT, BATTLE_STATE,
-        BATTLE_RESULT)
+        BATTLE_RESULT, IS_PEAK)
         values (#{activityId,jdbcType=INTEGER}, #{battleType,jdbcType=TINYINT}, #{a1,jdbcType=INTEGER},
         #{a2,jdbcType=INTEGER}, #{b1,jdbcType=INTEGER}, #{b2,jdbcType=INTEGER}, #{a1Name,jdbcType=VARCHAR},
         #{a2Name,jdbcType=VARCHAR}, #{b1Name,jdbcType=VARCHAR}, #{b2Name,jdbcType=VARCHAR},
         #{battleDate,jdbcType=VARCHAR}, #{battlePoint,jdbcType=INTEGER}, #{battleState,jdbcType=INTEGER},
-        #{battleResult,jdbcType=TINYINT})
+        #{battleResult,jdbcType=TINYINT}, #{isPeak,jdbcType=TINYINT})
     </insert>
     <insert id="insertSelective" keyColumn="BATTLE_ID" keyProperty="battleId"
             parameterType="cn.sunhomo.club.domain.SunBattle" useGeneratedKeys="true">
@@ -93,6 +94,9 @@
             <if test="battleResult != null">
                 BATTLE_RESULT,
             </if>
+            <if test="isPeak != null">
+                IS_PEAK,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="activityId != null">
@@ -136,6 +140,9 @@
             </if>
             <if test="battleResult != null">
                 #{battleResult,jdbcType=TINYINT},
+            </if>
+            <if test="isPeak != null">
+                #{isPeak,jdbcType=TINYINT},
             </if>
         </trim>
     </insert>
@@ -185,6 +192,9 @@
             <if test="battleResult != null">
                 BATTLE_RESULT = #{battleResult,jdbcType=TINYINT},
             </if>
+            <if test="isPeak != null">
+                IS_PEAK = #{isPeak,jdbcType=TINYINT},
+            </if>
         </set>
         where BATTLE_ID = #{battleId,jdbcType=INTEGER}
     </update>
@@ -204,14 +214,22 @@
         BATTLE_DATE = #{battleDate,jdbcType=VARCHAR},
         BATTLE_POINT = #{battlePoint,jdbcType=INTEGER},
         BATTLE_STATE = #{battleState,jdbcType=INTEGER},
-        BATTLE_RESULT = #{battleResult,jdbcType=TINYINT}
+        BATTLE_RESULT = #{battleResult,jdbcType=TINYINT},
+        IS_PEAK = #{isPeak,jdbcType=TINYINT}
         where BATTLE_ID = #{battleId,jdbcType=INTEGER}
     </update>
     <select id="selectBattlesByActivityId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from SUN_BATTLE
-        where ACTIVITY_ID = #{activityId,jdbcType=INTEGER}
+        where ACTIVITY_ID = #{activityId,jdbcType=INTEGER} and BATTLE_STATE!=-1
+    </select>
+    <select id="selectBattlesFromNow" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from SUN_BATTLE
+        where BATTLE_DATE >=#{now,jdbcType=VARCHAR} and BATTLE_STATE!=-1
+        order by IS_PEAK desc, BATTLE_ID asc
     </select>
     <select id="selectBattlesByMemberId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select

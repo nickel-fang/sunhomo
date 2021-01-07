@@ -1,15 +1,48 @@
 <view class="container">
-  <image class="banner" src="https://img9.doubanio.com/view/photo/l/public/p2629618815.webp"></image>
-  <view class="menu-item">
-    <view class="title">约战功能即将上线！！</view>
-  </view>
-  <view class="menu-item">
-    <view class="l">1、想挑战群内高手吗？</view>
-  </view>
-  <view class="menu-item">
-    <view class="l">2、打球这方面我一直拿捏的sisi的，不服来战，随时约起来。</view>
-  </view>
-  <view class="menu-item">
-    <view class="l">3、让打球充满竞技性，快来赢取别人的积分吧，</view>
+  <block wx:for="{{battles}}" wx:for-item="battle">
+    <view class="title">约战日期：{{battle.battleDate}}
+      <block wx:if="{{battle.battleState==1}}">（待确认）</block>
+      <block wx:elif="{{battle.battleState==-1}}">(已取消)</block>
+      <block wx:elif="{{battle.battleState==2}}">
+        <block wx:if="{{battle.battleResult==1}}">(A队获胜)</block>
+        <block wx:elif="{{battle.battleResult==-1}}">(B队获胜)</block>
+      </block>
+    </view>
+    <view class="asset">
+      <view class="item">
+        <view>{{battle.a1Name}}</view>
+        <view>{{battle.a2Name}}</view>
+      </view>
+      <view class="item right">
+        <view>{{battle.b1Name}}</view>
+        <view>{{battle.b2Name}}</view>
+      </view>
+    </view>
+    <!-- 以下<block>只有管理员才能看到 -->
+    <block wx:if="{{userInfo.isAdmin==1}}">
+      <view style="text-align:center;margin-top:5rpx;">
+        <block wx:if="{{battle.battleState==2 && !battle.battleResult}}">
+          <button type="primary" size="mini" data-battleid="{{battle.battleId}}" data-action="2"
+            bindtap="confirmAndCancelAndWin" style="margin-left:10rpx;">A队获胜</button>
+        </block>
+        <block wx:if="{{battle.battleState==1}}">
+          <button type="primary" size="mini" data-battleid="{{battle.battleId}}" data-action="1"
+            bindtap="confirmAndCancelAndWin" style="margin-left:10rpx;">确认</button>
+        </block>
+        <block wx:if="{{battle.battleState!=-1}}">
+          <button type="primary" size="mini" data-battleid="{{battle.battleId}}" data-action="-1"
+            bindtap="confirmAndCancelAndWin" style="margin-left:10rpx;">取消</button>
+        </block>
+        <block wx:if="{{battle.battleState==2 && !battle.battleResult}}">
+          <button type="primary" size="mini" data-battleid="{{battle.battleId}}" data-action="3"
+            bindtap="confirmAndCancelAndWin" style="margin-left:10rpx;">B队获胜</button>
+        </block>
+      </view>
+    </block>
+
+    <view class="space"></view>
+  </block>
+  <view style="text-align:center;margin-top:10rpx;">
+    <button type="primary" size="mini" bindtap="battle">发起约战</button>
   </view>
 </view>

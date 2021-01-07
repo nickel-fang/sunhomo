@@ -107,13 +107,14 @@ public class PointJob extends QuartzJobBean {
                 SunMember b1 = updateMembers.get(battle.getB1());
                 SunMember b2 = updateMembers.get(battle.getB2());
 
+                //恢复暂扣实时积分
+                a1.addRealPoint(battle.getBattlePoint());
+                a2.addRealPoint(battle.getBattlePoint());
+                b1.addRealPoint(battle.getBattlePoint());
+                b2.addRealPoint(battle.getBattlePoint());
+
                 //结束的约战，才调整积分
                 if (battle.getBattleState() == 1) {
-                    //恢复暂扣实时积分
-                    a1.addRealPoint(battle.getBattlePoint());
-                    a2.addRealPoint(battle.getBattlePoint());
-                    b1.addRealPoint(battle.getBattlePoint());
-                    b2.addRealPoint(battle.getBattlePoint());
 
                     //A胜
                     if (battle.getBattleResult() == 1) {

@@ -26,4 +26,6 @@ public interface SunActivityDao {
     int insertMemberToActivity(@Param("memberId") Integer memberId, @Param("activityId") Integer activityId, @Param("enrollTime") Date enrollTime, @Param("isMaster") Byte isMaster);
 
     int deleteMemberToActivity(@Param("activityId") Integer activityId, @Param("memberId") Integer memberId, @Param("isMaster") Byte isMaster);
+
+    List<SunActivity> getActivitiesForBattle(Integer memberId);
 }

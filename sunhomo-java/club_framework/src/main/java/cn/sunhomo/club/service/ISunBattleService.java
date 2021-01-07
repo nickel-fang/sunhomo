@@ -18,7 +18,7 @@ public interface ISunBattleService {
     //查询某会员参加过的约战活动
     public List<SunBattle> selectBattlesByMemberId(Integer memberId);
 
-    int cancelBattle(SunBattle battle);
+    List<SunBattle> selectBattlesFromNow();
 
-    int setResult(Integer battleId, Byte state);
+    int confirmAndCancelAndWin(SunBattle battle);
 }

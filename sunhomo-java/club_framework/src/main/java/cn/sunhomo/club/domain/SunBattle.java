@@ -64,7 +64,7 @@ public class SunBattle extends BaseEntity {
     private Integer battlePoint;
 
     /**
-     * 约战的状态， -1 取消；1 已结束； 1111分别表示4位选手的应战确认，A1肯定为1，因为A1为发起者
+     * 约战的状态， -1 取消；1 待确认 2 约战成功
      */
     private Integer battleState;
 
@@ -72,4 +72,9 @@ public class SunBattle extends BaseEntity {
      * 约战结束，1为A胜，-1为A负
      */
     private Byte battleResult;
+
+    /**
+     * 是否为巅峰对决 1：是， -1 否
+     */
+    private Byte isPeak;
 }
