@@ -27,4 +27,9 @@ public class SunPointService implements ISunPointService {
 //            pointRecordDao.insert(pointRecord);
 //        }
     }
+
+    @Override
+    public void insertPointRecords(List<SunPointRecord> insertPointRecords) {
+        pointRecordDao.batchInsert(insertPointRecords);
+    }
 }

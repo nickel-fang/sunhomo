@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * @author: Nickel Fang
  * @date: 2020/12/30 13:31
@@ -77,4 +79,10 @@ public class SunBattle extends BaseEntity {
      * 是否为巅峰对决 1：是， -1 否
      */
     private Byte isPeak;
+
+    private List<SunBattleVote> votes;
+
+    //以下字段通过计算得出
+    private int voteA; //A的支持数
+    private int voteB; //B的支持数
 }

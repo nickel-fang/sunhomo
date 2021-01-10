@@ -148,7 +148,7 @@ Page({
       "activityId": this.data.activityId,
       "battleType": 2,
       "battlePoint": 3,
-      "battleState": this.data.userInfo.isAdmin == 1 ? 1111 : 1000,
+      "battleState": this.data.userInfo.isAdmin == 1 ? 2 : 1,
       "a1": this.data.a1,
       "a1Name": this.data.a1Name,
       "b1": this.data.b1,
@@ -160,9 +160,9 @@ Page({
       "battleDate": this.data.battleDate
     };
     //有效性校验
-    if (battle.a1 == battle.a2 || battle.a1 == battle.b1 || battle.a1 == battle.b2 || battle.a2 == battle.b1 || battle.a2 == battle.b2 || battle.b1 == battle.b2) {
+    if (battle.a1 == battle.b1 || battle.a1 == battle.b2 || battle.a2 == battle.b1 || battle.a2 == battle.b2) {
       wx.showToast({
-        title: '人员选择重复',
+        title: '人员选择有误',
         icon: 'error'
       });
     } else {

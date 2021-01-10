@@ -8,4 +8,6 @@ import java.util.List;
 public interface ISunPointService {
     public void updateMembersPoint(List<SunMember> updateMembers, List<SunPointRecord> insertPointRecords);
 
+    public void insertPointRecords(List<SunPointRecord> insertPointRecords);
+
 }

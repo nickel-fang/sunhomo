@@ -1,6 +1,7 @@
 package cn.sunhomo.club.service;
 
 import cn.sunhomo.club.domain.SunBattle;
+import cn.sunhomo.club.domain.SunBattleVote;
 
 import java.util.List;
 
@@ -21,4 +22,8 @@ public interface ISunBattleService {
     List<SunBattle> selectBattlesFromNow();
 
     int confirmAndCancelAndWin(SunBattle battle);
+
+    int doCall(SunBattleVote vote);
+
+    int getBattleState(Integer battleId);
 }

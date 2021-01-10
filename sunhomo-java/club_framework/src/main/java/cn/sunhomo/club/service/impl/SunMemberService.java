@@ -60,6 +60,11 @@ public class SunMemberService implements ISunMemberService {
     }
 
     @Override
+    public void addRealPoint(int[] memberIds, int point) {
+        memberDao.addRealPoint(memberIds, point);
+    }
+
+    @Override
     public List<SunActivity> getActivitiesByMemberID(Integer memberId) {
         return memberDao.getActivitiesByMemberID(memberId);
     }

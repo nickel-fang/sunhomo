@@ -209,7 +209,7 @@
                 </foreach>
             </trim>
             <trim prefix="WIN_NUMBER=case" suffix="end,">
-                <foreach collection="list" item="member">
+                <foreach collection="members" item="member">
                     when MEMBER_ID=#{member.memberId} then #{member.winNumber}
                 </foreach>
             </trim>
@@ -229,7 +229,6 @@
                 MEMBER_ID=#{member.memberId}
             </foreach>
         </where>
-
     </update>
     <select id="getPointRecordsByMemberID" resultMap="cn.sunhomo.club.mapper.SunPointRecordDao.BaseResultMap">
         SELECT * FROM SUN_POINT_RECORD WHERE MEMBER_ID=#{memberId,jdbcType=INTEGER} ORDER BY POINT_RECORD_ID DESC LIMIT 20
@@ -263,10 +262,8 @@
         WHERE temp.MEMBER_ID &lt;= 10 OR temp.OPENID= #{openId,jdbcType=VARCHAR}
     </select>
     <update id="addRealPoint">
-        UPDATE SUN_MEMBER SET POINT = POINT + #{point,jdbcType=INTEGER}
-        WHERE MEMBER_ID IN
-        <foreach close=")" collection="battlers" item="battler" open="(" separator=",">
-            #{battler}
+        <foreach close="" collection="memberIds" item="memberId" open="" separator="">
+            UPDATE SUN_MEMBER SET POINT = POINT + (#{point,jdbcType=INTEGER}) WHERE MEMBER_ID=#{memberId};
         </foreach>
     </update>
 </mapper>

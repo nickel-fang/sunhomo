@@ -1,7 +1,9 @@
 package cn.sunhomo.club.service.impl;
 
 import cn.sunhomo.club.domain.SunBattle;
+import cn.sunhomo.club.domain.SunBattleVote;
 import cn.sunhomo.club.mapper.SunBattleDao;
+import cn.sunhomo.club.mapper.SunBattleVoteDao;
 import cn.sunhomo.club.mapper.SunMemberDao;
 import cn.sunhomo.club.service.ISunBattleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +31,14 @@ public class SunBattleService implements ISunBattleService {
     @Autowired
     private SunMemberDao memberDao;
 
+    @Autowired
+    private SunBattleVoteDao voteDao;
+
     @Override
     @Transactional
     public int insertBattle(SunBattle battle) {
         //暂扣参战人员的个人实时积分
-        Integer[] battlers = {battle.getA1(), battle.getA2(), battle.getB1(), battle.getB2()};
+        int[] battlers = {battle.getA1(), battle.getA2(), battle.getB1(), battle.getB2()};
         memberDao.addRealPoint(battlers, -battle.getBattlePoint());
         return battleDao.insert(battle);
     }
@@ -41,20 +46,46 @@ public class SunBattleService implements ISunBattleService {
     @Override
     @Transactional
     public int confirmAndCancelAndWin(SunBattle battle) {
-        //取消要退回个人实时积分
+        //取消要退回个人实时积分，退回押注者的实时积分
         if (battle.getBattleState() != null && battle.getBattleState() == -1) {
             SunBattle oldBattle = battleDao.selectByPrimaryKey(battle.getBattleId());
-            Integer[] battlers = {oldBattle.getA1(), oldBattle.getA2(), oldBattle.getB1(), oldBattle.getB2()};
+            int[] battlers = {oldBattle.getA1(), oldBattle.getA2(), oldBattle.getB1(), oldBattle.getB2()};
             memberDao.addRealPoint(battlers, oldBattle.getBattlePoint());
+
+            int[] voters = oldBattle.getVotes().stream().mapToInt(v -> v.getMemberId()).toArray();
+            memberDao.addRealPoint(voters, 1);
+            //取消时，直接删除
+            battleDao.deleteByPrimaryKey(new Integer[]{battle.getBattleId()});
         }
         return battleDao.updateByPrimaryKeySelective(battle);
+    }
+
+    @Override
+    @Transactional
+    public int doCall(SunBattleVote vote) {
+        //扣掉打CALL者1点实时积分
+        memberDao.addRealPoint(new int[]{vote.getMemberId()}, -1);
+        return voteDao.insert(vote);
+    }
+
+    @Override
+    public int getBattleState(Integer battleId) {
+        return battleDao.getBattleState(battleId);
     }
 
     @Override
     public List<SunBattle> selectBattlesFromNow() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String now = LocalDate.now().format(formatter);
-        return battleDao.selectBattlesFromNow(now);
+        List<SunBattle> battles = battleDao.selectBattlesFromNow(now);
+        //计算每个battle的A,B两队的支持数
+        for (SunBattle battle : battles) {
+            if (battle.getVotes().size() > 0) {
+                battle.setVoteA((int) battle.getVotes().stream().filter(v -> v.getVote() == 1).count());
+                battle.setVoteB((int) battle.getVotes().stream().filter(v -> v.getVote() == -1).count());
+            }
+        }
+        return battles;
     }
 
     @Override

@@ -76,10 +76,14 @@ public class SunActivityService implements ISunActivityService {
 
     @Override
     public List<SunActivity> getActivitiesForBattle(Integer memberId) {
-        //需要过滤掉挂和替补，同时有超过3积分的
         List<SunActivity> activitiesForBattle = activityDao.getActivitiesForBattle(memberId);
+        //只需过滤掉替补（需要过滤掉挂和替补，同时有超过3积分的）
         for (SunActivity activity : activitiesForBattle) {
-            activity.setMembers(activity.getMembers().stream().limit(activity.getNumbers()).filter(m -> m.getIsMaster() == 0).filter(m -> m.getPoint() >= 3).collect(Collectors.toList()));
+//            activity.setMembers(activity.getMembers().stream().limit(activity.getNumbers()).filter(m -> m.getIsMaster() == 0).filter(m -> m.getPoint() >= 3).collect(Collectors.toList()));
+            activity.setMembers(activity.getMembers().stream().limit(activity.getNumbers()).map(m -> {
+                if (m.getIsMaster() != 0) m.setMemberName(m.getMemberName() + "+" + m.getIsMaster());
+                return m;
+            }).collect(Collectors.toList()));
         }
         return activitiesForBattle;
     }

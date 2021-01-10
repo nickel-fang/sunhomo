@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sunhomo.club.mapper.SunBattleVoteDao">
+  <resultMap id="BaseResultMap" type="cn.sunhomo.club.domain.SunBattleVote">
+    <result column="BATTLE_ID" jdbcType="INTEGER" property="battleId" />
+    <result column="MEMBER_ID" jdbcType="INTEGER" property="memberId" />
+    <result column="MEMBER_PHOTO" jdbcType="VARCHAR" property="memberPhoto"/>
+    <result column="VOTE" jdbcType="TINYINT" property="vote" />
+  </resultMap>
+  <insert id="insert" parameterType="cn.sunhomo.club.domain.SunBattleVote">
+    insert into SUN_BATTLE_VOTE (BATTLE_ID, MEMBER_ID, VOTE
+      )
+    values (#{battleId,jdbcType=INTEGER}, #{memberId,jdbcType=INTEGER}, #{vote,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.sunhomo.club.domain.SunBattleVote">
+    insert into SUN_BATTLE_VOTE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="battleId != null">
+        BATTLE_ID,
+      </if>
+      <if test="memberId != null">
+        MEMBER_ID,
+      </if>
+      <if test="vote != null">
+        VOTE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="battleId != null">
+        #{battleId,jdbcType=INTEGER},
+      </if>
+      <if test="memberId != null">
+        #{memberId,jdbcType=INTEGER},
+      </if>
+      <if test="vote != null">
+        #{vote,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="selectVoteByBattleId" resultMap="BaseResultMap">
+    select SBV.*, SM.MEMBER_PHOTO
+    from SUN_BATTLE_VOTE SBV
+    left join SUN_MEMBER SM on SBV.MEMBER_ID = SM.MEMBER_ID
+    where SBV.BATTLE_ID = #{battleId,jdbcType=INTEGER}
+  </select>
+</mapper>

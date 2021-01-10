@@ -20,6 +20,8 @@
         <result column="BATTLE_STATE" jdbcType="INTEGER" property="battleState"/>
         <result column="BATTLE_RESULT" jdbcType="TINYINT" property="battleResult"/>
         <result column="IS_PEAK" jdbcType="TINYINT" property="isPeak"/>
+        <collection property="votes" ofType="cn.sunhomo.club.domain.SunBattleVote" column="BATTLE_ID"
+                    select="cn.sunhomo.club.mapper.SunBattleVoteDao.selectVoteByBattleId"></collection>
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
@@ -240,6 +242,9 @@
         or B1 = #{memberId,jdbcType=INTEGER}
         or B2 = #{memberId,jdbcType=INTEGER}
         order by BATTLE_DATE desc
+    </select>
+    <select id="getBattleState" resultType="java.lang.Integer">
+        select BATTLE_STATE from SUN_BATTLE where BATTLE_ID = #{battleId,jdbcType=INTEGER}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete from SUN_BATTLE

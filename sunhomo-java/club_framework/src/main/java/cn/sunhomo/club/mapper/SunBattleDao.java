@@ -22,4 +22,6 @@ public interface SunBattleDao {
     List<SunBattle> selectBattlesByMemberId(Integer memberId);
 
     List<SunBattle> selectBattlesFromNow(String now);
+
+    int getBattleState(Integer battleId);
 }

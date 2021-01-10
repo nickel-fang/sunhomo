@@ -49,7 +49,8 @@ public enum ResultCode {
     DRAW_IS_DONE(80007, "您已抽过签"),
     DRAW_IS_NOT_ALLOWED_FOR_OTHER_PERSON(80008, "只有报名者才能抽签"),
     DRAW_DIVISION_IS_NOT_CONFIGURED(80009, "队长未就位"),
-    POINT_NOT_ENOUGH(80010, "积分不够");
+    POINT_NOT_ENOUGH(80010, "积分不够"),
+    BATTLE_HAS_CANCELLED(80011,"约战已取消");
 
     private int code;
 
