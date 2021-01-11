@@ -173,7 +173,7 @@ public class PointJob extends QuartzJobBean {
                             insertPointRecords.add(new SunPointRecord(null, a1.getMemberId(), (byte) 3, "约战：负", -battle.getBattlePoint(), now));
                             insertPointRecords.add(new SunPointRecord(null, a2.getMemberId(), (byte) 3, "约战：负", -battle.getBattlePoint(), now));
                         } else {
-                            insertPointRecords.add(new SunPointRecord(null, a2.getMemberId(), (byte) 3, "约战：负", -battle.getBattlePoint() * 2, now));
+                            insertPointRecords.add(new SunPointRecord(null, a1.getMemberId(), (byte) 3, "约战：负", -battle.getBattlePoint() * 2, now));
                         }
 
                         b1.setWinNumber(b1.getWinNumber() + 1);

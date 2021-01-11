@@ -153,6 +153,7 @@ Page({
   },
 
   bindSubmit: function (event) {
+    var that = this;
     var battle = {
       "activityId": this.data.activityId,
       "battleType": 2,
@@ -181,23 +182,35 @@ Page({
         icon: 'error'
       });
     } else {
-      wx.request({
-        url: app.globalData.APIUrl + '/club/battle/battle',
-        method: 'POST',
-        data: battle,
-        success: function (res) {
-          if (res.data.code == 1) {
-            wx.showToast({
-              title: '约战成功',
-              icon: 'success'
-            });
-            //跳转
-            wx.navigateTo({
-              url: 'battles'
+      wx.showModal({
+        content: '确认发起约战？',
+        confirmColor: '#2EA7E0',
+        success(res) {
+          if (res.confirm) {
+            wx.request({
+              url: app.globalData.APIUrl + '/club/battle/battle',
+              method: 'POST',
+              data: battle,
+              success: function (res) {
+                if (res.data.code == 1) {
+                  wx.showToast({
+                    title: '约战成功',
+                    icon: 'success'
+                  });
+                  app.globalData.userInfo = res.data.data;
+                  that.setData({
+                    userInfo: app.globalData.userInfo
+                  });
+                  //跳转
+                  wx.setStorageSync('pointChange',1);
+                  wx.setStorageSync('battleChange',1);
+                  wx.navigateBack();
+                }
+              }
             })
           }
         }
-      })
+      });
     }
   },
 })

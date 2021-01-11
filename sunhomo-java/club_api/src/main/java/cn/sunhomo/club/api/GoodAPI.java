@@ -4,6 +4,7 @@ import cn.sunhomo.club.domain.SunGood;
 import cn.sunhomo.club.domain.SunGoodTransaction;
 import cn.sunhomo.club.domain.SunMember;
 import cn.sunhomo.club.service.ISunGoodService;
+import cn.sunhomo.club.service.ISunMemberService;
 import cn.sunhomo.core.AjaxResult;
 import cn.sunhomo.core.ResultCode;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,8 @@ import java.util.List;
 public class GoodAPI {
     @Autowired
     private ISunGoodService goodService;
+    @Autowired
+    private ISunMemberService memberService;
 
     @PostMapping("/list")
     @ResponseBody
@@ -31,13 +34,15 @@ public class GoodAPI {
     @PostMapping("/redeem/{goodId}")
     @ResponseBody
     public AjaxResult<SunMember> redeem(@PathVariable("goodId") Integer goodId, @RequestBody SunMember member) {
+        //防止客户端暂存了用户积分，需要重新获取用户，刷新下积分
+        SunMember realMember = memberService.selectMember(member.getMemberId());
         SunGood goods = goodService.selectByPrimaryKey(goodId);
-        if (goods.getValue() > member.getPoint()) {
+        if (goods.getValue() > realMember.getPoint()) {
             return AjaxResult.failure(ResultCode.POINT_NOT_ENOUGH);
         }
-        member.setPoint(member.getPoint() - goods.getValue());
-        goodService.redeem(goods, member);
-        return AjaxResult.success(member);
+        realMember.setPoint(realMember.getPoint() - goods.getValue());
+        goodService.redeem(goods, realMember);
+        return AjaxResult.success(realMember);
     }
 
     //交付商品

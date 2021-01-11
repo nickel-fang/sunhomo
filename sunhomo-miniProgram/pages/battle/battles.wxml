@@ -45,7 +45,7 @@
               </view>
             </view>
           </view>
-          <view class="call-wrap" wx:if="{{battle.battleState==2}}">
+          <!-- <view class="call-wrap" wx:if="{{battle.battleState==2}}">
             <view class="call-line">
               <wxs module="m1">
                 var completeWidth = function (a, b) {
@@ -86,7 +86,7 @@
                 <button type="primary" size="mini">打call</button>
               </view>
             </view>
-          </view>
+          </view> -->
         </view>
       </view>
     </block>
@@ -94,4 +94,10 @@
   <view style="text-align:center;margin-top:20rpx;">
     <button type="primary" size="mini" bindtap="battle">发起约战</button>
   </view>
+  <view style="margin:10rpx;font-size: 32rpx;">
+		<text>约战规则
+1、发起人实时积分大于3点，可发起约战；
+2、约战成功，会暂扣约战成员每人3点实时积分；
+3、活动第二天，系统将根据约战成绩，自动累积积分（胜者每人获得3点年度积分和3点实时积分，负者每人扣掉3点年度积分和3点实时积分）</text>
+	</view>
 </view>

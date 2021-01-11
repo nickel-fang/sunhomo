@@ -5,6 +5,7 @@ import cn.sunhomo.club.domain.SunBattle;
 import cn.sunhomo.club.domain.SunBattleVote;
 import cn.sunhomo.club.service.ISunActivityService;
 import cn.sunhomo.club.service.ISunBattleService;
+import cn.sunhomo.club.service.ISunMemberService;
 import cn.sunhomo.core.AjaxResult;
 import cn.sunhomo.core.ResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class BattleAPI {
 
     @Autowired
     private ISunActivityService activityService;
+
+    @Autowired
+    private ISunMemberService memberService;
 
     private static final Lock lock = new ReentrantLock();
 
@@ -53,7 +57,7 @@ public class BattleAPI {
             return AjaxResult.failure(ResultCode.ACTIVITY_HAS_STARTED);
         }
         int result = battleService.insertBattle(battle);
-        return result == 1 ? AjaxResult.success(battle) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, battle);
+        return result == 1 ? AjaxResult.success(memberService.selectMember(battle.getA1())) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, battle);
     }
 
     /**
