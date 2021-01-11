@@ -95,61 +95,58 @@ Page({
 
   confirmAndCancelAndWin: function (event) {
     var that = this;
-    var battleState = null;
-    var battleResult = null;
     var action = event.currentTarget.dataset.action;
-    var goon = false;
+    var battleId = event.currentTarget.dataset.battleid;
     if (action == 1) {
       wx.showModal({
         content: '确认该约战？',
         confirmColor: '#2EA7E0',
         success(res) {
-          if (res.success) {
-            goon = true;
+          if (res.confirm) {
+            that.goon(battleId, 2, null);
           }
         }
       });
-      battleState = 2; //约战成功
     } else if (action == -1) {
       wx.showModal({
         content: '取消该约战？',
         confirmColor: '#2EA7E0',
         success(res) {
-          if (res.success) {
-            goon = true;
+          if (res.confirm) {
+            that.goon(battleId, -1, null);
           }
         }
       });
-      battleState = -1; //约战取消
     } else if (action == 2) {
       wx.showModal({
         content: '确认A队获胜？',
         confirmColor: '#2EA7E0',
         success(res) {
-          if (res.success) {
-            goon = true;
+          if (res.confirm) {
+            that.goon(battleId, null, 1);
           }
         }
       });
-      battleResult = 1; //A胜
     } else if (action == 3) {
       wx.showModal({
         content: '确认B队获胜？',
         confirmColor: '#2EA7E0',
         success(res) {
-          if (res.success) {
-            goon = true;
+          if (res.confirm) {
+            that.goon(battleId, null, -1);
           }
         }
       });
-      battleResult = -1; //B胜
     }
-    //TODO，确认了再调用，待修改
+  },
+
+  goon: function (battleId, battleState, battleResult) {
+    var that = this;
     wx.request({
       url: app.globalData.APIUrl + '/club/battle/confirmAndCancelAndWin',
       method: 'POST',
       data: {
-        "battleId": event.currentTarget.dataset.battleid,
+        "battleId": battleId,
         "battleState": battleState,
         "battleResult": battleResult
       },
@@ -159,7 +156,6 @@ Page({
         });
       }
     });
-
   },
 
   battle: function () {

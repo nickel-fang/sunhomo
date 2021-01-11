@@ -22,7 +22,8 @@ Page({
     b2Name: null,
     battleDate: null,
     battlePoint: null,
-    battleState: null
+    battleState: null,
+    isPeak: null
   },
 
   /**
@@ -143,6 +144,14 @@ Page({
     });
   },
 
+  bindIsPeakChange: function (event) {
+    if(event.detail.value==1){
+      this.setData({
+        isPeak: 1
+      });
+    }
+  },
+
   bindSubmit: function (event) {
     var battle = {
       "activityId": this.data.activityId,
@@ -157,10 +166,16 @@ Page({
       "a2Name": this.data.a2Name,
       "b2": this.data.b2,
       "b2Name": this.data.b2Name,
-      "battleDate": this.data.battleDate
+      "battleDate": this.data.battleDate,
+      "isPeak": this.data.isPeak
     };
     //有效性校验
-    if (battle.a1 == battle.b1 || battle.a1 == battle.b2 || battle.a2 == battle.b1 || battle.a2 == battle.b2) {
+    if(!battle.a1 ||!battle.a2 ||!battle.b1 ||!battle.b2){
+      wx.showToast({
+        title: '请选择人员',
+        icon: 'error'
+      });
+    }else if (battle.a1 == battle.b1 || battle.a1 == battle.b2 || battle.a2 == battle.b1 || battle.a2 == battle.b2 || battle.a1Name == battle.a2Name || battle.b1Name == battle.b2Name) {
       wx.showToast({
         title: '人员选择有误',
         icon: 'error'

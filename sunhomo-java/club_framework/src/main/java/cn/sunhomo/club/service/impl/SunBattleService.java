@@ -53,9 +53,10 @@ public class SunBattleService implements ISunBattleService {
             memberDao.addRealPoint(battlers, oldBattle.getBattlePoint());
 
             int[] voters = oldBattle.getVotes().stream().mapToInt(v -> v.getMemberId()).toArray();
-            memberDao.addRealPoint(voters, 1);
+            if (voters.length > 0)
+                memberDao.addRealPoint(voters, 1);
             //取消时，直接删除
-            battleDao.deleteByPrimaryKey(new Integer[]{battle.getBattleId()});
+            return battleDao.deleteByPrimaryKey(new Integer[]{battle.getBattleId()});
         }
         return battleDao.updateByPrimaryKeySelective(battle);
     }

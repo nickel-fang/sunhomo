@@ -1,1 +1,44 @@
 /* pages/battle/battle.wxss */
+.icon-vs{
+  width:18%;
+  height:120rpx;
+}
+.battle-box{
+  display: flex;
+  align-items: center;
+  margin-top:20rpx;
+  height:400rpx;
+}
+.picker{
+  font-size:36rpx;
+  padding:10rpx 20rpx;
+  border-radius: 10rpx;
+}
+.picker.left{
+  background:#ff7f06;
+  margin-left:20rpx;
+}
+.picker.right{
+  background:#fae706;
+  margin-right:20rpx;
+}
+.battle-player{
+  width:40%;
+  text-align: center;
+  line-height: 1.5;
+  font-weight: bold;
+  font-size:28rpx;
+  height:80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.battle-player view{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow:ellipsis;
+}
+.title{
+  font-weight: bold;
+  padding-left:20rpx;
+}

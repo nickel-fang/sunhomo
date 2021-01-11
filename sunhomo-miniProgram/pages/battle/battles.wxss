@@ -3,77 +3,133 @@
   overflow: hidden;
   overflow-y: hidden;
 }
-.title{
-  font-size: 32rpx;
-}
-.asset {
-  display: flex;
-  padding-top:20rpx;
-  padding-bottom:20rpx;
-}
-.asset .item {
-  display: flex;
-  flex-direction: column;
-  width:50%;
-  text-align: center;
-  font-size: 32rpx;
-  line-height: 32px;
-  color:#333;
-}
-.asset .right {
-  border-left: 1px solid #eee;
+
+.menu-list {
+  color:#000;
+  margin-top: 5rpx;
 }
 
-.space {
-  /* width: 100vw; */
-  height: 16rpx;
-  background: #F4F5F9;
+.menu-item-main {
+  margin: 10rpx 20rpx;
+  padding: 20rpx 30rpx;
+  border-radius: 5rpx;
+  font-size: 28rpx;
+  box-shadow: 1rpx 4rpx 4rpx rgba(0,0,0,.1);
+  background:#fff;
 }
-.line {
-  width:718px;
-  height:1px;
-  background:#EEEEEE;
-  margin-left: 32rpx;
-}
+
 .menu-item {
-  /* width: 100vw; */
-  /* height: 104rpx; */
-  padding: 0 32rpx;
-  background: #fff;
+  color: #000000;
+  margin: 5rpx 0rpx;
+}
+.menu-header{
   display: flex;
   justify-content: space-between;
-  align-items: center;
-}
-.menu-item .title {
-  font-size:30rpx;
-  color:#333;
-  line-height:104rpx;
-  padding-left: 5rpx;
   font-weight: bold;
-}
-.menu-item .l {
-  font-size:30rpx;
-  color:#333;
-  line-height:60rpx;
-  padding-left: 5rpx;
-}
-.menu-item .r {
   font-size:32rpx;
-  color:#333;
-  line-height:104rpx;
-  padding-right:5rpx;
-  text-align: right;
 }
-.menu-item .next {
-  width: 40rpx;
-  height: 40rpx;
+.header-right button{
+  margin-left:20rpx;
 }
-.menu-item button {
-  margin: 0;
+page{
+  background:#f1f1f1;
+  min-height: 100%;
 }
+.icon-vs{
+  width:18%;
+  height:100rpx;
+}
+.battle-box{
+  display: flex;
+  align-items: center;
+  margin-top:20rpx;
+}
+.battle-player{
+  width:40%;
+  text-align: center;
+  line-height: 1.5;
+  font-weight: bold;
+  font-size:28rpx;
+  position: relative;
+}
+.icon-win{
+  position: absolute;
+  top:0rpx;
 
-.member_icon{
-  width: 40rpx;
-  height: 40rpx;
-  border-radius: 32rpx;
+  width:70rpx;
+  height:70rpx;
+}
+.icon-win.left{
+  left:0rpx;
+}
+.icon-win.right{
+  right:0rpx;
+}
+.battle-player view{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow:ellipsis;
+}
+.call-wrap{
+  margin-top:20rpx;
+}
+.call-line{
+  height: 30rpx;
+  background:#fae706 ;
+  border-radius: 15rpx;
+  position: relative;
+  overflow: hidden;
+}
+.line-cover{
+  height: 30rpx;
+  background:#ff7f06 ;
+  position: absolute;
+  top:0;
+  left:0;
+  width:50%;
+}
+.call-main{
+  display: flex;
+  margin-top:30rpx;
+}
+.call-box{
+  width:50%;
+}
+.call-btn{
+  width:50%;
+  text-align: center;
+}
+.call-list{
+  min-height:50rpx;
+  padding:10rpx;
+  overflow: hidden;
+}
+.icon-photo{
+  width:40rpx;
+  height:40rpx;
+  border-radius: 20rpx;
+  background:green;
+  margin:5rpx;
+}
+.list-left .icon-photo{
+  float: left;
+}
+.list-right .icon-photo{
+  float: right;
+}
+.call-btn-box{
+  margin-top: 5rpx;
+  display: flex;
+}
+.number-left{
+  position: absolute;
+  top:50%;
+  transform:translateY(-50%);
+  left:20rpx;
+}
+.number-right{
+  position: absolute;
+  top:50%;
+  transform:translateY(-50%);
+  right:20rpx;
 }
