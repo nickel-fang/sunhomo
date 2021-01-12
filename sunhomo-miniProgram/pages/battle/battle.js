@@ -48,13 +48,11 @@ Page({
       });
     }
 
-    //非管理员，A1只能是自己
-    if (this.data.userInfo.isAdmin != 1) {
-      this.setData({
-        a1: this.data.userInfo.memberId,
-        a1Name: this.data.userInfo.memberName
-      });
-    }
+    //A1默认是自己
+    this.setData({
+      a1: this.data.userInfo.memberId,
+      a1Name: this.data.userInfo.memberName
+    });
   },
 
   /**
@@ -145,7 +143,7 @@ Page({
   },
 
   bindIsPeakChange: function (event) {
-    if(event.detail.value==1){
+    if (event.detail.value == 1) {
       this.setData({
         isPeak: 1
       });
@@ -171,12 +169,12 @@ Page({
       "isPeak": this.data.isPeak
     };
     //有效性校验
-    if(!battle.a1 ||!battle.a2 ||!battle.b1 ||!battle.b2){
+    if (!battle.a1 || !battle.a2 || !battle.b1 || !battle.b2) {
       wx.showToast({
         title: '请选择人员',
         icon: 'error'
       });
-    }else if (battle.a1 == battle.b1 || battle.a1 == battle.b2 || battle.a2 == battle.b1 || battle.a2 == battle.b2 || battle.a1Name == battle.a2Name || battle.b1Name == battle.b2Name) {
+    } else if (battle.a1 == battle.b1 || battle.a1 == battle.b2 || battle.a2 == battle.b1 || battle.a2 == battle.b2 || battle.a1Name == battle.a2Name || battle.b1Name == battle.b2Name) {
       wx.showToast({
         title: '人员选择有误',
         icon: 'error'
@@ -197,13 +195,16 @@ Page({
                     title: '约战成功',
                     icon: 'success'
                   });
-                  app.globalData.userInfo = res.data.data;
-                  that.setData({
-                    userInfo: app.globalData.userInfo
-                  });
+                  //A1为本人发起的约战，需要更新userInfo
+                  if (res.data.data.memberId == that.data.userInfo.memberId) {
+                    app.globalData.userInfo = res.data.data;
+                    that.setData({
+                      userInfo: app.globalData.userInfo
+                    });
+                  }
                   //跳转
-                  wx.setStorageSync('pointChange',1);
-                  wx.setStorageSync('battleChange',1);
+                  wx.setStorageSync('pointChange', 1);
+                  wx.setStorageSync('battleChange', 1);
                   wx.navigateBack();
                 }
               }

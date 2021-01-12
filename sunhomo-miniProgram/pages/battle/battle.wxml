@@ -14,12 +14,18 @@
 
   <view class="battle-box">
     <view class="battle-player">
-      <picker mode="selector" bindchange="bindA1Change" range="{{members}}" range-key="memberName" value="{{a1Index}}">
-        <view class="picker left">
-          <block wx:if="{{a1}}">{{a1Name}}</block>
-          <block wx:else>请选择A1</block>
-        </view>
-      </picker>
+      <block wx:if="{{userInfo.isAdmin!=1}}">
+        <view class="picker left">{{a1Name}}</view>
+      </block>
+      <block wx:else>
+        <picker mode="selector" bindchange="bindA1Change" range="{{members}}" range-key="memberName"
+          value="{{a1Index}}">
+          <view class="picker left">
+            <block wx:if="{{a1}}">{{a1Name}}</block>
+            <block wx:else>请选择A1</block>
+          </view>
+        </picker>
+      </block>
       <picker mode="selector" bindchange="bindA2Change" range="{{members}}" range-key="memberName" value="{{a2Index}}">
         <view class="picker left">
           <block wx:if="{{a2}}">{{a2Name}}</block>
