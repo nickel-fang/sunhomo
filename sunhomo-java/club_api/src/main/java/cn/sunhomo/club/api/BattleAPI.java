@@ -51,11 +51,11 @@ public class BattleAPI {
     @PostMapping("/battle")
     @ResponseBody
     public AjaxResult<SunBattle> battle(@RequestBody SunBattle battle) {
-        //活动已开始，不能约战
-        SunActivity activity = activityService.selectActivity(battle.getActivityId());
+        //活动已开始，不能约战 (暂不用判断，活动开始也可以发起约战，活动结束后1分钟将状态置为已结束，前台发起约战时获取不到该活动了）
+        /*SunActivity activity = activityService.selectActivity(battle.getActivityId());
         if (LocalDateTime.now().isAfter(LocalDateTime.parse(activity.getActivityDate() + " " + activity.getStartTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))) {
             return AjaxResult.failure(ResultCode.ACTIVITY_HAS_STARTED);
-        }
+        }*/
         int result = battleService.insertBattle(battle);
         return result == 1 ? AjaxResult.success(memberService.selectMember(battle.getA1())) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, battle);
     }
