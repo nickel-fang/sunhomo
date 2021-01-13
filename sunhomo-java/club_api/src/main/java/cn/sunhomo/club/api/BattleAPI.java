@@ -33,7 +33,8 @@ public class BattleAPI {
     @Autowired
     private ISunMemberService memberService;
 
-    private static final Lock lock = new ReentrantLock();
+    //定义5个锁，用于不同battle之间分锁处理
+    private static final Lock[] locks = {new ReentrantLock(), new ReentrantLock(), new ReentrantLock(), new ReentrantLock(), new ReentrantLock()};
 
     /**
      * 获取约战列表 [今天, )
@@ -71,10 +72,10 @@ public class BattleAPI {
     public AjaxResult<List<SunBattle>> confirmAndCancelAndWin(@RequestBody SunBattle battle) {
         int result = 0;
         try {
-            lock.lock();
+            locks[battle.getBattleId() % locks.length].lock();
             result = battleService.confirmAndCancelAndWin(battle);
         } finally {
-            lock.unlock();
+            locks[battle.getBattleId() % locks.length].unlock();
         }
         return result == 1 ? AjaxResult.success(battleService.selectBattlesFromNow()) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, battleService.selectBattlesFromNow());
     }
@@ -100,14 +101,14 @@ public class BattleAPI {
         }
         int result = 0;
         try {
-            lock.lock();
+            locks[battle.getBattleId() % locks.length].lock();
             //在获锁的过程中，活动有可能被取消
             battle = battleService.selectByPrimaryKey(vote.getBattleId());
             if (null == battle)
                 return AjaxResult.failure(ResultCode.BATTLE_HAS_CANCELLED, battleService.selectBattlesFromNow());
             result = battleService.doCall(vote);
         } finally {
-            lock.unlock();
+            locks[battle.getBattleId() % locks.length].unlock();
         }
 
         return result == 1 ? AjaxResult.success(battleService.selectBattlesFromNow()) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, battleService.selectBattlesFromNow());
