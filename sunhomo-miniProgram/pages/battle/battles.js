@@ -20,7 +20,6 @@ Page({
   },
 
   getData() {
-    //TODO 获取约战列表
     var that = this;
     wx.request({
       url: app.globalData.APIUrl + '/club/battle/list',
@@ -51,7 +50,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    if(wx.getStorageSync('battleChange')){
+    if (wx.getStorageSync('battleChange')) {
       this.getData();
       wx.removeStorageSync('battleChange');
     }
@@ -186,6 +185,70 @@ Page({
           }
         }
       })
+    }
+  },
+  doCall: function (event) {
+    var that = this;
+    var vote = event.currentTarget.dataset.vote;
+    var battleId = event.currentTarget.dataset.battleid;
+    var userId = this.data.userInfo.memberId;
+    //判断是否可以打CALL(当前约战人员不能打CALL，已打CALL不能打CALL)
+    var canCall = true;
+    for (var i = 0; i < this.data.battles.length; i++) {
+      var battle = this.data.battles[i];
+      if (battleId == battle.battleId) {
+        if (battle.a1 == userId || battle.a2 == userId || battle.b1 == userId || battle.b2 == userId) {
+          wx.showToast({
+            title: '约战人员不能打CALL',
+            icon: 'error'
+          });
+          canCall = false;
+          break;
+        }
+        for (var j = 0; j < battle.votes.length; j++) {
+          if (userId == battle.votes[j].memberId) {
+            wx.showToast({
+              title: '您已打过CALL',
+              icon: 'error'
+            });
+            canCall = false;
+            break;
+          }
+        }
+      }
+    }
+    if (canCall) {
+      wx.showModal({
+        content: '确定支持' + (vote == 1 ? 'A' : 'B') + '队？',
+        confirmColor: '#2EA7E0',
+        success(res) {
+          if (res.confirm) {
+            wx.request({
+              url: app.globalData.APIUrl + '/club/battle/doCall',
+              method: 'POST',
+              data: {
+                "battleId": battleId,
+                "memberId": that.data.userInfo.memberId,
+                "vote": vote
+              },
+              success: function (res) {
+                if (res.data.code == 1) {
+                  that.data.userInfo.point = that.data.userInfo.point - 1;
+                  wx.setStorageSync('pointChange', 1);
+                  that.setData({
+                    battles: res.data.data
+                  });
+                } else {
+                  wx.showToast({
+                    title: '系统错误',
+                    icon: 'error'
+                  })
+                }
+              }
+            })
+          }
+        }
+      });
     }
   }
 })

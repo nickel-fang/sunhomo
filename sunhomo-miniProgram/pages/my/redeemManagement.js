@@ -24,7 +24,6 @@ Page({
       method: 'POST',
       data: null,
       success: function (res) {
-        console.log(res.data);
         that.setData({
           redeems: res.data
         });

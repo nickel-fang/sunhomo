@@ -85,7 +85,7 @@
 	<view class="line"></view>
 	<view class="menu-item">
 		<view class="l">小程序版本</view>
-		<view class="r">V2.3.0</view>
+		<view class="r">V3.1.0</view>
 	</view>
 
 </view>

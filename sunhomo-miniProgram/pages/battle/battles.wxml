@@ -8,20 +8,20 @@
             <view class="header-right">
               <block wx:if="{{userInfo.isAdmin==1}}">
                 <block wx:if="{{battle.battleState==2 && !battle.battleResult}}">
-                  <button type="primary" size="mini" style="padding:5rpx;" data-battleid="{{battle.battleId}}" data-action="2"
-                    bindtap="confirmAndCancelAndWin">A胜</button>
+                  <button type="primary" size="mini" style="padding:5rpx;" data-battleid="{{battle.battleId}}"
+                    data-action="2" bindtap="confirmAndCancelAndWin">A胜</button>
                 </block>
                 <block wx:if="{{battle.battleState==1}}">
-                  <button type="primary" size="mini" style="padding:5rpx;" data-battleid="{{battle.battleId}}" data-action="1"
-                    bindtap="confirmAndCancelAndWin">确认</button>
+                  <button type="primary" size="mini" style="padding:5rpx;" data-battleid="{{battle.battleId}}"
+                    data-action="1" bindtap="confirmAndCancelAndWin">确认</button>
                 </block>
                 <block wx:if="{{battle.battleState!=-1}}">
-                  <button type="primary" size="mini" style="padding:5rpx;" data-battleid="{{battle.battleId}}" data-action="-1"
-                    bindtap="confirmAndCancelAndWin">取消</button>
+                  <button type="primary" size="mini" style="padding:5rpx;" data-battleid="{{battle.battleId}}"
+                    data-action="-1" bindtap="confirmAndCancelAndWin">取消</button>
                 </block>
                 <block wx:if="{{battle.battleState==2 && !battle.battleResult}}">
-                  <button type="primary" size="mini" style="padding:5rpx;" data-battleid="{{battle.battleId}}" data-action="3"
-                    bindtap="confirmAndCancelAndWin">B胜</button>
+                  <button type="primary" size="mini" style="padding:5rpx;" data-battleid="{{battle.battleId}}"
+                    data-action="3" bindtap="confirmAndCancelAndWin">B胜</button>
                 </block>
               </block>
             </view>
@@ -45,7 +45,7 @@
               </view>
             </view>
           </view>
-          <!-- <view class="call-wrap" wx:if="{{battle.battleState==2}}">
+          <view class="call-wrap" wx:if="{{battle.isPeak==1}}">
             <view class="call-line">
               <wxs module="m1">
                 var completeWidth = function (a, b) {
@@ -55,24 +55,24 @@
                 module.exports.completeWidth = completeWidth;
               </wxs>
               <view class="line-cover" style="width:{{m1.completeWidth(battle.voteA,battle.voteB)}}"></view>
-              <text class="number-left">{{battle.voteA}}</text>
-              <text class="number-right">{{battle.voteB}}</text>
+              <!-- <text class="number-left">{{battle.voteA}}</text>
+              <text class="number-right">{{battle.voteB}}</text> -->
             </view>
             <view class="call-main" wx:if="{{battle.votes.length>0}}">
               <view class="call-box">
                 <view class="call-list list-left">
-                  <block wx:for="{{battle.votes}}" wx:for-item="{{voter}}">
+                  <block wx:for="{{battle.votes}}" wx:for-item="voter">
                     <block wx:if="{{voter.vote==1}}">
-                      <image class="icon-photo" src="img.src" alt=""></image>
+                      <image class="icon-photo" src="{{voter.memberPhoto}}" alt=""></image>
                     </block>
                   </block>
                 </view>
               </view>
               <view class="call-box">
                 <view class="call-list list-right">
-                  <block wx:for="{{battle.votes}}" wx:for-item="{{voter}}">
-                    <block wx:if="{{voter.vote==1}}">
-                      <image class="icon-photo" src="img.src" alt=""></image>
+                  <block wx:for="{{battle.votes}}" wx:for-item="voter">
+                    <block wx:if="{{voter.vote==-1}}">
+                      <image class="icon-photo" src="{{voter.memberPhoto}}" alt=""></image>
                     </block>
                   </block>
                 </view>
@@ -80,13 +80,13 @@
             </view>
             <view class="call-btn-box">
               <view class="call-btn">
-                <button type="primary" size="mini">打call</button>
+                <button type="primary" size="mini" data-vote="1" data-battleid="{{battle.battleId}}" bindtap="doCall">打call</button>
               </view>
               <view class="call-btn">
-                <button type="primary" size="mini">打call</button>
+                <button type="primary" size="mini" data-vote="-1" data-battleid="{{battle.battleId}}" bindtap="doCall">打call</button>
               </view>
             </view>
-          </view> -->
+          </view>
         </view>
       </view>
     </block>
@@ -95,9 +95,9 @@
     <button type="primary" size="mini" bindtap="battle">发起约战</button>
   </view>
   <view style="margin:10rpx;font-size: 32rpx;">
-		<text>约战规则
-1、发起人实时积分大于3点，可发起约战；
-2、约战成功，会暂扣约战成员每人3点实时积分；
-3、活动第二天，系统将根据约战成绩，自动累积积分（胜者每人获得3点年度积分和3点实时积分，负者每人扣掉3点年度积分和3点实时积分）</text>
-	</view>
+    <text>约战规则
+      1、发起人实时积分大于3点，可发起约战；
+      2、约战成功，会暂扣约战成员每人3点实时积分；
+      3、活动第二天，系统将根据约战成绩，自动累积积分（胜者每人获得3点年度积分和3点实时积分，负者每人扣掉3点年度积分和3点实时积分）</text>
+  </view>
 </view>

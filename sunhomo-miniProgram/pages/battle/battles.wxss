@@ -90,7 +90,6 @@ page{
 }
 .call-main{
   display: flex;
-  margin-top:30rpx;
 }
 .call-box{
   width:50%;

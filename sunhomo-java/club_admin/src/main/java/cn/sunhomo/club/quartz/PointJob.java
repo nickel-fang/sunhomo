@@ -194,7 +194,7 @@ public class PointJob extends QuartzJobBean {
             pointService.updateMembersPoint(new ArrayList<SunMember>(updateMembers.values()), insertPointRecords);
 
             //处理约战打CALL积分
-/*            for (SunBattle battle : battles) {
+            for (SunBattle battle : battles) {
                 //取消的约战，在取消时即时恢复积分了
                 //待确认，只需恢复打CALLER者的暂扣积分
                 if (battle.getBattleState() == 1 && battle.getVotes().size() > 0) {
@@ -214,7 +214,7 @@ public class PointJob extends QuartzJobBean {
                     }
 
                 }
-            }*/
+            }
 
 
         }
