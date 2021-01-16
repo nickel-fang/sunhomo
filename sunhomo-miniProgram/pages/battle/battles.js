@@ -194,25 +194,33 @@ Page({
     var userId = this.data.userInfo.memberId;
     //判断是否可以打CALL(当前约战人员不能打CALL，已打CALL不能打CALL)
     var canCall = true;
-    for (var i = 0; i < this.data.battles.length; i++) {
-      var battle = this.data.battles[i];
-      if (battleId == battle.battleId) {
-        if (battle.a1 == userId || battle.a2 == userId || battle.b1 == userId || battle.b2 == userId) {
-          wx.showToast({
-            title: '约战人员不能打CALL',
-            icon: 'error'
-          });
-          canCall = false;
-          break;
-        }
-        for (var j = 0; j < battle.votes.length; j++) {
-          if (userId == battle.votes[j].memberId) {
+    if (this.data.userInfo.point <= 0) {
+      wx.showToast({
+        title: '积分不够',
+        icon: 'error'
+      });
+      canCall = false;
+    } else {
+      for (var i = 0; i < this.data.battles.length; i++) {
+        var battle = this.data.battles[i];
+        if (battleId == battle.battleId) {
+          if (battle.a1 == userId || battle.a2 == userId || battle.b1 == userId || battle.b2 == userId) {
             wx.showToast({
-              title: '您已打过CALL',
+              title: '约战人员不能打CALL',
               icon: 'error'
             });
             canCall = false;
             break;
+          }
+          for (var j = 0; j < battle.votes.length; j++) {
+            if (userId == battle.votes[j].memberId) {
+              wx.showToast({
+                title: '您已打过CALL',
+                icon: 'error'
+              });
+              canCall = false;
+              break;
+            }
           }
         }
       }
