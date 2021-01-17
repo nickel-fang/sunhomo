@@ -1,9 +1,6 @@
 package cn.sunhomo.club.service;
 
-import cn.sunhomo.club.domain.SunActivity;
-import cn.sunhomo.club.domain.SunGoodTransaction;
-import cn.sunhomo.club.domain.SunMember;
-import cn.sunhomo.club.domain.SunPointRecord;
+import cn.sunhomo.club.domain.*;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -32,4 +29,6 @@ public interface ISunMemberService {
     List<SunPointRecord> getYearPointRecordsByOpenID(String openid);
 
     public void addRealPoint(int[] memberIds, int point);
+
+    List<SunBattle> getBattlesByMemberID(Integer memberId);
 }

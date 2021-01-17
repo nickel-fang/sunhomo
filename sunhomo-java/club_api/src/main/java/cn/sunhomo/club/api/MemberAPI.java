@@ -1,12 +1,9 @@
 package cn.sunhomo.club.api;
 
-import cn.sunhomo.club.domain.SunActivity;
-import cn.sunhomo.club.domain.SunGoodTransaction;
-import cn.sunhomo.club.domain.SunPointRecord;
+import cn.sunhomo.club.domain.*;
 import cn.sunhomo.core.AjaxResult;
 import cn.sunhomo.util.StringUtils;
 import com.alibaba.fastjson.JSON;
-import cn.sunhomo.club.domain.SunMember;
 import cn.sunhomo.club.service.ISunMemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,6 +81,13 @@ public class MemberAPI {
     public List<SunActivity> myActivities(@RequestBody Integer memberId) {
         List<SunActivity> activities = memberService.getActivitiesByMemberID(memberId);
         return activities;
+    }
+
+    @PostMapping("/myBattles")
+    @ResponseBody
+    public List<SunBattle> myBattles(@RequestBody Integer memberId) {
+        List<SunBattle> battles = memberService.getBattlesByMemberID(memberId);
+        return battles;
     }
 
     @PostMapping("/myRedeem")

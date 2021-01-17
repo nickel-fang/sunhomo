@@ -247,6 +247,11 @@
         ORDER BY SA.ACTIVITY_ID DESC
         LIMIT 20
     </select>
+    <select id="getBattlesByMemberID" resultMap="cn.sunhomo.club.mapper.SunBattleDao.ListResultMap">
+        SELECT * FROM SUN_BATTLE WHERE (A1=#{memberId,jdbcType=INTEGER} OR A2=#{memberId,jdbcType=INTEGER} OR B1=#{memberId,jdbcType=INTEGER} OR B2=#{memberId,jdbcType=INTEGER}) AND BATTLE_RESULT IS NOT NULL
+        ORDER BY BATTLE_ID DESC
+        LIMIT 20
+    </select>
     <select id="getGoodTransactionsByMemberID" resultMap="cn.sunhomo.club.mapper.SunGoodTransactionDao.BaseResultMap">
         select SGT.GOOD_TRANSACTION_ID, SGT.GOOD_ID, SGT.MEMBER_ID, SGT.GOOD_TRANSACTION_DATE, SGT.STATE, SG.GOOD_NAME
         from SUN_GOOD_TRANSACTION SGT

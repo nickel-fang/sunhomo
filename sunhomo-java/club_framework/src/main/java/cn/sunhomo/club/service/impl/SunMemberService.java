@@ -1,9 +1,6 @@
 package cn.sunhomo.club.service.impl;
 
-import cn.sunhomo.club.domain.SunActivity;
-import cn.sunhomo.club.domain.SunGoodTransaction;
-import cn.sunhomo.club.domain.SunMember;
-import cn.sunhomo.club.domain.SunPointRecord;
+import cn.sunhomo.club.domain.*;
 import cn.sunhomo.club.mapper.SunMemberDao;
 import cn.sunhomo.club.service.ISunMemberService;
 import cn.sunhomo.util.StringUtils;
@@ -62,6 +59,11 @@ public class SunMemberService implements ISunMemberService {
     @Override
     public void addRealPoint(int[] memberIds, int point) {
         memberDao.addRealPoint(memberIds, point);
+    }
+
+    @Override
+    public List<SunBattle> getBattlesByMemberID(Integer memberId) {
+        return memberDao.getBattlesByMemberID(memberId);
     }
 
     @Override

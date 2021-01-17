@@ -1,0 +1,37 @@
+<view class="header-box">
+  <image class="avatar" src="{{userInfo.memberPhoto}}" mode="aspectFill"></image>
+  <view class="r">
+    <view>最近参加的约战</view>
+  </view>
+</view>
+<view class="container">
+  <view class="space"></view>
+  <block wx:for="{{myBattles}}" wx:for-item="battle">
+    <view class="menu-item">
+      <view class="menu-item-main">
+        <view class="menu-header">
+          <view class="header-left">约战日期：{{battle.battleDate}}</view>
+        </view>
+        <view class="menu-container">
+          <view class="battle-box">
+            <view class="battle-player">
+              <block wx:if="{{battle.battleResult==1}}">
+                <image class="icon-win left" src="/images/win.png" alt=""></image>
+              </block>
+              <view>{{battle.a1Name}}</view>
+              <view>{{battle.a2Name}}</view>
+            </view>
+            <image class="icon-vs" src="/images/vs.jpg" alt=""></image>
+            <view class="battle-player">
+              <block wx:if="{{battle.battleResult==-1}}">
+                <image class="icon-win right" src="/images/win.png" alt=""></image>
+              </block>
+              <view>{{battle.b1Name}}</view>
+              <view>{{battle.b2Name}}</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

@@ -1,0 +1,103 @@
+.header-box {
+  background: #e64340;
+  padding: 32rpx;
+  display: flex;
+  align-items: center;
+}
+.header-box .avatar {
+  width: 128rpx;
+  height: 128rpx;
+  border-radius: 50%;
+}
+.header-box .btn {
+  margin-left: 32rpx;
+}
+.header-box .r {
+  margin-left: 32rpx;
+  color: #3a3939;
+  font-size: 48rpx;
+}
+
+.space {
+  width: 100vw;
+  height: 16rpx;
+  background: #F4F5F9;
+}
+.line {
+  width:718px;
+  height:1px;
+  background:#EEEEEE;
+  margin-left: 32rpx;
+}
+.container{
+  min-height: 100%;
+  overflow: hidden;
+  overflow-y: hidden;
+}
+
+.menu-list {
+  color:#000;
+  margin-top: 5rpx;
+}
+
+.menu-item-main {
+  margin: 10rpx 20rpx;
+  padding: 20rpx 30rpx;
+  border-radius: 5rpx;
+  font-size: 28rpx;
+  box-shadow: 1rpx 4rpx 4rpx rgba(0,0,0,.1);
+  background:#fff;
+}
+
+.menu-item {
+  color: #000000;
+  margin: 5rpx 0rpx;
+}
+.menu-header{
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  font-size:32rpx;
+}
+.header-right button{
+  margin-left:20rpx;
+}
+page{
+  background:#f1f1f1;
+  min-height: 100%;
+}
+.icon-vs{
+  width:18%;
+  height:100rpx;
+}
+.battle-box{
+  display: flex;
+  align-items: center;
+  margin-top:20rpx;
+}
+.battle-player{
+  width:40%;
+  text-align: center;
+  line-height: 1.5;
+  font-weight: bold;
+  font-size:28rpx;
+  position: relative;
+}
+.icon-win{
+  position: absolute;
+  top:0rpx;
+
+  width:70rpx;
+  height:70rpx;
+}
+.icon-win.left{
+  left:0rpx;
+}
+.icon-win.right{
+  right:0rpx;
+}
+.battle-player view{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow:ellipsis;
+}

@@ -23,6 +23,24 @@
         <collection property="votes" ofType="cn.sunhomo.club.domain.SunBattleVote" column="BATTLE_ID"
                     select="cn.sunhomo.club.mapper.SunBattleVoteDao.selectVoteByBattleId"></collection>
     </resultMap>
+    <resultMap id="ListResultMap" type="cn.sunhomo.club.domain.SunBattle">
+        <id column="BATTLE_ID" jdbcType="INTEGER" property="battleId"/>
+        <result column="ACTIVITY_ID" jdbcType="INTEGER" property="activityId"/>
+        <result column="BATTLE_TYPE" jdbcType="TINYINT" property="battleType"/>
+        <result column="A1" jdbcType="INTEGER" property="a1"/>
+        <result column="A2" jdbcType="INTEGER" property="a2"/>
+        <result column="B1" jdbcType="INTEGER" property="b1"/>
+        <result column="B2" jdbcType="INTEGER" property="b2"/>
+        <result column="A1_NAME" jdbcType="VARCHAR" property="a1Name"/>
+        <result column="A2_NAME" jdbcType="VARCHAR" property="a2Name"/>
+        <result column="B1_NAME" jdbcType="VARCHAR" property="b1Name"/>
+        <result column="B2_NAME" jdbcType="VARCHAR" property="b2Name"/>
+        <result column="BATTLE_DATE" jdbcType="VARCHAR" property="battleDate"/>
+        <result column="BATTLE_POINT" jdbcType="INTEGER" property="battlePoint"/>
+        <result column="BATTLE_STATE" jdbcType="INTEGER" property="battleState"/>
+        <result column="BATTLE_RESULT" jdbcType="TINYINT" property="battleResult"/>
+        <result column="IS_PEAK" jdbcType="TINYINT" property="isPeak"/>
+    </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
         BATTLE_ID, ACTIVITY_ID, BATTLE_TYPE, A1, A2, B1, B2, A1_NAME, A2_NAME, B1_NAME, B2_NAME,
