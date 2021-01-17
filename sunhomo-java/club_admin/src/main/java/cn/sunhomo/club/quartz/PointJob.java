@@ -204,7 +204,9 @@ public class PointJob extends QuartzJobBean {
                     if (battle.getBattleResult() == null) {
                         memberService.addRealPoint(battle.getVotes().stream().mapToInt(v -> v.getMemberId()).toArray(), 1);
                     } else {
-                        memberService.addRealPoint(battle.getVotes().stream().filter(v -> v.getVote() == battle.getBattleResult()).mapToInt(v -> v.getMemberId()).toArray(), 2);
+                        int[] memberIds = battle.getVotes().stream().filter(v -> v.getVote() == battle.getBattleResult()).mapToInt(v -> v.getMemberId()).toArray();
+                        if (memberIds.length > 0)
+                            memberService.addRealPoint(memberIds, 2);
                         pointService.insertPointRecords(
                                 battle.getVotes().stream()
                                         .map(v -> new SunPointRecord(null, v.getMemberId(), (byte) 103, v.getVote() == battle.getBattleResult() ? "约战打CALL：胜" : "约战打CALL：负", v.getVote() == battle.getBattleResult() ? 1 : -1, now))

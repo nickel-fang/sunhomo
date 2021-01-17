@@ -209,7 +209,7 @@
                 </foreach>
             </trim>
             <trim prefix="WIN_NUMBER=case" suffix="end,">
-                <foreach collection="members" item="member">
+                <foreach collection="list" item="member">
                     when MEMBER_ID=#{member.memberId} then #{member.winNumber}
                 </foreach>
             </trim>
