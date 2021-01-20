@@ -161,6 +161,7 @@ Page({
   },
 
   battle: function () {
+    var that = this;
     if (app.globalData.userInfo.point < 3) {
       wx.showToast({
         title: '积分不够',
@@ -171,12 +172,36 @@ Page({
       wx.request({
         url: app.globalData.APIUrl + '/club/activity/getActivitiesForBattle',
         method: 'POST',
-        data: this.data.userInfo.memberId,
+        data: that.data.userInfo.memberId,
         success: function (res) {
+          var activities = res.data;
           if (res.data.length > 0) {
-            wx.navigateTo({
-              url: 'battle?activities=' + JSON.stringify(res.data)
+            //判断是否有约战未成团
+            wx.request({
+              url: app.globalData.APIUrl + '/club/battle/hasNotCompletedBattle',
+              method:'POST',
+              data: that.data.userInfo.memberId,
+              success: function(res){
+                if(res.data.code==1){
+                  if(res.data.data){
+                    wx.showToast({
+                      title: '有约战未成团',
+                      icon: 'error'
+                    });
+                  }else{
+                    wx.navigateTo({
+                      url: 'battle?activities=' + JSON.stringify(activities)
+                    })
+                  }
+                }else{
+                  wx.showToast({
+                    title: '系统错误',
+                    icon: 'error'
+                  })
+                }
+              }
             })
+            
           } else {
             wx.showToast({
               title: '您未报名活动',
@@ -209,10 +234,10 @@ Page({
         if (tempBattle.battleState == 1) {
           if (tempBattle.a1 == userId || tempBattle.a2 == userId || tempBattle.b1 == userId || tempBattle.b2 == userId) {
             wx.showToast({
-              title: '无法应战',
+              title: '您无法应战',
               icon: 'error'
             });
-            canCall = false;
+            canAccept = false;
             break;
           }
         }
@@ -240,7 +265,6 @@ Page({
                 data: battle,
                 success: function (res) {
                   if (res.data.code == 1) {
-                    that.data.userInfo.point = that.data.userInfo.point - 3;
                     app.globalData.userInfo.point = app.globalData.userInfo.point - 3;
                     wx.setStorageSync('pointChange', 1);
                     that.setData({

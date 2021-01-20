@@ -61,6 +61,13 @@ public class BattleAPI {
         return result == 1 ? AjaxResult.success(memberService.selectMember(battle.getA1())) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, battle);
     }
 
+    //发起挑战
+    @PostMapping("/hasNotCompletedBattle")
+    @ResponseBody
+    public AjaxResult<Boolean> hasNotCompletedBattle(@RequestBody Integer memberId) {
+        return AjaxResult.success(battleService.hasNotCompletedBattlesByMemberId(memberId));
+    }
+
     /**
      * 更新
      *
@@ -143,6 +150,10 @@ public class BattleAPI {
         Integer finalAccepter = accepter;
         if (activity.getMembers().stream().noneMatch(m -> m.getMemberId().intValue() == finalAccepter.intValue() && m.getIsMaster() == 0))
             return AjaxResult.failure(ResultCode.BATTLE_HAS_NOT_ENROLLED, battleService.selectBattlesFromNow());
+
+        //前台已做限制
+//        if(battleService.hasNotCompletedBattlesByMemberId(accepter))
+//            return AjaxResult.failure(ResultCode.BATTLE_HAS_NOT_COMPLETED, battleService.selectBattlesFromNow());
 
         int result = 0;
         try {

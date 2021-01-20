@@ -251,18 +251,16 @@
         where BATTLE_DATE >=#{now,jdbcType=VARCHAR} and BATTLE_STATE!=-1
         order by IS_PEAK desc, BATTLE_ID asc
     </select>
-    <select id="selectBattlesByMemberId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from SUN_BATTLE
-        where A1 = #{memberId,jdbcType=INTEGER}
-        or A2 = #{memberId,jdbcType=INTEGER}
-        or B1 = #{memberId,jdbcType=INTEGER}
-        or B2 = #{memberId,jdbcType=INTEGER}
-        order by BATTLE_DATE desc
-    </select>
     <select id="getBattleState" resultType="java.lang.Integer">
         select BATTLE_STATE from SUN_BATTLE where BATTLE_ID = #{battleId,jdbcType=INTEGER}
+    </select>
+    <select id="hasNotCompletedBattlesByMemberId" resultType="java.lang.Boolean">
+        select count(*) from SUN_BATTLE
+        where BATTLE_STATE=1 and
+        (A1 = #{memberId,jdbcType=INTEGER}
+        or A2 = #{memberId,jdbcType=INTEGER}
+        or B1 = #{memberId,jdbcType=INTEGER}
+        or B2 = #{memberId,jdbcType=INTEGER})
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete from SUN_BATTLE

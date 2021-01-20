@@ -131,7 +131,7 @@ public class SunBattleService implements ISunBattleService {
     }
 
     @Override
-    public List<SunBattle> selectBattlesByMemberId(Integer memberId) {
-        return battleDao.selectBattlesByMemberId(memberId);
+    public boolean hasNotCompletedBattlesByMemberId(Integer memberId) {
+        return battleDao.hasNotCompletedBattlesByMemberId(memberId);
     }
 }

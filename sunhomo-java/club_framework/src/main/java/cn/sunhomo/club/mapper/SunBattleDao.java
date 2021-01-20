@@ -19,9 +19,9 @@ public interface SunBattleDao {
 
     List<SunBattle> selectBattlesByActivityId(Integer activityId);
 
-    List<SunBattle> selectBattlesByMemberId(Integer memberId);
-
     List<SunBattle> selectBattlesFromNow(String now);
 
     int getBattleState(Integer battleId);
+
+    boolean hasNotCompletedBattlesByMemberId(Integer memberId);
 }

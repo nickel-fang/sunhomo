@@ -34,7 +34,8 @@
                 </block>
                 <view>{{battle.a1Name}}</view>
                 <view wx:if="{{battle.a2Name}}">{{battle.a2Name}}</view>
-                <view wx:else><button type="primary" size="mini" data-postion="a2" data-battleid="{{battle.battleId}}" bindtap="accept">应战</button></view>
+                <view wx:else><button type="primary" size="mini" data-postion="a2" data-battleid="{{battle.battleId}}"
+                    bindtap="accept" style="margin-top:10rpx;">应战</button></view>
               </view>
               <image class="icon-vs" src="/images/vs.jpg" alt=""></image>
               <view class="battle-player">
@@ -42,9 +43,11 @@
                   <image class="icon-win right" src="/images/win.png" alt=""></image>
                 </block>
                 <view wx:if="{{battle.b1Name}}">{{battle.b1Name}}</view>
-                <view wx:else><button type="primary" size="mini" data-postion="b1" data-battleid="{{battle.battleId}}" bindtap="accept">应战</button></view>
+                <view wx:else><button type="primary" size="mini" data-postion="b1" data-battleid="{{battle.battleId}}"
+                    bindtap="accept">应战</button></view>
                 <view wx:if="{{battle.b2Name}}">{{battle.b2Name}}</view>
-                <view wx:else><button type="primary" size="mini" data-postion="b2" data-battleid="{{battle.battleId}}" bindtap="accept">应战</button></view>
+                <view wx:else><button type="primary" size="mini" data-postion="b2" data-battleid="{{battle.battleId}}"
+                    bindtap="accept" style="margin-top:10rpx;">应战</button></view>
               </view>
             </view>
           </view>
@@ -83,10 +86,12 @@
             </view>
             <view class="call-btn-box">
               <view class="call-btn">
-                <button type="primary" size="mini" data-vote="1" data-battleid="{{battle.battleId}}" bindtap="doCall">打CALL</button>
+                <button type="primary" size="mini" data-vote="1" data-battleid="{{battle.battleId}}"
+                  bindtap="doCall">打CALL</button>
               </view>
               <view class="call-btn">
-                <button type="primary" size="mini" data-vote="-1" data-battleid="{{battle.battleId}}" bindtap="doCall">打CALL</button>
+                <button type="primary" size="mini" data-vote="-1" data-battleid="{{battle.battleId}}"
+                  bindtap="doCall">打CALL</button>
               </view>
             </view>
           </view>
@@ -99,14 +104,15 @@
   </view>
   <view style="margin:10rpx;font-size: 32rpx;">
     <text>约战规则
-      1、发起人实时积分大于3点，可发起约战；
-      2、约战成功，会暂扣约战成员每人3点实时积分；
-      3、活动第二天，系统将根据约战成绩，自动累积积分（胜者每人获得3点年度积分和3点实时积分，负者每人扣掉3点年度积分和3点实时积分）
-      
+      1、发起人实时积分大于3点，可发起约战（无须填满4人），暂扣3点实时积分；
+      2、其他人员实时积分大于3点，可应战，暂扣3点实时积分；
+      3、如果您有未成团的应战，无法发起新的约战或应战；
+      4、活动第二天，系统将根据约战成绩，自动累积积分（胜者每人获得3点年度积分和3点实时积分，负者每人扣掉3点年度积分和3点实时积分）
+
       打CALL规则
       1、系统每周会选择一组“基情四射”的约战，开放打CALL功能；
       2、场外人员可选择支（an）持（lian）的一方进行打CALL，暂扣1点实时积分
       3、活动第二天，系统自动累积积分（猜对者获得1点实时积分，猜错者扣掉1点实时积分）
-      </text>
+    </text>
   </view>
 </view>

@@ -16,8 +16,8 @@ public interface ISunBattleService {
 
     public List<SunBattle> selectBattlesByActivityId(Integer activityId);
 
-    //查询某会员参加过的约战活动
-    public List<SunBattle> selectBattlesByMemberId(Integer memberId);
+    //查询某会员是否有待确认的约战活动
+    public boolean hasNotCompletedBattlesByMemberId(Integer memberId);
 
     List<SunBattle> selectBattlesFromNow();
 

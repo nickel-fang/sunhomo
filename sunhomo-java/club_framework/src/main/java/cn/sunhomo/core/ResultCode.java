@@ -53,7 +53,8 @@ public enum ResultCode {
     BATTLE_HAS_CANCELLED(80011, "约战已取消"),
     BATTLE_HAS_ENOUGH_MEMBER(80012, "您来晚了"),
     BATTLE_POSITION_HAS_OCCUPIED(80013, "位置已被占"),
-    BATTLE_HAS_NOT_ENROLLED(80014, "您未报名活动");
+    BATTLE_HAS_NOT_ENROLLED(80014, "您未报名活动"),
+    BATTLE_HAS_NOT_COMPLETED(80015, "有约战未成团");
 
     private int code;
 
