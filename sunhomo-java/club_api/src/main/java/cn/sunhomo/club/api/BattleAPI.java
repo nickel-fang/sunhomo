@@ -114,4 +114,70 @@ public class BattleAPI {
         return result == 1 ? AjaxResult.success(battleService.selectBattlesFromNow()) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, battleService.selectBattlesFromNow());
     }
 
+    /**
+     * 打CALL功能
+     *
+     * @param battle
+     * @return
+     */
+    @PostMapping("/accept")
+    @ResponseBody
+    public AjaxResult<List<SunBattle>> accept(@RequestBody SunBattle battle) {
+        Integer accepter = null;
+        //TODO
+        //约战已取消（查不到记录），不能应战，返回要刷新
+        SunBattle tempbattle = battleService.selectByPrimaryKey(battle.getBattleId());
+        if (null == battle)
+            return AjaxResult.failure(ResultCode.BATTLE_HAS_CANCELLED, battleService.selectBattlesFromNow());
+
+        //约战人数已经满了
+        if (tempbattle.getBattleState() == 2)
+            return AjaxResult.failure(ResultCode.BATTLE_HAS_ENOUGH_MEMBER, battleService.selectBattlesFromNow());
+
+        if (battle.getA2() != null) accepter = battle.getA2();
+        if (battle.getB1() != null) accepter = battle.getB1();
+        if (battle.getB2() != null) accepter = battle.getB2();
+
+        //是否报名了此活动
+        SunActivity activity = activityService.selectActivity(tempbattle.getActivityId());
+        Integer finalAccepter = accepter;
+        if (activity.getMembers().stream().noneMatch(m -> m.getMemberId().intValue() == finalAccepter.intValue() && m.getIsMaster() == 0))
+            return AjaxResult.failure(ResultCode.BATTLE_HAS_NOT_ENROLLED, battleService.selectBattlesFromNow());
+
+        int result = 0;
+        try {
+            locks[battle.getBattleId() % locks.length].lock();
+            //在获锁的过程中，活动有可能被取消
+            tempbattle = battleService.selectByPrimaryKey(battle.getBattleId());
+            if (null == battle)
+                return AjaxResult.failure(ResultCode.BATTLE_HAS_CANCELLED, battleService.selectBattlesFromNow());
+
+            if (tempbattle.getBattleState() == 2)
+                return AjaxResult.failure(ResultCode.BATTLE_HAS_ENOUGH_MEMBER, battleService.selectBattlesFromNow());
+
+            if (battle.getA2() != null) {
+                if (tempbattle.getA2() != null)
+                    return AjaxResult.failure(ResultCode.BATTLE_POSITION_HAS_OCCUPIED, battleService.selectBattlesFromNow());
+                else if (tempbattle.getB1() != null && tempbattle.getB2() != null)
+                    battle.setBattleState(2); //人齐了，约战自动成功
+            } else if (battle.getB1() != null) {
+                if (tempbattle.getB1() != null)
+                    return AjaxResult.failure(ResultCode.BATTLE_POSITION_HAS_OCCUPIED, battleService.selectBattlesFromNow());
+                else if (tempbattle.getA2() != null && tempbattle.getB2() != null)
+                    battle.setBattleState(2); //人齐了，约战自动成功
+            } else if (battle.getB2() != null) {
+                if (tempbattle.getB2() != null)
+                    return AjaxResult.failure(ResultCode.BATTLE_POSITION_HAS_OCCUPIED, battleService.selectBattlesFromNow());
+                else if (tempbattle.getA2() != null && tempbattle.getB1() != null)
+                    battle.setBattleState(2); //人齐了，约战自动成功
+            }
+
+            result = battleService.accept(battle, accepter);
+        } finally {
+            locks[battle.getBattleId() % locks.length].unlock();
+        }
+
+        return result == 1 ? AjaxResult.success(battleService.selectBattlesFromNow()) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, battleService.selectBattlesFromNow());
+    }
+
 }

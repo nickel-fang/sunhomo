@@ -50,7 +50,10 @@ public enum ResultCode {
     DRAW_IS_NOT_ALLOWED_FOR_OTHER_PERSON(80008, "只有报名者才能抽签"),
     DRAW_DIVISION_IS_NOT_CONFIGURED(80009, "队长未就位"),
     POINT_NOT_ENOUGH(80010, "积分不够"),
-    BATTLE_HAS_CANCELLED(80011,"约战已取消");
+    BATTLE_HAS_CANCELLED(80011, "约战已取消"),
+    BATTLE_HAS_ENOUGH_MEMBER(80012, "您来晚了"),
+    BATTLE_POSITION_HAS_OCCUPIED(80013, "位置已被占"),
+    BATTLE_HAS_NOT_ENROLLED(80014, "您未报名活动");
 
     private int code;
 

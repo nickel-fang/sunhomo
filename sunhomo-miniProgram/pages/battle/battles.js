@@ -161,7 +161,7 @@ Page({
   },
 
   battle: function () {
-    if (this.data.userInfo.point < 3) {
+    if (app.globalData.userInfo.point < 3) {
       wx.showToast({
         title: '积分不够',
         icon: 'error'
@@ -187,11 +187,86 @@ Page({
       })
     }
   },
+
+  accept: function (event) {
+    //判断是否可以应战（当前约战人员不能应战，未约战成功的且是参与者的约战，不能应战)
+    var canAccept = true;
+    if (app.globalData.userInfo.point < 3) {
+      wx.showToast({
+        title: '积分不够',
+        icon: 'error'
+      });
+      canAccept = false;
+    } else {
+      var that = this;
+      var postion = event.currentTarget.dataset.postion;
+      var battleId = event.currentTarget.dataset.battleid;
+      var userId = this.data.userInfo.memberId;
+      var userName = this.data.userInfo.memberName;
+      var battle = {};
+      for (var i = 0; i < this.data.battles.length; i++) {
+        var tempBattle = this.data.battles[i];
+        if (tempBattle.battleState == 1) {
+          if (tempBattle.a1 == userId || tempBattle.a2 == userId || tempBattle.b1 == userId || tempBattle.b2 == userId) {
+            wx.showToast({
+              title: '无法应战',
+              icon: 'error'
+            });
+            canCall = false;
+            break;
+          }
+        }
+      }
+      if (canAccept) {
+        wx.showModal({
+          content: '确定应战？',
+          confirmColor: '#2EA7E0',
+          success(res) {
+            if (res.confirm) {
+              battle.battleId = battleId;
+              if (postion == 'a2') {
+                battle.a2 = userId;
+                battle.a2Name = userName;
+              } else if (postion == 'b1') {
+                battle.b1 = userId;
+                battle.b1Name = userName;
+              } else if (postion == 'b2') {
+                battle.b2 = userId;
+                battle.b2Name = userName;
+              }
+              wx.request({
+                url: app.globalData.APIUrl + '/club/battle/accept',
+                method: 'POST',
+                data: battle,
+                success: function (res) {
+                  if (res.data.code == 1) {
+                    that.data.userInfo.point = that.data.userInfo.point - 3;
+                    app.globalData.userInfo.point = app.globalData.userInfo.point - 3;
+                    wx.setStorageSync('pointChange', 1);
+                    that.setData({
+                      battles: res.data.data
+                    });
+                  } else if (res.data.code) {
+                    wx.showToast({
+                      title: res.data.msg,
+                      icon: 'error'
+                    })
+                  } else {
+                    wx.showToast({
+                      title: '系统错误',
+                      icon: 'error'
+                    })
+                  }
+                }
+              })
+            }
+          }
+        });
+      }
+    }
+  },
+
   doCall: function (event) {
-    var that = this;
-    var vote = event.currentTarget.dataset.vote;
-    var battleId = event.currentTarget.dataset.battleid;
-    var userId = this.data.userInfo.memberId;
     //判断是否可以打CALL(当前约战人员不能打CALL，已打CALL不能打CALL)
     var canCall = true;
     if (this.data.userInfo.point <= 0) {
@@ -201,6 +276,10 @@ Page({
       });
       canCall = false;
     } else {
+      var that = this;
+      var vote = event.currentTarget.dataset.vote;
+      var battleId = event.currentTarget.dataset.battleid;
+      var userId = this.data.userInfo.memberId;
       for (var i = 0; i < this.data.battles.length; i++) {
         var battle = this.data.battles[i];
         if (battleId == battle.battleId) {
@@ -242,10 +321,16 @@ Page({
               success: function (res) {
                 if (res.data.code == 1) {
                   that.data.userInfo.point = that.data.userInfo.point - 1;
+                  app.globalData.userInfo.point = app.globalData.userInfo.point - 1;
                   wx.setStorageSync('pointChange', 1);
                   that.setData({
                     battles: res.data.data
                   });
+                } else if (res.data.code) {
+                  wx.showToast({
+                    title: res.data.msg,
+                    icon: 'error'
+                  })
                 } else {
                   wx.showToast({
                     title: '系统错误',

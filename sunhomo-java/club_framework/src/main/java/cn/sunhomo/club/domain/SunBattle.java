@@ -66,7 +66,7 @@ public class SunBattle extends BaseEntity {
     private Integer battlePoint;
 
     /**
-     * 约战的状态， -1 取消；1 待确认 2 约战成功
+     * 约战的状态， -1 取消；1 待应战 2 约战成功
      */
     private Integer battleState;
 

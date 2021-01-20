@@ -28,7 +28,7 @@ public interface ISunMemberService {
 
     List<SunPointRecord> getYearPointRecordsByOpenID(String openid);
 
-    public void addRealPoint(int[] memberIds, int point);
+    public void addRealPoint(List<Integer> memberIds, int point);
 
     List<SunBattle> getBattlesByMemberID(Integer memberId);
 }

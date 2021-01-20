@@ -11,10 +11,10 @@
                   <button type="primary" size="mini" style="padding:5rpx;" data-battleid="{{battle.battleId}}"
                     data-action="2" bindtap="confirmAndCancelAndWin">A胜</button>
                 </block>
-                <block wx:if="{{battle.battleState==1}}">
+                <!-- <block wx:if="{{battle.battleState==1}}">
                   <button type="primary" size="mini" style="padding:5rpx;" data-battleid="{{battle.battleId}}"
                     data-action="1" bindtap="confirmAndCancelAndWin">确认</button>
-                </block>
+                </block> -->
                 <block wx:if="{{battle.battleState!=-1}}">
                   <button type="primary" size="mini" style="padding:5rpx;" data-battleid="{{battle.battleId}}"
                     data-action="-1" bindtap="confirmAndCancelAndWin">取消</button>
@@ -33,15 +33,18 @@
                   <image class="icon-win left" src="/images/win.png" alt=""></image>
                 </block>
                 <view>{{battle.a1Name}}</view>
-                <view>{{battle.a2Name}}</view>
+                <view wx:if="{{battle.a2Name}}">{{battle.a2Name}}</view>
+                <view wx:else><button type="primary" size="mini" data-postion="a2" data-battleid="{{battle.battleId}}" bindtap="accept">应战</button></view>
               </view>
               <image class="icon-vs" src="/images/vs.jpg" alt=""></image>
               <view class="battle-player">
                 <block wx:if="{{battle.battleResult==-1}}">
                   <image class="icon-win right" src="/images/win.png" alt=""></image>
                 </block>
-                <view>{{battle.b1Name}}</view>
-                <view>{{battle.b2Name}}</view>
+                <view wx:if="{{battle.b1Name}}">{{battle.b1Name}}</view>
+                <view wx:else><button type="primary" size="mini" data-postion="b1" data-battleid="{{battle.battleId}}" bindtap="accept">应战</button></view>
+                <view wx:if="{{battle.b2Name}}">{{battle.b2Name}}</view>
+                <view wx:else><button type="primary" size="mini" data-postion="b2" data-battleid="{{battle.battleId}}" bindtap="accept">应战</button></view>
               </view>
             </view>
           </view>

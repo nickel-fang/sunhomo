@@ -10,11 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 1、只能限定为活动报名人员
@@ -38,7 +39,13 @@ public class SunBattleService implements ISunBattleService {
     @Transactional
     public int insertBattle(SunBattle battle) {
         //暂扣参战人员的个人实时积分
-        int[] battlers = {battle.getA1(), battle.getA2(), battle.getB1(), battle.getB2()};
+//        int[] battlers = {battle.getA1(), battle.getA2(), battle.getB1(), battle.getB2()};
+//        memberDao.addRealPoint(battlers, -battle.getBattlePoint());
+        List<Integer> battlers = new ArrayList<>();
+        battlers.add(battle.getA1());
+        if (null != battle.getA2()) battlers.add(battle.getA2());
+        if (null != battle.getB1()) battlers.add(battle.getB1());
+        if (null != battle.getB2()) battlers.add(battle.getB2());
         memberDao.addRealPoint(battlers, -battle.getBattlePoint());
         return battleDao.insert(battle);
     }
@@ -49,11 +56,17 @@ public class SunBattleService implements ISunBattleService {
         //取消要退回个人实时积分，退回押注者的实时积分
         if (battle.getBattleState() != null && battle.getBattleState() == -1) {
             SunBattle oldBattle = battleDao.selectByPrimaryKey(battle.getBattleId());
-            int[] battlers = {oldBattle.getA1(), oldBattle.getA2(), oldBattle.getB1(), oldBattle.getB2()};
+//            int[] battlers = {oldBattle.getA1(), oldBattle.getA2(), oldBattle.getB1(), oldBattle.getB2()};
+            List<Integer> battlers = new ArrayList<>();
+            battlers.add(oldBattle.getA1());
+            if (null != oldBattle.getA2()) battlers.add(oldBattle.getA2());
+            if (null != oldBattle.getB1()) battlers.add(oldBattle.getB1());
+            if (null != oldBattle.getB2()) battlers.add(oldBattle.getB2());
             memberDao.addRealPoint(battlers, oldBattle.getBattlePoint());
 
-            int[] voters = oldBattle.getVotes().stream().mapToInt(v -> v.getMemberId()).toArray();
-            if (voters.length > 0)
+//            int[] voters = oldBattle.getVotes().stream().mapToInt(v -> v.getMemberId()).toArray();
+            List<Integer> voters = (List<Integer>) oldBattle.getVotes().stream().map(v -> v.getMemberId()).collect(Collectors.toList());
+            if (voters.size() > 0)
                 memberDao.addRealPoint(voters, 1);
             //取消时，直接删除
             return battleDao.deleteByPrimaryKey(new Integer[]{battle.getBattleId()});
@@ -65,8 +78,16 @@ public class SunBattleService implements ISunBattleService {
     @Transactional
     public int doCall(SunBattleVote vote) {
         //扣掉打CALL者1点实时积分
-        memberDao.addRealPoint(new int[]{vote.getMemberId()}, -1);
+        memberDao.addRealPoint(Collections.singletonList(vote.getMemberId()), -1);
         return voteDao.insert(vote);
+    }
+
+    @Override
+    @Transactional
+    public int accept(SunBattle battle, Integer accepter) {
+        //扣掉应战者3点实时积分
+        memberDao.addRealPoint(Collections.singletonList(accepter), -3);
+        return battleDao.updateByPrimaryKeySelective(battle);
     }
 
     @Override

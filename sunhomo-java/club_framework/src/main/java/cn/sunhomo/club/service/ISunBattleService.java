@@ -26,4 +26,6 @@ public interface ISunBattleService {
     int doCall(SunBattleVote vote);
 
     int getBattleState(Integer battleId);
+
+    int accept(SunBattle battle, Integer accepter);
 }

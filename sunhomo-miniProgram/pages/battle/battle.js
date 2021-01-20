@@ -156,7 +156,7 @@ Page({
       "activityId": this.data.activityId,
       "battleType": 2,
       "battlePoint": 3,
-      "battleState": this.data.userInfo.isAdmin == 1 ? 2 : 1,
+      "battleState": 1,
       "a1": this.data.a1,
       "a1Name": this.data.a1Name,
       "b1": this.data.b1,
@@ -169,12 +169,14 @@ Page({
       "isPeak": this.data.isPeak
     };
     //有效性校验
-    if (!battle.a1 || !battle.a2 || !battle.b1 || !battle.b2) {
+    /**if (!battle.a1 || !battle.a2 || !battle.b1 || !battle.b2) {
       wx.showToast({
         title: '请选择人员',
         icon: 'error'
       });
-    } else if (battle.a1 == battle.b1 || battle.a1 == battle.b2 || battle.a2 == battle.b1 || battle.a2 == battle.b2 || battle.a1Name == battle.a2Name || battle.b1Name == battle.b2Name) {
+    } else **/
+    if ((battle.b1 && battle.a1 == battle.b1) || (battle.b2 && battle.a1 == battle.b2) || (battle.a2 && battle.b1 && battle.a2 == battle.b1) ||
+      (battle.a2 && battle.b2 && battle.a2 == battle.b2) || (battle.a2Name && battle.a1Name == battle.a2Name) || (battle.b1Name && battle.b2Name && battle.b1Name == battle.b2Name)) {
       wx.showToast({
         title: '人员选择有误',
         icon: 'error'

@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class SunMemberService implements ISunMemberService {
@@ -56,8 +55,7 @@ public class SunMemberService implements ISunMemberService {
         return memberDao.getYearPointRecordsByOpenID(openid);
     }
 
-    @Override
-    public void addRealPoint(int[] memberIds, int point) {
+    public void addRealPoint(List<Integer> memberIds, int point) {
         memberDao.addRealPoint(memberIds, point);
     }
 

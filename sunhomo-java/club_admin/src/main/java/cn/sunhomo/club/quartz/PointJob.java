@@ -198,14 +198,14 @@ public class PointJob extends QuartzJobBean {
                 //取消的约战，在取消时即时恢复积分了
                 //待确认，只需恢复打CALLER者的暂扣积分
                 if (battle.getBattleState() == 1 && battle.getVotes().size() > 0) {
-                    memberService.addRealPoint(battle.getVotes().stream().mapToInt(v -> v.getMemberId()).toArray(), 1);
+                    memberService.addRealPoint(battle.getVotes().stream().map(v -> v.getMemberId()).collect(Collectors.toList()), 1);
                 } else if (battle.getBattleState() == 2 && battle.getVotes().size() > 0) {
 
                     if (battle.getBattleResult() == null) {
-                        memberService.addRealPoint(battle.getVotes().stream().mapToInt(v -> v.getMemberId()).toArray(), 1);
+                        memberService.addRealPoint(battle.getVotes().stream().map(v -> v.getMemberId()).collect(Collectors.toList()), 1);
                     } else {
-                        int[] memberIds = battle.getVotes().stream().filter(v -> v.getVote() == battle.getBattleResult()).mapToInt(v -> v.getMemberId()).toArray();
-                        if (memberIds.length > 0)
+                        List<Integer> memberIds = battle.getVotes().stream().filter(v -> v.getVote() == battle.getBattleResult()).map(v -> v.getMemberId()).collect(Collectors.toList());
+                        if (memberIds.size() > 0)
                             memberService.addRealPoint(memberIds, 2);
                         pointService.insertPointRecords(
                                 battle.getVotes().stream()

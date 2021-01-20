@@ -36,7 +36,7 @@ public interface SunMemberDao {
 
     List<SunMember> getTop10YearPointByOpenID(String openId);
 
-    void addRealPoint(@Param("memberIds") int[] memberIds, @Param("point") int point);
+    void addRealPoint(@Param("memberIds") List<Integer> memberIds, @Param("point") int point);
 
     List<SunPointRecord> getYearPointRecordsByOpenID(String openid);
 
