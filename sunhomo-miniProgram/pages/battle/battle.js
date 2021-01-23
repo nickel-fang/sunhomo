@@ -168,6 +168,9 @@ Page({
       "battleDate": this.data.battleDate,
       "isPeak": this.data.isPeak
     };
+    if (battle.a1 && battle.a2 && battle.b1 && battle.b2) {
+      battle.battleState = 2;
+    }
     //有效性校验
     /**if (!battle.a1 || !battle.a2 || !battle.b1 || !battle.b2) {
       wx.showToast({

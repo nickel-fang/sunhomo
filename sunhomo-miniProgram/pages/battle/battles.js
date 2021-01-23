@@ -179,21 +179,21 @@ Page({
             //判断是否有约战未成团
             wx.request({
               url: app.globalData.APIUrl + '/club/battle/hasNotCompletedBattle',
-              method:'POST',
+              method: 'POST',
               data: that.data.userInfo.memberId,
-              success: function(res){
-                if(res.data.code==1){
-                  if(res.data.data){
+              success: function (res) {
+                if (res.data.code == 1) {
+                  if (res.data.data) {
                     wx.showToast({
                       title: '有约战未成团',
                       icon: 'error'
                     });
-                  }else{
+                  } else {
                     wx.navigateTo({
                       url: 'battle?activities=' + JSON.stringify(activities)
                     })
                   }
-                }else{
+                } else {
                   wx.showToast({
                     title: '系统错误',
                     icon: 'error'
@@ -201,7 +201,7 @@ Page({
                 }
               }
             })
-            
+
           } else {
             wx.showToast({
               title: '您未报名活动',
@@ -288,6 +288,38 @@ Page({
         });
       }
     }
+  },
+
+  quit: function (event) {
+    var that = this;
+    var quiter = event.currentTarget.dataset.quiter;
+    var postion = event.currentTarget.dataset.position;
+    var battleId = event.currentTarget.dataset.battleid;
+    wx.showModal({
+      content: '确定退报' + postion + '?',
+      confirmColor: '#2EA7E0',
+      success(res) {
+        if (res.confirm) {
+          wx.request({
+            url: app.globalData.APIUrl + '/club/battle/quit/' + battleId + '/' + postion + '/' + quiter,
+            method:'POST',
+            data:null,
+            success:function(res){
+              if(res.data.code==1){
+                that.setData({
+                  battles: res.data.data
+                });
+              }else{
+                wx.showToast({
+                  title: '系统错误',
+                  icon: 'error'
+                })
+              }
+            }
+          })
+        }
+      }
+    });
   },
 
   doCall: function (event) {

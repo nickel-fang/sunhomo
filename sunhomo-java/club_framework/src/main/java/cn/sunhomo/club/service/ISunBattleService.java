@@ -28,4 +28,6 @@ public interface ISunBattleService {
     int getBattleState(Integer battleId);
 
     int accept(SunBattle battle, Integer accepter);
+
+    int quit(Integer battleId, String position, Integer quiter);
 }

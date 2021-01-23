@@ -49,11 +49,11 @@
       </picker>
     </view>
   </view>
-  <view style="margin:20rpx;font-weight:blod" wx:if="{{userInfo.isAdmin==1}}">
+  <!-- <view style="margin:20rpx;font-weight:blod" wx:if="{{userInfo.isAdmin==1}}">
     <checkbox-group bindchange="bindIsPeakChange">
       <checkbox value="1"></checkbox>是否是巅峰赛
     </checkbox-group>
-  </view>
+  </view> -->
   <view style="text-align:center;margin-top:10rpx;">
     <button type="primary" size="mini" formType="submit">确定</button>
   </view>

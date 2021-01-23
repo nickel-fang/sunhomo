@@ -122,7 +122,7 @@ public class BattleAPI {
     }
 
     /**
-     * 打CALL功能
+     * 应战
      *
      * @param battle
      * @return
@@ -188,6 +188,18 @@ public class BattleAPI {
             locks[battle.getBattleId() % locks.length].unlock();
         }
 
+        return result == 1 ? AjaxResult.success(battleService.selectBattlesFromNow()) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, battleService.selectBattlesFromNow());
+    }
+
+    /**
+     * 应战人员退出（管理员操作）
+     *
+     * @return
+     */
+    @PostMapping("/quit/{battleId}/{position}/{quiter}")
+    @ResponseBody
+    public AjaxResult<List<SunBattle>> quit(@PathVariable("battleId") Integer battleId, @PathVariable("position") String position, @PathVariable("quiter") Integer quiter) {
+        int result = battleService.quit(battleId, position, quiter);
         return result == 1 ? AjaxResult.success(battleService.selectBattlesFromNow()) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, battleService.selectBattlesFromNow());
     }
 

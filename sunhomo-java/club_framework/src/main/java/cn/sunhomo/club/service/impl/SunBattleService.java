@@ -91,6 +91,14 @@ public class SunBattleService implements ISunBattleService {
     }
 
     @Override
+    @Transactional
+    public int quit(Integer battleId, String position, Integer quiter) {
+        //返回退出者3点实时积分
+        memberDao.addRealPoint(Collections.singletonList(quiter), 3);
+        return battleDao.quit(battleId, position);
+    }
+
+    @Override
     public int getBattleState(Integer battleId) {
         return battleDao.getBattleState(battleId);
     }

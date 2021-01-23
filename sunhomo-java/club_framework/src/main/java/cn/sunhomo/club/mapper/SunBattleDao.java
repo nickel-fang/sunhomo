@@ -1,6 +1,7 @@
 package cn.sunhomo.club.mapper;
 
 import cn.sunhomo.club.domain.SunBattle;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -24,4 +25,6 @@ public interface SunBattleDao {
     int getBattleState(Integer battleId);
 
     boolean hasNotCompletedBattlesByMemberId(Integer memberId);
+
+    int quit(@Param("battleId") Integer battleId, @Param("position") String position);
 }

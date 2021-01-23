@@ -238,6 +238,25 @@
         IS_PEAK = #{isPeak,jdbcType=TINYINT}
         where BATTLE_ID = #{battleId,jdbcType=INTEGER}
     </update>
+    <update id="quit">
+        update SUN_BATTLE
+        <set>
+            BATTLE_STATE=1,
+            <if test="position == 'A1'">
+                A1=NULL, A1_NAME=NULL,
+            </if>
+            <if test="position == 'A2'">
+                A2=NULL, A2_NAME=NULL,
+            </if>
+            <if test="position == 'B1'">
+                B1=NULL, B1_NAME=NULL,
+            </if>
+            <if test="position == 'B2'">
+                B2=NULL, B2_NAME=NULL,
+            </if>
+        </set>
+        where BATTLE_ID = #{battleId,jdbcType=INTEGER}
+    </update>
     <select id="selectBattlesByActivityId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
