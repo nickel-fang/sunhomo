@@ -4,7 +4,7 @@
       <view class="menu-item">
         <view class="menu-item-main">
           <view class="menu-header">
-            <view class="header-left">约战日期：{{battle.battleDate}}</view>
+            <view class="header-left">约战日期：{{battle.battleDate}}<view wx:if="{{battle.isBlind==1}}">（盲盒）</view></view>
             <view class="header-right">
               <block wx:if="{{userInfo.isAdmin==1}}">
                 <block wx:if="{{battle.battleState==2 && !battle.battleResult}}">
