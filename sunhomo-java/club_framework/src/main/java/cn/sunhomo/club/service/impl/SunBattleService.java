@@ -58,7 +58,7 @@ public class SunBattleService implements ISunBattleService {
             SunBattle oldBattle = battleDao.selectByPrimaryKey(battle.getBattleId());
 //            int[] battlers = {oldBattle.getA1(), oldBattle.getA2(), oldBattle.getB1(), oldBattle.getB2()};
             List<Integer> battlers = new ArrayList<>();
-            battlers.add(oldBattle.getA1());
+            if (null != oldBattle.getA1()) battlers.add(oldBattle.getA1());
             if (null != oldBattle.getA2()) battlers.add(oldBattle.getA2());
             if (null != oldBattle.getB1()) battlers.add(oldBattle.getB1());
             if (null != oldBattle.getB2()) battlers.add(oldBattle.getB2());
@@ -85,17 +85,27 @@ public class SunBattleService implements ISunBattleService {
     @Override
     @Transactional
     public int accept(SunBattle battle, Integer accepter) {
-        //扣掉应战者3点实时积分
-        memberDao.addRealPoint(Collections.singletonList(accepter), -3);
+        //扣掉应战者3点或1点实时积分
+        memberDao.addRealPoint(Collections.singletonList(accepter), -battle.getBattlePoint());
         return battleDao.updateByPrimaryKeySelective(battle);
     }
 
     @Override
     @Transactional
-    public int quit(Integer battleId, String position, Integer quiter) {
+    public int quit(Integer battleId, String position, Integer quiter, Integer battlePoint) {
         //返回退出者3点实时积分
-        memberDao.addRealPoint(Collections.singletonList(quiter), 3);
+        memberDao.addRealPoint(Collections.singletonList(quiter), battlePoint);
         return battleDao.quit(battleId, position);
+    }
+
+    @Override
+    public List<SunBattle> selectNotFormedBlindBattles(String date) {
+        return battleDao.selectNotFormedBlindBattles(date);
+    }
+
+    @Override
+    public boolean hasNotCompletedBlindBattles(String battleDate) {
+        return battleDao.hasNotCompletedBlindBattles(battleDate);
     }
 
     @Override

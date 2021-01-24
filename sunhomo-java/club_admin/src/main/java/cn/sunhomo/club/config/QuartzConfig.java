@@ -1,6 +1,7 @@
 package cn.sunhomo.club.config;
 
 import cn.sunhomo.club.quartz.ActivityJob;
+import cn.sunhomo.club.quartz.BattleJob;
 import cn.sunhomo.club.quartz.PointJob;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +19,22 @@ public class QuartzConfig {
 
     @Value("${club.job.activity}")
     private String jobCronForActivity;
+
+    @Value("${club.job.battle}")
+    private String jobCronForBattle;
+
+    @Bean
+    public JobDetail battleJobDetail() {
+        return JobBuilder.newJob(BattleJob.class).withIdentity("battleJob").storeDurably().build();
+    }
+
+    @Bean
+    public Trigger battleJobTrigger() {
+        return TriggerBuilder.newTrigger().forJob(battleJobDetail())
+                .withIdentity("battleJob")
+                .withSchedule(CronScheduleBuilder.cronSchedule(jobCronForBattle))
+                .build();
+    }
 
     @Bean
     public JobDetail pointJobDetail() {

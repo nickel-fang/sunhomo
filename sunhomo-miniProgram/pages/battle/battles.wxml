@@ -32,15 +32,31 @@
                 <block wx:if="{{battle.battleResult==1}}">
                   <image class="icon-win left" src="/images/win.png" alt=""></image>
                 </block>
-                <view wx:if="{{userInfo.isAdmin==1}}">
-                    <view bindtap="quit" data-quiter="{{battle.a1}}" data-position="A1" data-battleid="{{battle.battleId}}">{{battle.a1Name}}</view>
+                <view wx:if="{{battle.a1Name}}">
+                  <view wx:if="{{userInfo.isAdmin==1}}">
+                    <view bindtap="quit" data-quiter="{{battle.a1}}" data-position="A1" data-battleid="{{battle.battleId}}">
+                      <view wx:if="{{battle.isBlind==1 && battle.battleDate!=currentDate}}">A1</view>
+                      <view wx:else>{{battle.a1Name}}</view>
+                    </view>
                   </view>
-                  <view wx:else>{{battle.a1Name}}</view>
+                  <view wx:else>
+                    <view wx:if="{{battle.isBlind==1 && battle.battleDate!=currentDate}}">A1</view>
+                    <view wx:else>{{battle.a1Name}}</view>
+                  </view>
+                </view>
+                <view wx:else><button type="primary" size="mini" data-postion="a1" data-battleid="{{battle.battleId}}"
+                    bindtap="accept" style="margin-top:10rpx;">应战</button></view>
                 <view wx:if="{{battle.a2Name}}">
                   <view wx:if="{{userInfo.isAdmin==1}}">
-                    <view bindtap="quit" data-quiter="{{battle.a2}}" data-position="A2" data-battleid="{{battle.battleId}}">{{battle.a2Name}}</view>
+                    <view bindtap="quit" data-quiter="{{battle.a2}}" data-position="A2" data-battleid="{{battle.battleId}}">
+                      <view wx:if="{{battle.isBlind==1 && battle.battleDate!=currentDate}}">A2</view>
+                      <view wx:else>{{battle.a2Name}}</view>
+                    </view>
                   </view>
-                  <view wx:else>{{battle.a2Name}}</view>
+                  <view wx:else>
+                    <view wx:if="{{battle.isBlind==1 && battle.battleDate!=currentDate}}">A2</view>
+                    <view wx:else>{{battle.a2Name}}</view>
+                  </view>
                 </view>
                 <view wx:else><button type="primary" size="mini" data-postion="a2" data-battleid="{{battle.battleId}}"
                     bindtap="accept" style="margin-top:10rpx;">应战</button></view>
@@ -52,17 +68,29 @@
                 </block>
                 <view wx:if="{{battle.b1Name}}">
                   <view wx:if="{{userInfo.isAdmin==1}}">
-                    <view bindtap="quit" data-quiter="{{battle.b1}}" data-position="B1" data-battleid="{{battle.battleId}}">{{battle.b1Name}}</view>
+                    <view bindtap="quit" data-quiter="{{battle.b1}}" data-position="B1" data-battleid="{{battle.battleId}}">
+                      <view wx:if="{{battle.isBlind==1 && battle.battleDate!=currentDate}}">B1</view>
+                      <view wx:else>{{battle.b1Name}}</view>
+                    </view>
                   </view>
-                  <view wx:else>{{battle.b1Name}}</view>
+                  <view wx:else>
+                    <view wx:if="{{battle.isBlind==1 && battle.battleDate!=currentDate}}">B1</view>
+                    <view wx:else>{{battle.b1Name}}</view>
+                  </view>
                 </view>
                 <view wx:else><button type="primary" size="mini" data-postion="b1" data-battleid="{{battle.battleId}}"
                     bindtap="accept">应战</button></view>
                     <view wx:if="{{battle.b2Name}}">
                   <view wx:if="{{userInfo.isAdmin==1}}">
-                    <view bindtap="quit" data-quiter="{{battle.b2}}" data-position="B2" data-battleid="{{battle.battleId}}">{{battle.b2Name}}</view>
+                    <view bindtap="quit" data-quiter="{{battle.b2}}" data-position="B2" data-battleid="{{battle.battleId}}">
+                      <view wx:if="{{battle.isBlind==1 && battle.battleDate!=currentDate}}">B2</view>
+                      <view wx:else>{{battle.b2Name}}</view>
+                    </view>
                   </view>
-                  <view wx:else>{{battle.b2Name}}</view>
+                  <view wx:else>
+                    <view wx:if="{{battle.isBlind==1 && battle.battleDate!=currentDate}}">B2</view>
+                    <view wx:else>{{battle.b2Name}}</view>
+                  </view>
                 </view>
                 <view wx:else><button type="primary" size="mini" data-postion="b2" data-battleid="{{battle.battleId}}"
                     bindtap="accept" style="margin-top:10rpx;">应战</button></view>

@@ -54,7 +54,10 @@ public enum ResultCode {
     BATTLE_HAS_ENOUGH_MEMBER(80012, "您来晚了"),
     BATTLE_POSITION_HAS_OCCUPIED(80013, "位置已被占"),
     BATTLE_HAS_NOT_ENROLLED(80014, "您未报名活动"),
-    BATTLE_HAS_NOT_COMPLETED(80015, "有约战未成团");
+    BATTLE_HAS_NOT_COMPLETED(80015, "有约战未成团"),
+    BATTLE_BLIND_NOT_ALLOWED(80016, "当天不能盲盒"),
+    BATTLE_HAS_BLIND_NOT_COMPLETED(80017, "有盲盒未成团");
+
 
     private int code;
 

@@ -1,4 +1,5 @@
 const app = getApp();
+var util = require('../../utils/util.js');
 Page({
 
   /**
@@ -7,6 +8,7 @@ Page({
   data: {
     battles: [],
     userInfo: null,
+    currentDate: null
   },
 
   /**
@@ -14,7 +16,8 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      userInfo: app.globalData.userInfo
+      userInfo: app.globalData.userInfo,
+      currentDate: util.formatDate(new Date())
     });
     this.getData();
   },
@@ -228,7 +231,7 @@ Page({
       var battleId = event.currentTarget.dataset.battleid;
       var userId = this.data.userInfo.memberId;
       var userName = this.data.userInfo.memberName;
-      var battle = {};
+      var battle = {}; //用于应战，向后台发送数据，只存约战ID及应战人员信息; 外加约战分数
       for (var i = 0; i < this.data.battles.length; i++) {
         var tempBattle = this.data.battles[i];
         if (tempBattle.battleState == 1) {
@@ -241,6 +244,9 @@ Page({
             break;
           }
         }
+        if (tempBattle.battleId == battleId) {
+          battle.battlePoint = tempBattle.battlePoint;
+        }
       }
       if (canAccept) {
         wx.showModal({
@@ -249,7 +255,10 @@ Page({
           success(res) {
             if (res.confirm) {
               battle.battleId = battleId;
-              if (postion == 'a2') {
+              if (postion == 'a1') {
+                battle.a1 = userId;
+                battle.a1Name = userName;
+              } else if (postion == 'a2') {
                 battle.a2 = userId;
                 battle.a2Name = userName;
               } else if (postion == 'b1') {
@@ -265,7 +274,7 @@ Page({
                 data: battle,
                 success: function (res) {
                   if (res.data.code == 1) {
-                    app.globalData.userInfo.point = app.globalData.userInfo.point - 3;
+                    app.globalData.userInfo.point = app.globalData.userInfo.point - battle.battlePoint;
                     wx.setStorageSync('pointChange', 1);
                     that.setData({
                       battles: res.data.data
@@ -295,21 +304,29 @@ Page({
     var quiter = event.currentTarget.dataset.quiter;
     var postion = event.currentTarget.dataset.position;
     var battleId = event.currentTarget.dataset.battleid;
+    var battlePoint = 3;
+    for (var i = 0; i < this.data.battles.length; i++) {
+      var tempBattle = this.data.battles[i];
+      if (tempBattle.battleId == battleId) {
+        battlePoint = tempBattle.battlePoint;
+        break;
+      }
+    }
     wx.showModal({
       content: '确定退报' + postion + '?',
       confirmColor: '#2EA7E0',
       success(res) {
         if (res.confirm) {
           wx.request({
-            url: app.globalData.APIUrl + '/club/battle/quit/' + battleId + '/' + postion + '/' + quiter,
-            method:'POST',
-            data:null,
-            success:function(res){
-              if(res.data.code==1){
+            url: app.globalData.APIUrl + '/club/battle/quit/' + battleId + '/' + postion + '/' + quiter + "/" + battlePoint,
+            method: 'POST',
+            data: null,
+            success: function (res) {
+              if (res.data.code == 1) {
                 that.setData({
                   battles: res.data.data
                 });
-              }else{
+              } else {
                 wx.showToast({
                   title: '系统错误',
                   icon: 'error'

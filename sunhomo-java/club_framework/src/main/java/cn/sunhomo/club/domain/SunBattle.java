@@ -80,6 +80,11 @@ public class SunBattle extends BaseEntity {
      */
     private Byte isPeak;
 
+    /**
+     * 是否为盲盒模式 1：是， -1 否
+     */
+    private Byte isBlind;
+
     private List<SunBattleVote> votes;
 
     //以下字段通过计算得出

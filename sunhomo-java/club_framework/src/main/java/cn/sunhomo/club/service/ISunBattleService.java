@@ -29,5 +29,9 @@ public interface ISunBattleService {
 
     int accept(SunBattle battle, Integer accepter);
 
-    int quit(Integer battleId, String position, Integer quiter);
+    int quit(Integer battleId, String position, Integer quiter, Integer battlePoint);
+
+    List<SunBattle> selectNotFormedBlindBattles(String date);
+
+    boolean hasNotCompletedBlindBattles(String battleDate);
 }

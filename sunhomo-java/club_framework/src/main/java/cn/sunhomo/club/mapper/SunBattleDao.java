@@ -27,4 +27,8 @@ public interface SunBattleDao {
     boolean hasNotCompletedBattlesByMemberId(Integer memberId);
 
     int quit(@Param("battleId") Integer battleId, @Param("position") String position);
+
+    List<SunBattle> selectNotFormedBlindBattles(@Param("date") String date);
+
+    boolean hasNotCompletedBlindBattles(@Param("battleDate") String battleDate);
 }

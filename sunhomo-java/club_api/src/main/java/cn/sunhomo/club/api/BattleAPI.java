@@ -57,11 +57,20 @@ public class BattleAPI {
         if (LocalDateTime.now().isAfter(LocalDateTime.parse(activity.getActivityDate() + " " + activity.getStartTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))) {
             return AjaxResult.failure(ResultCode.ACTIVITY_HAS_STARTED);
         }*/
+        if (battle.getIsBlind() != null && battle.getIsBlind() == 1) {
+            //活动当天不能发起盲盒约战
+            if (DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now()) == battle.getBattleDate())
+                return AjaxResult.failure(ResultCode.BATTLE_BLIND_NOT_ALLOWED);
+            if (battleService.hasNotCompletedBlindBattles(battle.getBattleDate()))
+                return AjaxResult.failure(ResultCode.BATTLE_HAS_BLIND_NOT_COMPLETED);
+        } else if (battleService.hasNotCompletedBattlesByMemberId(battle.getA1())) {
+            return AjaxResult.failure(ResultCode.BATTLE_HAS_NOT_COMPLETED);
+        }
         int result = battleService.insertBattle(battle);
         return result == 1 ? AjaxResult.success(memberService.selectMember(battle.getA1())) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, battle);
     }
 
-    //发起挑战
+    //本人是否有未成团的约战
     @PostMapping("/hasNotCompletedBattle")
     @ResponseBody
     public AjaxResult<Boolean> hasNotCompletedBattle(@RequestBody Integer memberId) {
@@ -141,6 +150,7 @@ public class BattleAPI {
         if (tempbattle.getBattleState() == 2)
             return AjaxResult.failure(ResultCode.BATTLE_HAS_ENOUGH_MEMBER, battleService.selectBattlesFromNow());
 
+        if (battle.getA1() != null) accepter = battle.getA1();
         if (battle.getA2() != null) accepter = battle.getA2();
         if (battle.getB1() != null) accepter = battle.getB1();
         if (battle.getB2() != null) accepter = battle.getB2();
@@ -166,20 +176,25 @@ public class BattleAPI {
             if (tempbattle.getBattleState() == 2)
                 return AjaxResult.failure(ResultCode.BATTLE_HAS_ENOUGH_MEMBER, battleService.selectBattlesFromNow());
 
-            if (battle.getA2() != null) {
+            if (battle.getA1() != null) {
+                if (tempbattle.getA1() != null)
+                    return AjaxResult.failure(ResultCode.BATTLE_POSITION_HAS_OCCUPIED, battleService.selectBattlesFromNow());
+                else if (tempbattle.getA2() != null && tempbattle.getB1() != null && tempbattle.getB2() != null)
+                    battle.setBattleState(2); //人齐了，约战自动成功
+            } else if (battle.getA2() != null) {
                 if (tempbattle.getA2() != null)
                     return AjaxResult.failure(ResultCode.BATTLE_POSITION_HAS_OCCUPIED, battleService.selectBattlesFromNow());
-                else if (tempbattle.getB1() != null && tempbattle.getB2() != null)
+                else if (tempbattle.getA1() != null && tempbattle.getB1() != null && tempbattle.getB2() != null)
                     battle.setBattleState(2); //人齐了，约战自动成功
             } else if (battle.getB1() != null) {
                 if (tempbattle.getB1() != null)
                     return AjaxResult.failure(ResultCode.BATTLE_POSITION_HAS_OCCUPIED, battleService.selectBattlesFromNow());
-                else if (tempbattle.getA2() != null && tempbattle.getB2() != null)
+                else if (tempbattle.getA1() != null && tempbattle.getA2() != null && tempbattle.getB2() != null)
                     battle.setBattleState(2); //人齐了，约战自动成功
             } else if (battle.getB2() != null) {
                 if (tempbattle.getB2() != null)
                     return AjaxResult.failure(ResultCode.BATTLE_POSITION_HAS_OCCUPIED, battleService.selectBattlesFromNow());
-                else if (tempbattle.getA2() != null && tempbattle.getB1() != null)
+                else if (tempbattle.getA1() != null && tempbattle.getA2() != null && tempbattle.getB1() != null)
                     battle.setBattleState(2); //人齐了，约战自动成功
             }
 
@@ -196,10 +211,10 @@ public class BattleAPI {
      *
      * @return
      */
-    @PostMapping("/quit/{battleId}/{position}/{quiter}")
+    @PostMapping("/quit/{battleId}/{position}/{quiter}/{battlePoint}")
     @ResponseBody
-    public AjaxResult<List<SunBattle>> quit(@PathVariable("battleId") Integer battleId, @PathVariable("position") String position, @PathVariable("quiter") Integer quiter) {
-        int result = battleService.quit(battleId, position, quiter);
+    public AjaxResult<List<SunBattle>> quit(@PathVariable("battleId") Integer battleId, @PathVariable("position") String position, @PathVariable("quiter") Integer quiter, @PathVariable("battlePoint") Integer battlePoint) {
+        int result = battleService.quit(battleId, position, quiter, battlePoint);
         return result == 1 ? AjaxResult.success(battleService.selectBattlesFromNow()) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, battleService.selectBattlesFromNow());
     }
 

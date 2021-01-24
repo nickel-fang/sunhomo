@@ -1,5 +1,6 @@
 // pages/battle/battle.js
 const app = getApp();
+var util = require('../../utils/util.js');
 Page({
 
   /**
@@ -22,8 +23,10 @@ Page({
     b2Name: null,
     battleDate: null,
     battlePoint: null,
-    battleState: null,
-    isPeak: null
+    battleState: 1,
+    isPeak: -1,
+    isBlind: -1,
+    canBlind: null
   },
 
   /**
@@ -44,7 +47,9 @@ Page({
         activityId: activity.activityId,
         activityName: activity.activityName,
         battleDate: activity.activityDate,
-        members: activity.members
+        members: activity.members,
+        //活动当天不能发起盲盒约战
+        canBlind: (activity.activityDate == util.formatDate(new Date())) ? false : true
       });
     }
 
@@ -109,7 +114,10 @@ Page({
     this.setData({
       activityId: activity.activityId,
       activityName: activity.activityName,
-      members: activity.members
+      members: activity.members,
+      battleDate: activity.activityDate,
+      //活动当天不能发起盲盒约战
+      canBlind: (activity.activityDate == util.formatDate(new Date())) ? false : true
     });
   },
 
@@ -142,10 +150,14 @@ Page({
     });
   },
 
-  bindIsPeakChange: function (event) {
+  bindIsBlindChange: function (event) {
     if (event.detail.value == 1) {
       this.setData({
-        isPeak: 1
+        isBlind: 1
+      });
+    } else {
+      this.setData({
+        isBlind: -1
       });
     }
   },
@@ -166,10 +178,14 @@ Page({
       "b2": this.data.b2,
       "b2Name": this.data.b2Name,
       "battleDate": this.data.battleDate,
-      "isPeak": this.data.isPeak
+      "isPeak": this.data.isPeak,
+      "isBlind": this.data.isBlind
     };
     if (battle.a1 && battle.a2 && battle.b1 && battle.b2) {
       battle.battleState = 2;
+    }
+    if (battle.isBlind == 1) {
+      battle.battlePoint = 1;
     }
     //有效性校验
     /**if (!battle.a1 || !battle.a2 || !battle.b1 || !battle.b2) {
@@ -211,6 +227,11 @@ Page({
                   wx.setStorageSync('pointChange', 1);
                   wx.setStorageSync('battleChange', 1);
                   wx.navigateBack();
+                } else {
+                  wx.showToast({
+                    title: res.data.msg,
+                    icon: 'error'
+                  });
                 }
               }
             })
