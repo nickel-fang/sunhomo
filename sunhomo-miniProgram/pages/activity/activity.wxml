@@ -13,7 +13,7 @@
 				<block wx:if="{{member.isMaster==0}}">
 					<!-- （<view wx:if="{{member.winNumber+member.loseNumber==0}}">无约战记录</view>
 					<view wx:else>胜率:{{member.ratio/100}}%</view>  -->
-					（积分:{{member.yearPoint}}/{{member.point}}）
+					（年度积分:{{member.yearPoint}}）
 				</block>
 				<block wx:if="{{member.memberId==userInfo.memberId || userInfo.isAdmin==1}}"><button class="mini-btn" size="mini" bindtap="quit" data-memberid="{{member.memberId}}" data-master="{{member.isMaster}}">退报</button></block>
 			</view>
