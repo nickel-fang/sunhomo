@@ -132,3 +132,10 @@ page{
   transform:translateY(-50%);
   right:20rpx;
 }
+
+.look_icon{
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 32rpx;
+  vertical-align:middle;
+}
