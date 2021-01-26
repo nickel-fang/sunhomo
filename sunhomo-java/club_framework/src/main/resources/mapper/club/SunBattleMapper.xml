@@ -277,7 +277,7 @@
         <include refid="Base_Column_List"/>
         from SUN_BATTLE
         where BATTLE_DATE >=#{now,jdbcType=VARCHAR} and BATTLE_STATE!=-1
-        order by IS_PEAK desc, IS_BLIND desc, BATTLE_ID asc
+        order by BATTLE_DATE asc, IS_PEAK desc, IS_BLIND desc
     </select>
     <select id="getBattleState" resultType="java.lang.Integer">
         select BATTLE_STATE from SUN_BATTLE where BATTLE_ID = #{battleId,jdbcType=INTEGER}
