@@ -6,7 +6,7 @@
 </view>
 <view class="container">
   <view class="space"></view>
-  <block wx:for="{{myBattles}}" wx:for-item="battle">
+  <block wx:for="{{battleRecords}}" wx:for-item="battle">
     <view class="menu-item">
       <view class="menu-item-main">
         <view class="menu-header">

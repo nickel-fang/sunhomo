@@ -73,6 +73,13 @@
 			<image class="next" src="/images/arrowright.png"></image>
 		</view>
 	</navigator>
+	<view class="line"></view>
+	<navigator url="/pages/my/myWinRatioRange">
+		<view class="menu-item">
+			<view class="l">战神榜（约战达5次入榜）</view>
+			<image class="next" src="/images/arrowright.png"></image>
+		</view>
+	</navigator>
 	<block wx:if="{{userInfo.isAdmin==1}}">
 		<view class="space"></view>
 		<navigator url="/pages/my/redeemManagement">
@@ -92,7 +99,7 @@
 	<view class="line"></view>
 	<view class="menu-item">
 		<view class="l">小程序版本</view>
-		<view class="r">V3.3.1</view>
+		<view class="r">V3.4.0</view>
 	</view>
 
 </view>

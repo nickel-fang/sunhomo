@@ -41,4 +41,6 @@ public interface SunMemberDao {
     List<SunPointRecord> getYearPointRecordsByOpenID(String openid);
 
     List<SunBattle> getBattlesByMemberID(Integer memberId);
+
+    List<SunMember> getTop10WinRatioByOpenID(String openid);
 }

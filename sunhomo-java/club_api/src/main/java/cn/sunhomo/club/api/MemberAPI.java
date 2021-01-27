@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
+import sun.security.provider.Sun;
 
 import java.util.Date;
 import java.util.List;
@@ -102,6 +103,20 @@ public class MemberAPI {
     public List<SunMember> myYearPointRange(@RequestBody SunMember member) {
         List<SunMember> members = memberService.getTop10YearPointByMember(member);
         return members;
+    }
+
+    @PostMapping("/myWinRatioRange")
+    @ResponseBody
+    public List<SunMember> myWinRatioRange(@RequestBody SunMember member) {
+        List<SunMember> members = memberService.getTop10WinRatioByMember(member);
+        return members;
+    }
+
+    @PostMapping("/battleRecords")
+    @ResponseBody
+    public List<SunBattle> battleRecords(@RequestBody String openid) {
+        List<SunBattle> battles = memberService.getBattlesByMemberID(memberService.selectMember(openid).getMemberId());
+        return battles;
     }
 
 }

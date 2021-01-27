@@ -31,4 +31,6 @@ public interface ISunMemberService {
     public void addRealPoint(List<Integer> memberIds, int point);
 
     List<SunBattle> getBattlesByMemberID(Integer memberId);
+
+    List<SunMember> getTop10WinRatioByMember(SunMember member);
 }

@@ -1,0 +1,17 @@
+<view class="header-box">
+	<image class="avatar" src="{{userInfo.memberPhoto}}" mode="aspectFill"></image>
+	<view class="r">
+		<view>约战胜率排名TOP10</view>
+	</view>
+</view>
+<view class="container">
+	<view class="space"></view>
+	<block wx:for="{{myWinRatioRange}}" wx:for-item="range">
+		<view class="menu-item" data-topmember="{{range}}" bindtap="viewBattles">
+			<view class="l">{{range.memberId}}、 <image class="member_icon" src="{{range.memberPhoto}}"></image>
+				{{range.memberName}}</view>
+			<view class="r">{{range.ratio/100}}%({{range.winNumber}}/{{range.winNumber+range.loseNumber}})<image class="next" src="/images/arrowright.png"></image></view>
+		</view>
+		<view class="line"></view>
+	</block>
+</view>

@@ -90,4 +90,23 @@ public class SunMemberService implements ISunMemberService {
         }
         return members;
     }
+
+    @Override
+    public List<SunMember> getTop10WinRatioByMember(SunMember me) {
+        List<SunMember> members = memberDao.getTop10WinRatioByOpenID(me.getOpenid());
+        if (members.size() > 0) {
+            int ratio = members.get(0).getRatio();
+            int range = 1;
+            for (SunMember member : members) {
+                if (member.getRatio() == ratio) {
+                    //与前面的胜率一样，并列排名
+                    member.setMemberId(range);
+                } else {
+                    ratio = member.getRatio();
+                    range = member.getMemberId();
+                }
+            }
+        }
+        return members;
+    }
 }

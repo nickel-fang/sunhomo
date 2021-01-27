@@ -11,7 +11,9 @@
     "pages/my/myBattles",
     "pages/my/myRedeem",
     "pages/my/myYearPointRange",
+    "pages/my/myWinRatioRange",
     "pages/my/yearPoints",
+    "pages/my/battles",
     "pages/my/about",
     "pages/my/redeemManagement",
     "pages/mall/mall"
