@@ -68,7 +68,7 @@ page{
   font-size:20rpx;
 }
 .member_name{
-  width:9em;
+  width:255rpx;
   overflow: hidden;
   white-space: nowrap;
   text-overflow:ellipsis;
