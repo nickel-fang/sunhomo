@@ -106,14 +106,9 @@ Page({
             title: '报名成功',
             icon: 'success'
           })
-        } else if (res.data.code == 80003) {
+        } else if (res.data.code != 1) {
           wx.showToast({
-            title: '活动已开始',
-            icon: 'error'
-          })
-        } else if (res.data.code == 80004) {
-          wx.showToast({
-            title: '比赛不能代报',
+            title: res.data.msg,
             icon: 'error'
           })
         } else {
@@ -146,14 +141,9 @@ Page({
                   title: '退报成功',
                   icon: 'success'
                 })
-              } else if (res.data.code == 80002) {
+              } else if (res.data.code != 1) {
                 wx.showToast({
-                  title: '请联系群委会退报',
-                  icon: 'error'
-                })
-              } else if (res.data.code == 80001) {
-                wx.showToast({
-                  title: '已过退报时间',
+                  title: res.data.msg,
                   icon: 'error'
                 })
               } else {
