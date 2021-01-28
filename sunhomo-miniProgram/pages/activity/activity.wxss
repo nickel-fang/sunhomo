@@ -8,18 +8,19 @@
 .menu-list {
   display: flex;
   flex-direction: column;
-  background-color: #fbf9fe;
   margin-top: 10rpx;
 }
 .menu-item {
   color: #000000;
   display: flex;
   background-color: #fff;
-  margin: 5rpx 0rpx;
   /* flex-direction: column; */
-  padding: 10rpx;
-  font-size: 32rpx;
+  padding:8rpx 0;
+  font-size:28rpx;
   align-items: center;
+  margin:5rpx 10rpx;
+  border-radius: 5rpx;
+  box-shadow: 1rpx 4rpx 4rpx rgba(0,0,0,.1);
 }
 .menu-item-content{
   padding-left: 20rpx;
@@ -27,11 +28,48 @@
 }
 
 .member_icon{
-  width: 40rpx;
-  height: 40rpx;
+  width: 50rpx;
+  height: 50rpx;
   border-radius: 32rpx;
+  background:green;
+  margin-right:10rpx ;
 }
 
 .mini-btn{
   margin-right: 10rpx;
+  background:rgba(245, 108, 108,1);
+  color:#fff;
+}
+page{
+  background:#f1f1f1;
+  min-height: 100%;
+}
+.index{
+  width:40rpx;
+  height:40rpx;
+  background:rgba(0, 176, 232,1);
+  border-radius: 8rpx;
+}
+.index-box{
+  width:60rpx;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  color:#fff;
+  font-weight: bold;
+  line-height: 40rpx;
+  font-size:24rpx;
+}
+.index-tb{
+  background: rgb(230, 162, 60,1);
+  width:70rpx;
+  height:40rpx;
+  border-radius: 8rpx;
+  font-size:20rpx;
+}
+.member_name{
+  width:9em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow:ellipsis;
 }

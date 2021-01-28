@@ -6,15 +6,14 @@
 	<view class="menu-list">
 		<block wx:for="{{activity.members}}" wx:for-item="member">
 			<view class="menu-item">
-				<view wx:if="{{index+1>activity.numbers}}">替补{{index+1-activity.numbers}}</view>
-				<view wx:else>{{index+1}}</view>
-				.<image class="member_icon" src="{{member.memberPhoto}}"></image>{{member.memberName}}
+				<view class="index-box">
+					<view wx:if="{{index+1>activity.numbers}}" class="index-tb">替补{{index+1-activity.numbers}}</view>
+					<view wx:else class="index">{{index+1}}</view>
+				</view>
+				<image class="member_icon" src="{{member.memberPhoto}}"></image>
+				<view class="member_name">{{member.memberName}}</view>
 				<view wx:if="{{member.isMaster!=0}}">+{{member.isMaster}}</view>
-				<block wx:if="{{member.isMaster==0}}">
-					<!-- （<view wx:if="{{member.winNumber+member.loseNumber==0}}">无约战记录</view>
-					<view wx:else>胜率:{{member.ratio/100}}%</view>  -->
-					（年度积分:{{member.yearPoint}}）
-				</block>
+				<view wx:else>（年度积分:{{member.yearPoint}}）</view>
 				<block wx:if="{{member.memberId==userInfo.memberId || userInfo.isAdmin==1}}"><button class="mini-btn" size="mini" bindtap="quit" data-memberid="{{member.memberId}}" data-master="{{member.isMaster}}">退报</button></block>
 			</view>
 		</block>
@@ -28,8 +27,7 @@
 		<block wx:if="{{activity.canDraw}}"><button type="primary" size="mini" style="margin-left:10rpx;" bindtap="draw">抽签</button></block>
 		<block wx:if="{{userInfo.isAdmin==1}}"><button size="mini" style="margin-left:10rpx;" bindtap="copyEnroll">复制报名贴</button></block>
 	</view>
-	<view style="margin:10rpx;font-size: 32rpx;">
+	<view style="margin:30rpx 20rpx 0;font-size: 32rpx;">
 		<text>{{activity.memo}}</text>
 	</view>
-	
 </view>
