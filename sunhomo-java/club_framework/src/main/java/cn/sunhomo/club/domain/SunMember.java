@@ -2,6 +2,7 @@ package cn.sunhomo.club.domain;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 /**
@@ -61,6 +62,7 @@ public class SunMember extends BaseEntity {
     /**
      * 注册日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date signDate;
     /**
      * 报名时所用，报名时间

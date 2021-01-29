@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('会员列表')"/>
+    <style>
+        .img-rounded {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body class="gray-bg">
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="col-sm-12 search-collapse">
+                <form id="member-form">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                微信昵称：<input type="text" name="memberName"/>
+                                </select>
+                            </li>
+                            <li>
+                                是否黑名单：<select name="isBlack">
+                                <option value="">所有</option>
+                                <option value="1">黑名单</option>
+                                <option value="0">白名单</option>
+                            </select>
+                            </li>
+
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                                        class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+                                        class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <!--<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="club:member:add">
+                    <i class="fa fa-plus"></i> 新增
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()"
+                   shiro:hasPermission="club:member:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()"
+                   shiro:hasPermission="club:member:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>-->
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="ibox-title">
+                <b id="memberName" style="font-size: 22px"></b>
+                <b style="font-size: 22px">积分详情</b>
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="club:point:add">
+                    <i class="fa fa-plus"></i> 新增
+                </a>
+            </div>
+            <div class="ibox-content">
+                <div class="table-striped">
+                    <table id="bootstrap-table-details"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer"/>
+<script th:inline="javascript">
+    var prefix = ctx + "club/member";
+
+
+    $(function () {
+        var options = {
+            url: prefix + "/list",
+            createUrl: prefix + "/add",
+            updateUrl: prefix + "/edit/{id}",
+            removeUrl: prefix + "/remove",
+            modalName: "活动",
+            pagination: true,
+            sortName: "memberId",
+            sortOrder: "asc",
+            uniqueId: "memberId",
+            columns: [
+                {
+                    checkbox: true
+                },
+                {
+                    field: 'memberId',
+                    title: '会员号'
+                },
+                {
+                    field: 'memberName',
+                    title: '会员名称'
+                },
+                {
+                    field: 'memberPhoto',
+                    title: '会员图像',
+                    formatter: function (value, row, index) {
+                        return '<img  src="' + value + '" class="img-rounded" >';
+                    }
+                },
+                {
+                    field: 'totalPoint',
+                    title: '等级',
+                    formatter: function (value, row, index) {
+                        if (value < 5)
+                            return '赤铁';
+                        else if (value >= 5 && value < 20)
+                            return '青铜';
+                        else if (value >= 20 && value < 50)
+                            return '白银';
+                        else if (value >= 50 && value < 100)
+                            return '黄金';
+                        else if (value >= 100 && value < 200)
+                            return '铂金';
+                        else if (value >= 200 && value < 500)
+                            return '钻石';
+                        else if (value >= 500 && value < 1000)
+                            return '星耀';
+                        else if (value >= 1000)
+                            return '王者';
+                    }
+                },
+                {
+                    // field: 'yearPoint',
+                    title: '积分',
+                    formatter: function (value, row, index) {
+                        return row.yearPoint + '/' + row.point;
+                    }
+                },
+                {
+                    title: '约战胜率',
+                    formatter: function (value, row, index) {
+                        return row.ratio / 100 + '%(' + row.winNumber + '/' + row.loseNumber + ')';
+                    }
+                },
+                {
+                    field: 'signDate',
+                    title: '注册日期'
+                },
+                {
+                    field: 'isBlack',
+                    title: '黑名单',
+                    formatter: function (value, row, index) {
+                        if (value == 1) return '是';
+                        else if (value == 0) return '否';
+                        else return '';
+                    }
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        var actions = [];
+                        if (row.isBlack == 1) {
+                            actions.push('<a class="btn btn-success btn-xs" href="javascript:void(0)" onclick="toWhite(' + row.memberId + ')"><i class="fa"></i>解黑</a> ');
+                        } else {
+                            actions.push('<a class="btn btn-warning btn-xs" href="javascript:void(0)" onclick="toBlack(' + row.memberId + ')"><i class="fa"></i>拉黑</a> ');
+                        }
+                        return actions.join('');
+                    }
+                }
+            ]
+        };
+        $.table.init(options);
+
+        function onClickRow(row, $element) {
+            $('.info').removeClass('info');
+            $($element).addClass('info');
+            $('#bootstrap-table-details').bootstrapTable('destroy');
+            $("#activityName").text(row.activityName + "-");
+
+            var optionsDetail = {
+                id: "bootstrap-table-details",
+                url: prefix + "/divisionList?activityId=" + row.activityId,
+                createUrl: prefix + "/divisionAdd?activityId=" + row.activityId,
+                removeUrl: prefix + "/divisionRemove",
+                updateUrl: prefix + "/divisionEdit/{id}",
+                pagination: false,
+                showSearch: false,
+                showRefresh: false,
+                showColumns: false,
+                showToggle: false,
+                toolbar: false,
+                modalName: "分组",
+                uniqueId: "divisionId",
+                columns: [
+                    {
+                        field: 'divisionId',
+                        title: '分组ID'
+                    },
+                    {
+                        field: 'divisionName',
+                        title: '分组名'
+                    },
+                    {
+                        field: 'leaderName',
+                        title: '队长'
+                    },
+                    {
+                        field: 'rank',
+                        title: '战绩',
+                        formatter: function (value, row, index) {
+                            if (value == 1) return '冠军';
+                            else if (value == 2) return '亚军';
+                            else if (value == 3) return '季军';
+                            else return '参与';
+                        }
+                    },
+                    {
+                        field: 'members',
+                        title: '队员',
+                        formatter: function (value, row, index) {
+                            var text = "";
+                            for (i = 0; i < value.length; i++) {
+                                text = text + value[i].memberName + "  ";
+                            }
+                            return text;
+                        }
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        formatter: function (value, row, index) {
+                            var actions = [];
+                            actions.push('<a class="btn btn-success btn-xs" href="javascript:void(0)" onclick="$.operate.edit(' + row.divisionId + ')"><i class="fa fa-edit"></i>修改</a> ');
+                            actions.push('<a class="btn btn-danger btn-xs" href="#" onclick="$.operate.remove(' + row.divisionId + ')"><i class="fa fa-remove"></i>删除</a>');
+                            return actions.join('');
+                        }
+                    }
+                ]
+            };
+            $.table.init(optionsDetail);
+        }
+    });
+
+    function toWhite(memberId) {
+        $.modal.confirm("确定解除黑名单？", function () {
+            $.ajax({
+                type: "POST",
+                url: prefix + "/editBlack",
+                data: JSON.stringify({'memberId': memberId, 'isBlack': 0}),
+                contentType: "application/json;charset=UTF-8",
+                success: function (result) {
+                    $.table.refresh();
+                }
+            });
+        });
+    }
+
+    function toBlack(memberId) {
+        $.modal.confirm("确定拉黑？", function () {
+            $.ajax({
+                type: "POST",
+                url: prefix + "/editBlack",
+                data: JSON.stringify({'memberId': memberId, 'isBlack': 1}),
+                contentType: "application/json;charset=UTF-8",
+                success: function (result) {
+                    $.table.refresh();
+                }
+            });
+        });
+    }
+
+</script>
+</body>
+</html>
