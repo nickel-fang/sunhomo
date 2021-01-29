@@ -62,7 +62,8 @@ public class SunBattleService implements ISunBattleService {
             if (null != oldBattle.getA2()) battlers.add(oldBattle.getA2());
             if (null != oldBattle.getB1()) battlers.add(oldBattle.getB1());
             if (null != oldBattle.getB2()) battlers.add(oldBattle.getB2());
-            memberDao.addRealPoint(battlers, oldBattle.getBattlePoint());
+            if (battlers.size() > 0)
+                memberDao.addRealPoint(battlers, oldBattle.getBattlePoint());
 
 //            int[] voters = oldBattle.getVotes().stream().mapToInt(v -> v.getMemberId()).toArray();
             List<Integer> voters = (List<Integer>) oldBattle.getVotes().stream().map(v -> v.getMemberId()).collect(Collectors.toList());

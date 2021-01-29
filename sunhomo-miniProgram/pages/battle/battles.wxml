@@ -4,7 +4,9 @@
       <view class="menu-item">
         <view class="menu-item-main">
           <view class="menu-header">
-            <view class="header-left">约战日期：{{battle.battleDate}} <image wx:if="{{battle.isBlind==1}}" class="look_icon" src="/images/look.png" alt=""></image></view>
+            <view class="header-left">约战日期：{{battle.battleDate}} <image wx:if="{{battle.isBlind==1}}" class="look_icon"
+                src="/images/look.png" alt=""></image>
+            </view>
             <view class="header-right">
               <block wx:if="{{userInfo.isAdmin==1}}">
                 <block wx:if="{{battle.battleState==2 && !battle.battleResult}}">
@@ -34,13 +36,18 @@
                 </block>
                 <view wx:if="{{battle.a1Name}}">
                   <view wx:if="{{userInfo.isAdmin==1}}">
-                    <view bindtap="quit" data-quiter="{{battle.a1}}" data-position="A1" data-battleid="{{battle.battleId}}">
-                      <view wx:if="{{battle.isBlind==1 && battle.battleDate!=currentDate && battle.a1!=userInfo.memberId}}">A1</view>
+                    <view bindtap="quit" data-quiter="{{battle.a1}}" data-position="A1"
+                      data-battleid="{{battle.battleId}}">
+                      <view
+                        wx:if="{{battle.isBlind==1 && battle.battleDate!=currentDate && battle.a1!=userInfo.memberId}}">
+                        A1</view>
                       <view wx:else>{{battle.a1Name}}</view>
                     </view>
                   </view>
                   <view wx:else>
-                    <view wx:if="{{battle.isBlind==1 && battle.battleDate!=currentDate && battle.a1!=userInfo.memberId}}">A1</view>
+                    <view
+                      wx:if="{{battle.isBlind==1 && battle.battleDate!=currentDate && battle.a1!=userInfo.memberId}}">A1
+                    </view>
                     <view wx:else>{{battle.a1Name}}</view>
                   </view>
                 </view>
@@ -48,13 +55,18 @@
                     bindtap="accept" style="margin-top:10rpx;">应战</button></view>
                 <view wx:if="{{battle.a2Name}}">
                   <view wx:if="{{userInfo.isAdmin==1}}">
-                    <view bindtap="quit" data-quiter="{{battle.a2}}" data-position="A2" data-battleid="{{battle.battleId}}">
-                      <view wx:if="{{battle.isBlind==1 && battle.battleDate!=currentDate}} && battle.a2!=userInfo.memberId">A2</view>
+                    <view bindtap="quit" data-quiter="{{battle.a2}}" data-position="A2"
+                      data-battleid="{{battle.battleId}}">
+                      <view
+                        wx:if="{{battle.isBlind==1 && battle.battleDate!=currentDate && battle.a2!=userInfo.memberId}}">
+                        A2</view>
                       <view wx:else>{{battle.a2Name}}</view>
                     </view>
                   </view>
                   <view wx:else>
-                    <view wx:if="{{battle.isBlind==1 && battle.battleDate!=currentDate && battle.a2!=userInfo.memberId}}">A2</view>
+                    <view
+                      wx:if="{{battle.isBlind==1 && battle.battleDate!=currentDate && battle.a2!=userInfo.memberId}}">A2
+                    </view>
                     <view wx:else>{{battle.a2Name}}</view>
                   </view>
                 </view>
@@ -68,27 +80,37 @@
                 </block>
                 <view wx:if="{{battle.b1Name}}">
                   <view wx:if="{{userInfo.isAdmin==1}}">
-                    <view bindtap="quit" data-quiter="{{battle.b1}}" data-position="B1" data-battleid="{{battle.battleId}}">
-                      <view wx:if="{{battle.isBlind==1 && battle.battleDate!=currentDate}} && battle.b1!=userInfo.memberId">B1</view>
+                    <view bindtap="quit" data-quiter="{{battle.b1}}" data-position="B1"
+                      data-battleid="{{battle.battleId}}">
+                      <view
+                        wx:if="{{battle.isBlind==1 && battle.battleDate!=currentDate && battle.b1!=userInfo.memberId}}">
+                        B1</view>
                       <view wx:else>{{battle.b1Name}}</view>
                     </view>
                   </view>
                   <view wx:else>
-                    <view wx:if="{{battle.isBlind==1 && battle.battleDate!=currentDate && battle.b1!=userInfo.memberId}}">B1</view>
+                    <view
+                      wx:if="{{battle.isBlind==1 && battle.battleDate!=currentDate && battle.b1!=userInfo.memberId}}">B1
+                    </view>
                     <view wx:else>{{battle.b1Name}}</view>
                   </view>
                 </view>
                 <view wx:else><button type="primary" size="mini" data-postion="b1" data-battleid="{{battle.battleId}}"
                     bindtap="accept">应战</button></view>
-                    <view wx:if="{{battle.b2Name}}">
+                <view wx:if="{{battle.b2Name}}">
                   <view wx:if="{{userInfo.isAdmin==1}}">
-                    <view bindtap="quit" data-quiter="{{battle.b2}}" data-position="B2" data-battleid="{{battle.battleId}}">
-                      <view wx:if="{{battle.isBlind==1 && battle.battleDate!=currentDate && battle.b2!=userInfo.memberId}}">B2</view>
+                    <view bindtap="quit" data-quiter="{{battle.b2}}" data-position="B2"
+                      data-battleid="{{battle.battleId}}">
+                      <view
+                        wx:if="{{battle.isBlind==1 && battle.battleDate!=currentDate && battle.b2!=userInfo.memberId}}">
+                        B2</view>
                       <view wx:else>{{battle.b2Name}}</view>
                     </view>
                   </view>
                   <view wx:else>
-                    <view wx:if="{{battle.isBlind==1 && battle.battleDate!=currentDate && battle.b2!=userInfo.memberId}}">B2</view>
+                    <view
+                      wx:if="{{battle.isBlind==1 && battle.battleDate!=currentDate && battle.b2!=userInfo.memberId}}">B2
+                    </view>
                     <view wx:else>{{battle.b2Name}}</view>
                   </view>
                 </view>

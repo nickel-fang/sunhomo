@@ -31,4 +31,6 @@ public interface SunBattleDao {
     List<SunBattle> selectNotFormedBlindBattles(@Param("date") String date);
 
     boolean hasNotCompletedBlindBattles(@Param("battleDate") String battleDate);
+
+    List<SunBattle> selectBattlesByActivityIdAndMemberId(@Param("activityId")Integer activityId, @Param("memberId")Integer memberId);
 }

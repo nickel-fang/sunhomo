@@ -1,14 +1,18 @@
 package cn.sunhomo.club.service.impl;
 
 import cn.sunhomo.club.domain.SunActivity;
+import cn.sunhomo.club.domain.SunBattle;
 import cn.sunhomo.club.domain.SunMember;
 import cn.sunhomo.club.mapper.SunActivityDao;
+import cn.sunhomo.club.mapper.SunBattleDao;
+import cn.sunhomo.club.mapper.SunMemberDao;
 import cn.sunhomo.club.service.ISunActivityService;
 import cn.sunhomo.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sun.security.provider.Sun;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,6 +21,12 @@ import java.util.stream.Collectors;
 public class SunActivityService implements ISunActivityService {
     @Autowired
     private SunActivityDao activityDao;
+
+    @Autowired
+    private SunBattleDao battleDao;
+
+    @Autowired
+    private SunMemberDao memberDao;
 
     @Override
     public List<SunActivity> selectActivities(SunActivity activity) {
@@ -65,7 +75,26 @@ public class SunActivityService implements ISunActivityService {
     }
 
     @Override
+    @Transactional
     public int quit(Integer activityId, Byte isMaster, Integer memberId) {
+        //主报人退报，要判断是否有应战，有并取消
+        if (isMaster == 0) {
+            List<SunBattle> battles = battleDao.selectBattlesByActivityIdAndMemberId(activityId, memberId);
+            for (SunBattle battle : battles) {
+                memberDao.addRealPoint(Collections.singletonList(memberId), battle.getBattlePoint());
+                String position;
+                if (battle.getA1() != null && battle.getA1().intValue() == memberId.intValue()) {
+                    position = "A1";
+                } else if (battle.getA2() != null && battle.getA2().intValue() == memberId.intValue()) {
+                    position = "A2";
+                } else if (battle.getB1() != null && battle.getB1().intValue() == memberId.intValue()) {
+                    position = "B1";
+                } else {
+                    position = "B2";
+                }
+                battleDao.quit(battle.getBattleId(), position);
+            }
+        }
         return activityDao.deleteMemberToActivity(activityId, memberId, isMaster);
     }
 
