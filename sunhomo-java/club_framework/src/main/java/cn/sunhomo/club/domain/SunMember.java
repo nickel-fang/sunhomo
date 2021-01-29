@@ -77,6 +77,11 @@ public class SunMember extends BaseEntity {
      */
     private Byte isAdmin;
 
+    /**
+     * 是否为黑名单
+     */
+    private Byte isBlack;
+
     private static final long serialVersionUID = 1L;
 
 

@@ -16,10 +16,11 @@
         <result column="ENROLL_TIME" jdbcType="TIMESTAMP" property="enrollTime"/>
         <result column="IS_MASTER" jdbcType="TINYINT" property="isMaster"/>
         <result column="IS_ADMIN" jdbcType="TINYINT" property="isAdmin"/>
+        <result column="IS_BLACK" jdbcType="TINYINT" property="isBlack"/>
     </resultMap>
     <sql id="Base_Column_List">
     MEMBER_ID, OPENID, MEMBER_NAME, MEMBER_PHOTO, TOTAL_POINT, YEAR_POINT, POINT, WIN_NUMBER,
-    LOSE_NUMBER, RATIO, SIGN_DATE, IS_ADMIN
+    LOSE_NUMBER, RATIO, SIGN_DATE, IS_ADMIN, IS_BLACK
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select

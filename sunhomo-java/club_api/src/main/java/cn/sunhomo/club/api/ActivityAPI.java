@@ -101,6 +101,8 @@ public class ActivityAPI {
     @PostMapping("/enroll/{activityId}")
     @ResponseBody
     public AjaxResult<SunActivity> enroll(@PathVariable("activityId") Integer activityId, @RequestBody SunMember member) {
+        if (member.getIsBlack() != null && member.getIsBlack() == 1)
+            return AjaxResult.failure(ResultCode.BLACK_IS_NOT_ALLOWED, activityService.selectActivity(activityId));
         SunActivity activity = activityService.selectActivity(activityId);
         //活动已开始，不允许报名
         if (LocalDateTime.now().isAfter(LocalDateTime.parse(activity.getActivityDate() + " " + activity.getStartTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))) {

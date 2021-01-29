@@ -56,7 +56,8 @@ public enum ResultCode {
     BATTLE_HAS_NOT_ENROLLED(80014, "您未报名活动"),
     BATTLE_HAS_NOT_COMPLETED(80015, "有约战未成团"),
     BATTLE_BLIND_NOT_ALLOWED(80016, "当天不能盲盒"),
-    BATTLE_HAS_BLIND_NOT_COMPLETED(80017, "有盲盒未成团");
+    BATTLE_HAS_BLIND_NOT_COMPLETED(80017, "有盲盒未成团"),
+    BLACK_IS_NOT_ALLOWED(80018, "请阅读报名规则");
 
 
     private int code;
