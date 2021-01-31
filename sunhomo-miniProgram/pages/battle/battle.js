@@ -227,11 +227,16 @@ Page({
                   wx.setStorageSync('pointChange', 1);
                   wx.setStorageSync('battleChange', 1);
                   wx.navigateBack();
-                } else {
+                } else if (res.data.code) {
                   wx.showToast({
                     title: res.data.msg,
                     icon: 'error'
-                  });
+                  })
+                } else {
+                  wx.showToast({
+                    title: '系统错误',
+                    icon: 'error'
+                  })
                 }
               }
             })

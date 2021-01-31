@@ -49,6 +49,9 @@
         <if test="isBlack != null and isBlack != ''">
             AND IS_BLACK = #{isBlack,jdbcType=TINYINT}
         </if>
+        <if test="openid != null and openid != ''">
+            AND OPENID = #{openid,jdbcType=VARCHAR}
+        </if>
         <if test="memberName != null and memberName != ''">
             AND MEMBER_NAME like concat('%', #{memberName,jdbcType=VARCHAR}, '%')
         </if>

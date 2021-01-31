@@ -52,11 +52,24 @@ public class BattleAPI {
     @PostMapping("/battle")
     @ResponseBody
     public AjaxResult<SunBattle> battle(@RequestBody SunBattle battle) {
-        //活动已开始，不能约战 (暂不用判断，活动开始也可以发起约战，活动结束后1分钟将状态置为已结束，前台发起约战时获取不到该活动了）
-        /*SunActivity activity = activityService.selectActivity(battle.getActivityId());
-        if (LocalDateTime.now().isAfter(LocalDateTime.parse(activity.getActivityDate() + " " + activity.getStartTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))) {
-            return AjaxResult.failure(ResultCode.ACTIVITY_HAS_STARTED);
-        }*/
+        //每人每次不能超过三场约战
+        if (battle.getA1() != null) {
+            if (battleService.selectBattlesByActivityIdAndMemberId(battle.getActivityId(), battle.getA1()).size() >= 3)
+                return AjaxResult.failure(ResultCode.BATTLE_HAS_ENOUGH_BATTLES);
+        }
+        if (battle.getA2() != null) {
+            if (battleService.selectBattlesByActivityIdAndMemberId(battle.getActivityId(), battle.getA2()).size() >= 3)
+                return AjaxResult.failure(ResultCode.BATTLE_OTHER_HAS_ENOUGH_BATTLES);
+        }
+        if (battle.getB1() != null) {
+            if (battleService.selectBattlesByActivityIdAndMemberId(battle.getActivityId(), battle.getB1()).size() >= 3)
+                return AjaxResult.failure(ResultCode.BATTLE_OTHER_HAS_ENOUGH_BATTLES);
+        }
+        if (battle.getB2() != null) {
+            if (battleService.selectBattlesByActivityIdAndMemberId(battle.getActivityId(), battle.getB2()).size() >= 3)
+                return AjaxResult.failure(ResultCode.BATTLE_OTHER_HAS_ENOUGH_BATTLES);
+        }
+
         if (battle.getIsBlind() != null && battle.getIsBlind() == 1) {
             //活动当天不能发起盲盒约战
             if (DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now()) == battle.getBattleDate())
@@ -154,6 +167,10 @@ public class BattleAPI {
         if (battle.getA2() != null) accepter = battle.getA2();
         if (battle.getB1() != null) accepter = battle.getB1();
         if (battle.getB2() != null) accepter = battle.getB2();
+
+        //应战人不能超过3场约战
+        if (battleService.selectBattlesByActivityIdAndMemberId(battle.getActivityId(), accepter).size() >= 3)
+            return AjaxResult.failure(ResultCode.BATTLE_HAS_ENOUGH_BATTLES);
 
         //是否报名了此活动
         SunActivity activity = activityService.selectActivity(tempbattle.getActivityId());

@@ -170,10 +170,10 @@ public class PointJob extends QuartzJobBean {
                             a2.setLoseNumber(a2.getLoseNumber() + 1);
                             a2.setRatio((short) (a2.getWinNumber() * 10000 / (a2.getWinNumber() + a2.getLoseNumber())));
                             //积分记录
-                            insertPointRecords.add(new SunPointRecord(null, a1.getMemberId(), (byte) 3, "约战：负", -battle.getBattlePoint(), now));
-                            insertPointRecords.add(new SunPointRecord(null, a2.getMemberId(), (byte) 3, "约战：负", -battle.getBattlePoint(), now));
+                            insertPointRecords.add(new SunPointRecord(null, a1.getMemberId(), (byte) 3, battle.getIsBlind() == 1 ? "盲盒约战：负" : "普通约战：负", -battle.getBattlePoint(), now));
+                            insertPointRecords.add(new SunPointRecord(null, a2.getMemberId(), (byte) 3, battle.getIsBlind() == 1 ? "盲盒约战：负" : "普通约战：负", -battle.getBattlePoint(), now));
                         } else {
-                            insertPointRecords.add(new SunPointRecord(null, a1.getMemberId(), (byte) 3, "约战：负", -battle.getBattlePoint() * 2, now));
+                            insertPointRecords.add(new SunPointRecord(null, a1.getMemberId(), (byte) 3, battle.getIsBlind() == 1 ? "盲盒约战：负" : "普通约战：负", -battle.getBattlePoint() * 2, now));
                         }
 
                         b1.setWinNumber(b1.getWinNumber() + 1);
@@ -182,10 +182,10 @@ public class PointJob extends QuartzJobBean {
                         if (battle.getB1().intValue() != battle.getB2().intValue()) {
                             b2.setWinNumber(b2.getWinNumber() + 1);
                             b2.setRatio((short) (b2.getWinNumber() * 10000 / (b2.getWinNumber() + b2.getLoseNumber())));
-                            insertPointRecords.add(new SunPointRecord(null, b1.getMemberId(), (byte) 3, "约战：胜", battle.getBattlePoint(), now));
-                            insertPointRecords.add(new SunPointRecord(null, b2.getMemberId(), (byte) 3, "约战：胜", battle.getBattlePoint(), now));
+                            insertPointRecords.add(new SunPointRecord(null, b1.getMemberId(), (byte) 3, battle.getIsBlind() == 1 ? "盲盒约战：胜" : "普通约战：胜", battle.getBattlePoint(), now));
+                            insertPointRecords.add(new SunPointRecord(null, b2.getMemberId(), (byte) 3, battle.getIsBlind() == 1 ? "盲盒约战：胜" : "普通约战：胜", battle.getBattlePoint(), now));
                         } else {
-                            insertPointRecords.add(new SunPointRecord(null, b1.getMemberId(), (byte) 3, "约战：胜", battle.getBattlePoint() * 2, now));
+                            insertPointRecords.add(new SunPointRecord(null, b1.getMemberId(), (byte) 3, battle.getIsBlind() == 1 ? "盲盒约战：胜" : "普通约战：胜", battle.getBattlePoint() * 2, now));
                         }
                     }
                 }

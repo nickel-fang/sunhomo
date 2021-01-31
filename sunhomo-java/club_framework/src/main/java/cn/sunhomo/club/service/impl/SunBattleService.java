@@ -150,6 +150,11 @@ public class SunBattleService implements ISunBattleService {
     }
 
     @Override
+    public List<SunBattle> selectBattlesByActivityIdAndMemberId(Integer activityId, Integer memberId) {
+        return battleDao.selectBattlesByActivityIdAndMemberId(activityId, memberId);
+    }
+
+    @Override
     public boolean hasNotCompletedBattlesByMemberId(Integer memberId) {
         return battleDao.hasNotCompletedBattlesByMemberId(memberId);
     }
