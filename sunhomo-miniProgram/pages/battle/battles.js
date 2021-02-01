@@ -224,7 +224,6 @@ Page({
         title: '积分不够',
         icon: 'error'
       });
-      canAccept = false;
     } else {
       var that = this;
       var postion = event.currentTarget.dataset.postion;
@@ -241,10 +240,10 @@ Page({
               icon: 'error'
             });
             canAccept = false;
-            break;
-          }else{
+          } else {
             battle.battlePoint = tempBattle.battlePoint;
           }
+          break;
         }
       }
       if (canAccept) {
