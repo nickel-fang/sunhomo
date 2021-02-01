@@ -234,7 +234,7 @@ Page({
       var battle = {}; //用于应战，向后台发送数据，只存约战ID及应战人员信息; 外加约战分数
       for (var i = 0; i < this.data.battles.length; i++) {
         var tempBattle = this.data.battles[i];
-        if (tempBattle.battleState == 1 && tempBattle.isBlind != 1) {
+        if (tempBattle.battleId == battleId) {
           if (tempBattle.a1 == userId || tempBattle.a2 == userId || tempBattle.b1 == userId || tempBattle.b2 == userId) {
             wx.showToast({
               title: '您无法应战',
@@ -242,10 +242,9 @@ Page({
             });
             canAccept = false;
             break;
+          }else{
+            battle.battlePoint = tempBattle.battlePoint;
           }
-        }
-        if (tempBattle.battleId == battleId) {
-          battle.battlePoint = tempBattle.battlePoint;
         }
       }
       if (canAccept) {

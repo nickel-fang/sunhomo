@@ -169,7 +169,7 @@ public class BattleAPI {
         if (battle.getB2() != null) accepter = battle.getB2();
 
         //应战人不能超过3场约战
-        if (battleService.selectBattlesByActivityIdAndMemberId(battle.getActivityId(), accepter).size() >= 3)
+        if (battleService.selectBattlesByActivityIdAndMemberId(tempbattle.getActivityId(), accepter).size() >= 3)
             return AjaxResult.failure(ResultCode.BATTLE_HAS_ENOUGH_BATTLES);
 
         //是否报名了此活动
