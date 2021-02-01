@@ -88,6 +88,13 @@
 				<image class="next" src="/images/arrowright.png"></image>
 			</view>
 		</navigator>
+		<view class="line"></view>
+		<navigator url="/pages/finance/financeManagement">
+			<view class="menu-item">
+				<view class="l">财务管理</view>
+				<image class="next" src="/images/arrowright.png"></image>
+			</view>
+		</navigator>
 	</block>
 	<view class="space"></view>
 	<navigator url="/pages/my/about">
@@ -99,7 +106,7 @@
 	<view class="line"></view>
 	<view class="menu-item">
 		<view class="l">小程序版本</view>
-		<view class="r">V3.4.2</view>
+		<view class="r">V3.5.0</view>
 	</view>
 
 </view>

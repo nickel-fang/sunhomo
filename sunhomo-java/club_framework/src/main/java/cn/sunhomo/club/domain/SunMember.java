@@ -62,7 +62,7 @@ public class SunMember extends BaseEntity {
     /**
      * 注册日期
      */
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date signDate;
     /**
      * 报名时所用，报名时间

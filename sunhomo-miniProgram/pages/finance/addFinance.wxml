@@ -1,0 +1,29 @@
+<form bindsubmit="bindSubmit">
+  <view class="form">
+    <view class="input">
+      <view>交易日期</view>
+      <picker mode="date" bindchange="bindDateChange">
+        <view wx:if="{{finDate}}" class="picker">{{finDate}}</view>
+        <view wx:else class="picker">请选择交易日期</view>
+      </picker>
+    </view>
+    <view class="input">
+      <view>交易类型</view>
+      <picker mode="selector" bindchange="bindTypeChange" range="{{['收入','支出']}}">
+        <view wx:if="{{finType}}" class="picker">{{finType}}</view>
+        <view wx:else class="picker">请选择交易类型</view>
+      </picker>
+    </view>
+    <view class="input">
+      <view>交易说明</view>
+      <input name='finMemo' type="text" placeholder="日常打球" placeholder-class="placeholder" />
+    </view>
+    <view class="input">
+      <view>交易金额</view>
+      <input name='finValue' type="text" placeholder="交易金额" placeholder-class="placeholder" />
+    </view>
+  </view>
+  <view style="text-align:center;margin-top:10rpx;">
+    <button type="primary" size="mini" formType="submit">确定</button>
+  </view>
+</form>

@@ -31,10 +31,7 @@ public class PropertyAccessorTest {
 //        Integer b = 1;
 //        System.out.println(a == b);
 
-        List<SunBattle> battles = new ArrayList<>();
-        for(SunBattle battle: battles){
-            System.out.println("11");
-        }
+        System.out.println(LocalDateTime.now().getYear());
     }
 
 }

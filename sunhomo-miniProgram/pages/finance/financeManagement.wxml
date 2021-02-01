@@ -1,0 +1,19 @@
+<view class="header-box">
+	<view class="r">
+		<view>账户余额：{{sum}}</view>
+	</view>
+</view>
+<view class="container">
+	<view class="space"></view>
+	<view style="text-align:center">
+		<button type="primary" size="mini" bindtap="addFinance">添加明细</button>
+	</view>
+	<view class="line"></view>
+	<block wx:for="{{finances}}" wx:for-item="finance">
+		<view class="menu-item">
+			<view class="l">{{finance.finDate}} {{finance.finMemo}}</view>
+			<view class="r">{{finance.finValue}}</view>
+		</view>
+		<view class="line"></view>
+	</block>
+</view>

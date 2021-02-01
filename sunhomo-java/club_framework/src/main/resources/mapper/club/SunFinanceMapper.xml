@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sunhomo.club.mapper.SunFinanceDao">
+    <resultMap id="BaseResultMap" type="cn.sunhomo.club.domain.SunFinance">
+        <!--@mbg.generated-->
+        <!--@Table SUN_FINANCE-->
+        <id column="FINANCE_ID" jdbcType="INTEGER" property="financeId"/>
+        <result column="FIN_DATE" jdbcType="VARCHAR" property="finDate"/>
+        <result column="FIN_TYPE" jdbcType="TINYINT" property="finType"/>
+        <result column="FIN_MEMO" jdbcType="VARCHAR" property="finMemo"/>
+        <result column="FIN_VALUE" jdbcType="INTEGER" property="finValue"/>
+        <result column="FIN_SUM" jdbcType="INTEGER" property="finSum"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        FINANCE_ID, FIN_DATE, FIN_TYPE, FIN_MEMO, FIN_VALUE, FIN_SUM
+    </sql>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--@mbg.generated-->
+        delete from SUN_FINANCE
+        where FINANCE_ID = #{financeId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="FINANCE_ID" keyProperty="financeId" parameterType="cn.sunhomo.club.domain.SunFinance"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into SUN_FINANCE (FIN_DATE, FIN_TYPE, FIN_MEMO,
+        FIN_VALUE, FIN_SUM)
+        values (#{finDate,jdbcType=VARCHAR}, #{finType,jdbcType=TINYINT}, #{finMemo,jdbcType=VARCHAR},
+        #{finValue,jdbcType=INTEGER}, #{finSum,jdbcType=INTEGER})
+    </insert>
+    <select id="selectFinances" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from SUN_FINANCE
+        where FIN_DATE &gt;= #{startDate,jdbcType=VARCHAR} and FIN_DATE &lt;= #{endDate,jdbcType=VARCHAR}
+        order by FIN_DATE desc
+    </select>
+    <select id="selectSumOfFinances" resultType="integer">
+        select sum(FIN_VALUE) from SUN_FINANCE
+        where FIN_DATE &gt;= #{startDate,jdbcType=VARCHAR} and FIN_DATE &lt;= #{endDate,jdbcType=VARCHAR}
+    </select>
+</mapper>

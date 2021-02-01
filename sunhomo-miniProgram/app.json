@@ -16,7 +16,9 @@
     "pages/my/battles",
     "pages/my/about",
     "pages/my/redeemManagement",
-    "pages/mall/mall"
+    "pages/mall/mall",
+    "pages/finance/financeManagement",
+    "pages/finance/addFinance"
   ],
   "window": {
     "backgroundTextStyle": "light",
