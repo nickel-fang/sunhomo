@@ -131,7 +131,7 @@ public class ActivityAPI {
         SunActivity activity = activityService.selectActivity(activityId);
         int result;
         //管理者可直接取消
-        if (isAdmin == 1) {
+        if (isAdmin > 0) {
             result = activityService.quit(activityId, isMaster, memberId);
             return result == 1 ? AjaxResult.success(activityService.selectActivity(activityId)) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, activityService.selectActivity(activityId));
         }

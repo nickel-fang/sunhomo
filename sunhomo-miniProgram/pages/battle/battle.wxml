@@ -14,7 +14,7 @@
 
   <view class="battle-box">
     <view class="battle-player">
-      <block wx:if="{{userInfo.isAdmin!=1}}">
+      <block wx:if="{{userInfo.isAdmin==0}}">
         <view class="picker left">{{a1Name}}</view>
       </block>
       <block wx:else>

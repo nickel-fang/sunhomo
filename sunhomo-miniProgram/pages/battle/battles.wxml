@@ -8,7 +8,7 @@
                 src="/images/look.png" alt=""></image>
             </view>
             <view class="header-right">
-              <block wx:if="{{userInfo.isAdmin==1}}">
+              <block wx:if="{{userInfo.isAdmin>0}}">
                 <block wx:if="{{battle.battleState==2 && !battle.battleResult}}">
                   <button type="primary" size="mini" style="padding:5rpx;" data-battleid="{{battle.battleId}}"
                     data-action="2" bindtap="confirmAndCancelAndWin">A胜</button>
@@ -35,8 +35,8 @@
                   <image class="icon-win left" src="/images/win.png" alt=""></image>
                 </block>
                 <view wx:if="{{battle.a1Name}}">
-                  <view wx:if="{{userInfo.isAdmin==1}}">
-                    <view bindtap="quit" data-quiter="{{battle.a1}}" data-position="A1"
+                  <view wx:if="{{userInfo.isAdmin>0}}">
+                    <view bindtap="quit" data-quiter="{{battle.a1}}" data-quitername="{{battle.a1Name}}" data-position="A1"
                       data-battleid="{{battle.battleId}}">
                       <view
                         wx:if="{{battle.isBlind==1 && battle.battleDate!=currentDate && battle.a1!=userInfo.memberId}}">
@@ -54,8 +54,8 @@
                 <view wx:else><button type="primary" size="mini" data-postion="a1" data-battleid="{{battle.battleId}}"
                     bindtap="accept" style="margin-top:10rpx;">应战</button></view>
                 <view wx:if="{{battle.a2Name}}">
-                  <view wx:if="{{userInfo.isAdmin==1}}">
-                    <view bindtap="quit" data-quiter="{{battle.a2}}" data-position="A2"
+                  <view wx:if="{{userInfo.isAdmin>0}}">
+                    <view bindtap="quit" data-quiter="{{battle.a2}}" data-quitername="{{battle.a2Name}}" data-position="A2"
                       data-battleid="{{battle.battleId}}">
                       <view
                         wx:if="{{battle.isBlind==1 && battle.battleDate!=currentDate && battle.a2!=userInfo.memberId}}">
@@ -79,8 +79,8 @@
                   <image class="icon-win right" src="/images/win.png" alt=""></image>
                 </block>
                 <view wx:if="{{battle.b1Name}}">
-                  <view wx:if="{{userInfo.isAdmin==1}}">
-                    <view bindtap="quit" data-quiter="{{battle.b1}}" data-position="B1"
+                  <view wx:if="{{userInfo.isAdmin>0}}">
+                    <view bindtap="quit" data-quiter="{{battle.b1}}" data-quitername="{{battle.b1Name}}" data-position="B1"
                       data-battleid="{{battle.battleId}}">
                       <view
                         wx:if="{{battle.isBlind==1 && battle.battleDate!=currentDate && battle.b1!=userInfo.memberId}}">
@@ -98,8 +98,8 @@
                 <view wx:else><button type="primary" size="mini" data-postion="b1" data-battleid="{{battle.battleId}}"
                     bindtap="accept">应战</button></view>
                 <view wx:if="{{battle.b2Name}}">
-                  <view wx:if="{{userInfo.isAdmin==1}}">
-                    <view bindtap="quit" data-quiter="{{battle.b2}}" data-position="B2"
+                  <view wx:if="{{userInfo.isAdmin>0}}">
+                    <view bindtap="quit" data-quiter="{{battle.b2}}" data-quitername="{{battle.b2Name}}" data-position="B2"
                       data-battleid="{{battle.battleId}}">
                       <view
                         wx:if="{{battle.isBlind==1 && battle.battleDate!=currentDate && battle.b2!=userInfo.memberId}}">

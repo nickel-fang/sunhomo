@@ -14,7 +14,7 @@
 				<view class="member_name">{{member.memberName}}</view>
 				<view wx:if="{{member.isMaster!=0}}">+{{member.isMaster}}</view>
 				<view wx:else>（年度积分:{{member.yearPoint}}）</view>
-				<block wx:if="{{member.memberId==userInfo.memberId || userInfo.isAdmin==1}}"><button class="mini-btn" size="mini" bindtap="quit" data-memberid="{{member.memberId}}" data-master="{{member.isMaster}}">退报</button></block>
+				<block wx:if="{{member.memberId==userInfo.memberId || userInfo.isAdmin>0}}"><button class="mini-btn" size="mini" bindtap="quit" data-memberid="{{member.memberId}}" data-master="{{member.isMaster}}">退报</button></block>
 			</view>
 		</block>
 	</view>
@@ -25,7 +25,7 @@
 	<view style="text-align:center;margin-top:10rpx;">
 		<button type="primary" size="mini" bindtap="enroll">报名</button>
 		<block wx:if="{{activity.canDraw}}"><button type="primary" size="mini" style="margin-left:10rpx;" bindtap="draw">抽签</button></block>
-		<block wx:if="{{userInfo.isAdmin==1}}"><button size="mini" style="margin-left:10rpx;" bindtap="copyEnroll">复制报名贴</button></block>
+		<block wx:if="{{userInfo.isAdmin>0}}"><button size="mini" style="margin-left:10rpx;" bindtap="copyEnroll">复制报名贴</button></block>
 	</view>
 	<view style="margin:30rpx 20rpx 0;font-size: 32rpx;">
 		<text>{{activity.memo}}</text>

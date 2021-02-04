@@ -301,6 +301,7 @@ Page({
     var that = this;
     var quiter = event.currentTarget.dataset.quiter;
     var postion = event.currentTarget.dataset.position;
+    var quiterName = event.currentTarget.dataset.quitername;
     var battleId = event.currentTarget.dataset.battleid;
     var battlePoint = 3;
     for (var i = 0; i < this.data.battles.length; i++) {
@@ -311,7 +312,7 @@ Page({
       }
     }
     wx.showModal({
-      content: '确定退报' + postion + '?',
+      content: '确定退报：' + (this.data.userInfo.isAdmin == 2 ? quiterName : postion) + '?',
       confirmColor: '#2EA7E0',
       success(res) {
         if (res.confirm) {

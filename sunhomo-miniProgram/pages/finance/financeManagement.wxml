@@ -5,7 +5,7 @@
 </view>
 <view class="container">
 	<view class="space"></view>
-	<view style="text-align:center">
+	<view wx:if="{{userInfo.isAdmin==2}}" style="text-align:center">
 		<button type="primary" size="mini" bindtap="addFinance">添加明细</button>
 	</view>
 	<view class="line"></view>

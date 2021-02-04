@@ -80,7 +80,7 @@
 			<image class="next" src="/images/arrowright.png"></image>
 		</view>
 	</navigator>
-	<block wx:if="{{userInfo.isAdmin==1}}">
+	<block wx:if="{{userInfo.isAdmin>0}}">
 		<view class="space"></view>
 		<navigator url="/pages/my/redeemManagement">
 			<view class="menu-item">
