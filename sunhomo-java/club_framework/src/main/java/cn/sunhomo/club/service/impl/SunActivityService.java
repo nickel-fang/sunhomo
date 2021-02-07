@@ -79,7 +79,7 @@ public class SunActivityService implements ISunActivityService {
     public int quit(Integer activityId, Byte isMaster, Integer memberId) {
         //主报人退报，要判断是否有应战，有并取消
         if (isMaster == 0) {
-            List<SunBattle> battles = battleDao.selectBattlesByActivityIdAndMemberId(activityId, memberId);
+            List<SunBattle> battles = battleDao.selectBattlesByActivityIdAndMemberId(activityId, memberId, null);
             for (SunBattle battle : battles) {
                 memberDao.addRealPoint(Collections.singletonList(memberId), battle.getBattlePoint());
                 String position;

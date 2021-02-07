@@ -52,7 +52,7 @@ public class BattleAPI {
     @PostMapping("/battle")
     @ResponseBody
     public AjaxResult<SunBattle> battle(@RequestBody SunBattle battle) {
-        //每人每次不能超过三场约战
+        /*//每人每次不能超过三场约战
         if (battle.getA1() != null) {
             if (battleService.selectBattlesByActivityIdAndMemberId(battle.getActivityId(), battle.getA1()).size() >= 3)
                 return AjaxResult.failure(ResultCode.BATTLE_HAS_ENOUGH_BATTLES);
@@ -68,6 +68,24 @@ public class BattleAPI {
         if (battle.getB2() != null) {
             if (battleService.selectBattlesByActivityIdAndMemberId(battle.getActivityId(), battle.getB2()).size() >= 3)
                 return AjaxResult.failure(ResultCode.BATTLE_OTHER_HAS_ENOUGH_BATTLES);
+        }*/
+
+        //每人每次不能超过一场明战，一场暗战
+        if (battle.getA1() != null) {
+            if (battleService.selectBattlesByActivityIdAndMemberId(battle.getActivityId(), battle.getA1(), battle.getIsBlind()).size() >= 1)
+                return AjaxResult.failure(ResultCode.BATTLE_A1_HAS_ENOUGH_BATTLES);
+        }
+        if (battle.getA2() != null) {
+            if (battleService.selectBattlesByActivityIdAndMemberId(battle.getActivityId(), battle.getA2(), battle.getIsBlind()).size() >= 1)
+                return AjaxResult.failure(ResultCode.BATTLE_A2_HAS_ENOUGH_BATTLES);
+        }
+        if (battle.getB1() != null) {
+            if (battleService.selectBattlesByActivityIdAndMemberId(battle.getActivityId(), battle.getB1(), battle.getIsBlind()).size() >= 1)
+                return AjaxResult.failure(ResultCode.BATTLE_B1_HAS_ENOUGH_BATTLES);
+        }
+        if (battle.getB2() != null) {
+            if (battleService.selectBattlesByActivityIdAndMemberId(battle.getActivityId(), battle.getB2(), battle.getIsBlind()).size() >= 1)
+                return AjaxResult.failure(ResultCode.BATTLE_B2_HAS_ENOUGH_BATTLES);
         }
 
         if (battle.getIsBlind() != null && battle.getIsBlind() == 1) {
@@ -168,14 +186,14 @@ public class BattleAPI {
         if (battle.getB1() != null) accepter = battle.getB1();
         if (battle.getB2() != null) accepter = battle.getB2();
 
-        //应战人不能超过3场约战
-        if (battleService.selectBattlesByActivityIdAndMemberId(tempbattle.getActivityId(), accepter).size() >= 3)
+        //每人每次不能超过一场明战，一场暗战
+        if (battleService.selectBattlesByActivityIdAndMemberId(tempbattle.getActivityId(), accepter,tempbattle.getIsBlind()).size() >= 1)
             return AjaxResult.failure(ResultCode.BATTLE_HAS_ENOUGH_BATTLES);
 
-        //是否报名了此活动
+        //是否报名了此活动（替补也不允许）
         SunActivity activity = activityService.selectActivity(tempbattle.getActivityId());
         Integer finalAccepter = accepter;
-        if (activity.getMembers().stream().noneMatch(m -> m.getMemberId().intValue() == finalAccepter.intValue() && m.getIsMaster() == 0))
+        if (activity.getMembers().stream().limit(activity.getNumbers()).noneMatch(m -> m.getMemberId().intValue() == finalAccepter.intValue() && m.getIsMaster() == 0))
             return AjaxResult.failure(ResultCode.BATTLE_HAS_NOT_ENROLLED, battleService.selectBattlesFromNow());
 
         //前台已做限制

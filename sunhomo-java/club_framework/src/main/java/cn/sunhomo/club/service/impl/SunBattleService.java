@@ -150,8 +150,8 @@ public class SunBattleService implements ISunBattleService {
     }
 
     @Override
-    public List<SunBattle> selectBattlesByActivityIdAndMemberId(Integer activityId, Integer memberId) {
-        return battleDao.selectBattlesByActivityIdAndMemberId(activityId, memberId);
+    public List<SunBattle> selectBattlesByActivityIdAndMemberId(Integer activityId, Integer memberId, Byte isBlind) {
+        return battleDao.selectBattlesByActivityIdAndMemberId(activityId, memberId, isBlind);
     }
 
     @Override
