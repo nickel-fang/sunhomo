@@ -117,7 +117,18 @@ Page({
       members: activity.members,
       battleDate: activity.activityDate,
       //活动当天不能发起盲盒约战
-      canBlind: (activity.activityDate == util.formatDate(new Date())) ? false : true
+      canBlind: (activity.activityDate == util.formatDate(new Date())) ? false : true,
+
+      //重置
+      a1: this.data.userInfo.memberId,
+      a1Name: this.data.userInfo.memberName,
+      a2: null,
+      a2Name: null,
+      b1: null,
+      b1Name: null,
+      b2: null,
+      b2Name: null,
+      isBlind: -1
     });
   },
 
@@ -194,6 +205,13 @@ Page({
         icon: 'error'
       });
     } else **/
+    if(!battle.activityId){
+      wx.showToast({
+        title: '请选择活动',
+        icon: 'error'
+      });
+      return;
+    }
     if ((battle.b1 && battle.a1 == battle.b1) || (battle.b2 && battle.a1 == battle.b2) || (battle.a2 && battle.b1 && battle.a2 == battle.b1) ||
       (battle.a2 && battle.b2 && battle.a2 == battle.b2) || (battle.a2Name && battle.a1Name == battle.a2Name) || (battle.b1Name && battle.b2Name && battle.b1Name == battle.b2Name)) {
       wx.showToast({

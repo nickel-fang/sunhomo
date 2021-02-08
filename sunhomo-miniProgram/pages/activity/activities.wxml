@@ -31,7 +31,7 @@
 							</view>
 							<view class="menu-line-box">
 								<text class="label">人数：</text>
-								<text>{{activity.members.length}}/{{activity.numbers}}人<block wx:if="{{activity.activityType==1}}">（替补达4人视情况加场）</block></text>
+								<text>{{activity.members.length}}/{{activity.numbers}}人</text>
 							</view>
 					</view>
 				</view>

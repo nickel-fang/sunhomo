@@ -283,12 +283,6 @@
         or B1 = #{memberId,jdbcType=INTEGER}
         or B2 = #{memberId,jdbcType=INTEGER})
         </if>
-        <if test="memberId != null">
-            and (A1 = #{memberId,jdbcType=INTEGER}
-            or A2 = #{memberId,jdbcType=INTEGER}
-            or B1 = #{memberId,jdbcType=INTEGER}
-            or B2 = #{memberId,jdbcType=INTEGER})
-        </if>
         <if test="isBlind != null">
             and IS_BLIND = #{isBlind,jdbcType=TINYINT}
         </if>
