@@ -18,6 +18,8 @@ public interface ISunBattleService {
 
     List<SunBattle> selectBattlesByActivityIdAndMemberId(Integer activityId, Integer memberId, Byte isBlind);
 
+    int selectBattlesCount(Integer activityId, Integer memberId, Byte isBlind);
+
     //查询某会员是否有待确认的约战活动
     public boolean hasNotCompletedBattlesByMemberId(Integer memberId);
 

@@ -63,8 +63,8 @@ public enum ResultCode {
     BATTLE_A1_HAS_ENOUGH_BATTLES(80021, "A1已达约战次数"),
     BATTLE_A2_HAS_ENOUGH_BATTLES(80022, "A2已达约战次数"),
     BATTLE_B1_HAS_ENOUGH_BATTLES(80023, "B1已达约战次数"),
-    BATTLE_B2_HAS_ENOUGH_BATTLES(80024, "B2已达约战次数")
-    ;
+    BATTLE_B2_HAS_ENOUGH_BATTLES(80024, "B2已达约战次数"),
+    ACTIVITY_HAS_ENOUGH_BATTLES(80025, "单次活动限10场");
 
 
     private int code;

@@ -70,21 +70,26 @@ public class BattleAPI {
                 return AjaxResult.failure(ResultCode.BATTLE_OTHER_HAS_ENOUGH_BATTLES);
         }*/
 
+        //单次活动不能超过10场约战
+        if (battleService.selectBattlesCount(battle.getActivityId(), null, null) >= 10) {
+            return AjaxResult.failure(ResultCode.ACTIVITY_HAS_ENOUGH_BATTLES);
+        }
+
         //每人每次不能超过一场明战，一场暗战
         if (battle.getA1() != null) {
-            if (battleService.selectBattlesByActivityIdAndMemberId(battle.getActivityId(), battle.getA1(), battle.getIsBlind()).size() >= 1)
+            if (battleService.selectBattlesCount(battle.getActivityId(), battle.getA1(), battle.getIsBlind()) >= 1)
                 return AjaxResult.failure(ResultCode.BATTLE_A1_HAS_ENOUGH_BATTLES);
         }
         if (battle.getA2() != null) {
-            if (battleService.selectBattlesByActivityIdAndMemberId(battle.getActivityId(), battle.getA2(), battle.getIsBlind()).size() >= 1)
+            if (battleService.selectBattlesCount(battle.getActivityId(), battle.getA2(), battle.getIsBlind()) >= 1)
                 return AjaxResult.failure(ResultCode.BATTLE_A2_HAS_ENOUGH_BATTLES);
         }
         if (battle.getB1() != null) {
-            if (battleService.selectBattlesByActivityIdAndMemberId(battle.getActivityId(), battle.getB1(), battle.getIsBlind()).size() >= 1)
+            if (battleService.selectBattlesCount(battle.getActivityId(), battle.getB1(), battle.getIsBlind()) >= 1)
                 return AjaxResult.failure(ResultCode.BATTLE_B1_HAS_ENOUGH_BATTLES);
         }
         if (battle.getB2() != null) {
-            if (battleService.selectBattlesByActivityIdAndMemberId(battle.getActivityId(), battle.getB2(), battle.getIsBlind()).size() >= 1)
+            if (battleService.selectBattlesCount(battle.getActivityId(), battle.getB2(), battle.getIsBlind()) >= 1)
                 return AjaxResult.failure(ResultCode.BATTLE_B2_HAS_ENOUGH_BATTLES);
         }
 
@@ -187,7 +192,7 @@ public class BattleAPI {
         if (battle.getB2() != null) accepter = battle.getB2();
 
         //每人每次不能超过一场明战，一场暗战
-        if (battleService.selectBattlesByActivityIdAndMemberId(tempbattle.getActivityId(), accepter,tempbattle.getIsBlind()).size() >= 1)
+        if (battleService.selectBattlesCount(tempbattle.getActivityId(), accepter, tempbattle.getIsBlind()) >= 1)
             return AjaxResult.failure(ResultCode.BATTLE_HAS_ENOUGH_BATTLES);
 
         //是否报名了此活动（替补也不允许）

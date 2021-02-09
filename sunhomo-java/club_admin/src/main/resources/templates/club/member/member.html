@@ -144,7 +144,7 @@
                 {
                     title: '约战胜率',
                     formatter: function (value, row, index) {
-                        return row.ratio / 100 + '%(' + row.winNumber + '/' + row.loseNumber + ')';
+                        return row.ratio / 100 + '%(' + row.winNumber + '/' + (row.winNumber + row.loseNumber) + ')';
                     }
                 },
                 {
