@@ -180,29 +180,32 @@ Page({
           var activities = res.data;
           if (res.data.length > 0) {
             //判断是否有约战未成团
-            wx.request({
-              url: app.globalData.APIUrl + '/club/battle/hasNotCompletedBattle',
-              method: 'POST',
-              data: that.data.userInfo.memberId,
-              success: function (res) {
-                if (res.data.code == 1) {
-                  if (res.data.data) {
-                    wx.showToast({
-                      title: '有约战未成团',
-                      icon: 'error'
-                    });
-                  } else {
-                    wx.navigateTo({
-                      url: 'battle?activities=' + JSON.stringify(activities)
-                    })
-                  }
-                } else {
-                  wx.showToast({
-                    title: '系统错误',
-                    icon: 'error'
-                  })
-                }
-              }
+            // wx.request({
+            //   url: app.globalData.APIUrl + '/club/battle/hasNotCompletedBattle',
+            //   method: 'POST',
+            //   data: that.data.userInfo.memberId,
+            //   success: function (res) {
+            //     if (res.data.code == 1) {
+            //       if (res.data.data) {
+            //         wx.showToast({
+            //           title: '有约战未成团',
+            //           icon: 'error'
+            //         });
+            //       } else {
+            //         wx.navigateTo({
+            //           url: 'battle?activities=' + JSON.stringify(activities)
+            //         })
+            //       }
+            //     } else {
+            //       wx.showToast({
+            //         title: '系统错误',
+            //         icon: 'error'
+            //       })
+            //     }
+            //   }
+            // })
+            wx.navigateTo({
+              url: 'battle?activities=' + JSON.stringify(activities)
             })
 
           } else {

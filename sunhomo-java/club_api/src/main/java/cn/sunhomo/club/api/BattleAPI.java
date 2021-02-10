@@ -99,9 +99,9 @@ public class BattleAPI {
                 return AjaxResult.failure(ResultCode.BATTLE_BLIND_NOT_ALLOWED);
             if (battleService.hasNotCompletedBlindBattles(battle.getBattleDate()))
                 return AjaxResult.failure(ResultCode.BATTLE_HAS_BLIND_NOT_COMPLETED);
-        } else if (battleService.hasNotCompletedBattlesByMemberId(battle.getA1())) {
+        } /*else if (battleService.hasNotCompletedBattlesByMemberId(battle.getA1())) {
             return AjaxResult.failure(ResultCode.BATTLE_HAS_NOT_COMPLETED);
-        }
+        }*/
         int result = battleService.insertBattle(battle);
         return result == 1 ? AjaxResult.success(memberService.selectMember(battle.getA1())) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, battle);
     }
@@ -110,7 +110,9 @@ public class BattleAPI {
     @PostMapping("/hasNotCompletedBattle")
     @ResponseBody
     public AjaxResult<Boolean> hasNotCompletedBattle(@RequestBody Integer memberId) {
-        return AjaxResult.success(battleService.hasNotCompletedBattlesByMemberId(memberId));
+        return AjaxResult.success(false);
+        //现在限制了每个活动，每人只允许一场明战一场暗战。暂不需要此逻辑控制
+        //return AjaxResult.success(battleService.hasNotCompletedBattlesByMemberId(memberId));
     }
 
     /**

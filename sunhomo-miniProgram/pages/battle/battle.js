@@ -26,7 +26,8 @@ Page({
     battleState: 1,
     isPeak: -1,
     isBlind: -1,
-    canBlind: null
+    canBlind: null,
+    blindCheck: false
   },
 
   /**
@@ -128,7 +129,8 @@ Page({
       b1Name: null,
       b2: null,
       b2Name: null,
-      isBlind: -1
+      isBlind: -1,
+      blindCheck: false
     });
   },
 
