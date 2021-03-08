@@ -253,7 +253,7 @@ Page({
               that.setCanBlind(that.data.activity);
             }
           })
-        }else{
+        } else {
 
         }
       }
@@ -269,14 +269,12 @@ Page({
         break;
       }
     }
-    //普通活动 && 活动日期不等于当天
-    if (activity.activityDate != util.formatDate(new Date()) && activity.activityType == 1) {
-      if (!hasAttend) {
-        for (var i = 0; i < activity.members.length; i++) {
-          if (activity.members[i].isMaster == 0 && activity.members[i].memberId == this.data.userInfo.memberId) {
-            canBlind = true;
-            break;
-          }
+    //未报名盲盒 && 普通活动 && 活动日期不等于当天
+    if (this.data.userInfo.point >= 3 && !hasAttend && activity.activityDate != util.formatDate(new Date()) && activity.activityType == 1) {
+      for (var i = 0; i < activity.members.length; i++) {
+        if (activity.members[i].isMaster == 0 && activity.members[i].memberId == this.data.userInfo.memberId) {
+          canBlind = true;
+          break;
         }
       }
     }

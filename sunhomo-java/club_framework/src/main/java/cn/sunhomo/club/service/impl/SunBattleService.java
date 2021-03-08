@@ -52,7 +52,7 @@ public class SunBattleService implements ISunBattleService {
 
     @Override
     public void batchInsert(List<SunBattle> battles) {
-
+        battles.forEach(battle -> insertBattle(battle));
     }
 
     @Override

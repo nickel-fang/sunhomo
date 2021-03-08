@@ -2,6 +2,7 @@ package cn.sunhomo.club.quartz;
 
 import cn.sunhomo.club.domain.SunActivity;
 import cn.sunhomo.club.domain.SunBattle;
+import cn.sunhomo.club.domain.SunBlind;
 import cn.sunhomo.club.service.ISunActivityService;
 import cn.sunhomo.club.service.ISunBattleService;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +15,9 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author: Nickel Fang
@@ -49,8 +52,30 @@ public class BattleJob extends QuartzJobBean {
             int blindBattles = activity.getBlindMembers().size() / 4;
             //TODO 随机分组
             if (blindBattles > 0) {
-//                List<SunBattle> battles;
-//                battleService.batchInsert(battles);
+                List<SunBlind> blindMembers = activity.getBlindMembers().stream().limit(blindBattles * 4).collect(Collectors.toList());
+                Collections.shuffle(blindMembers);
+                List<SunBattle> battles = new ArrayList<>();
+                SunBattle battle;
+                for (int i = 0; i < blindBattles; i++) {
+                    battle = new SunBattle();
+                    battle.setActivityId(activity.getActivityId());
+                    battle.setBattleType((byte) 2);
+                    battle.setA1(blindMembers.get(i * 4 + 0).getMemberId());
+                    battle.setA1Name(blindMembers.get(i * 4 + 0).getMemberName());
+                    battle.setA2(blindMembers.get(i * 4 + 1).getMemberId());
+                    battle.setA2Name(blindMembers.get(i * 4 + 1).getMemberName());
+                    battle.setB1(blindMembers.get(i * 4 + 2).getMemberId());
+                    battle.setB1Name(blindMembers.get(i * 4 + 2).getMemberName());
+                    battle.setB2(blindMembers.get(i * 4 + 3).getMemberId());
+                    battle.setB2Name(blindMembers.get(i * 4 + 3).getMemberName());
+                    battle.setBattleDate(activity.getActivityDate());
+                    battle.setBattlePoint(1);
+                    battle.setBattleState(2);
+                    battle.setIsPeak((byte) -1);
+                    battle.setIsBlind((byte) 1);
+                    battles.add(battle);
+                }
+                battleService.batchInsert(battles);
             }
         }
         log.info("-------完成自动化组建盲盒约战-------");

@@ -86,16 +86,11 @@ public class SunActivityService implements ISunActivityService {
         //主报人退报，要判断是否有应战，有并取消
         if (activity.getActivityType() == 1 && isMaster == 0) {
             //删除所报的盲盒池
-            int blindPool = blindDao.deleteMemberByActivityId(activity.getActivityId(), memberId);
-            if (blindPool > 0) {
-                memberDao.addRealPoint(Collections.singletonList(memberId), 1);
-            }
+            blindDao.deleteMemberByActivityId(activity.getActivityId(), memberId);
 
             List<SunBattle> battles = battleDao.selectBattlesByActivityIdAndMemberId(activity.getActivityId(), memberId, null);
             for (SunBattle battle : battles) {
-                if (battle.getIsBlind() == -1) {
-                    memberDao.addRealPoint(Collections.singletonList(memberId), battle.getBattlePoint());
-                }
+                memberDao.addRealPoint(Collections.singletonList(memberId), battle.getBattlePoint());
                 String position;
                 if (battle.getA1() != null && battle.getA1().intValue() == memberId.intValue()) {
                     position = "A1";
@@ -113,9 +108,10 @@ public class SunActivityService implements ISunActivityService {
     }
 
     @Override
-    @Transactional
+//    @Transactional
     public int blindBattle(Integer activityId, Integer memberId) {
-        memberDao.addRealPoint(Collections.singletonList(memberId), -1);
+        //暂不扣，放在自动创建盲盒时再扣
+//        memberDao.addRealPoint(Collections.singletonList(memberId), -1);
         return blindDao.insert(new SunBlind(memberId, activityId, new Date(), null));
     }
 
