@@ -178,7 +178,6 @@ public class BattleAPI {
     @ResponseBody
     public AjaxResult<List<SunBattle>> accept(@RequestBody SunBattle battle) {
         Integer accepter = null;
-        //TODO
         //约战已取消（查不到记录），不能应战，返回要刷新
         SunBattle tempbattle = battleService.selectByPrimaryKey(battle.getBattleId());
         if (null == battle)

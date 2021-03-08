@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sunhomo.club.mapper.SunBlindDao">
+  <resultMap id="BaseResultMap" type="cn.sunhomo.club.domain.SunBlind">
+    <!--@mbg.generated-->
+    <!--@Table SUN_BLIND-->
+    <result column="MEMBER_ID" jdbcType="INTEGER" property="memberId" />
+    <result column="ACTIVITY_ID" jdbcType="INTEGER" property="activityId" />
+    <result column="ENROLL_TIME" jdbcType="TIMESTAMP" property="enrollTime" />
+    <result column="MEMBER_NAME" jdbcType="VARCHAR" property="memberName"/>
+  </resultMap>
+  <insert id="insert" parameterType="cn.sunhomo.club.domain.SunBlind">
+    <!--@mbg.generated-->
+    insert into SUN_BLIND (MEMBER_ID, ACTIVITY_ID, ENROLL_TIME
+      )
+    values (#{memberId,jdbcType=INTEGER}, #{activityId,jdbcType=INTEGER}, #{enrollTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <select id="selectByActivityId" resultMap="BaseResultMap">
+    select SB.*, SM.MEMBER_NAME from SUN_BLIND SB
+    LEFT JOIN SUN_MEMBER SM on SB.MEMBER_ID = SM.MEMBER_ID
+    where ACTIVITY_ID = #{activityId,jdbcType=INTEGER}
+    order by ENROLL_TIME asc
+  </select>
+  <delete id="deleteMemberByActivityId">
+    delete from SUN_BLIND where ACTIVITY_ID=#{activityId,jdbcType=INTEGER} and MEMBER_ID=#{memberId,jdbcType=INTEGER}
+  </delete>
+</mapper>

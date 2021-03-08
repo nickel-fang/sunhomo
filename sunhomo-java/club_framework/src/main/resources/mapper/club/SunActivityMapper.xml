@@ -19,6 +19,8 @@
         <result column="ACTIVITY_STATE" jdbcType="TINYINT" property="activityState"/>
         <collection property="members" ofType="cn.sunhomo.club.domain.SunMember" column="ACTIVITY_ID"
                     select="cn.sunhomo.club.mapper.SunMemberDao.selectMembersByActivityId"></collection>
+        <collection property="blindMembers" ofType="cn.sunhomo.club.domain.SunBlind" column="ACTIVITY_ID"
+                    select="cn.sunhomo.club.mapper.SunBlindDao.selectByActivityId"></collection>
     </resultMap>
     <sql id="Base_Column_List">
         ACTIVITY_ID, ACTIVITY_NAME, ACTIVITY_TYPE, ACTIVITY_DATE, START_TIME, END_TIME, DEADLINE, DRAW_TIME,

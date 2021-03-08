@@ -132,14 +132,14 @@ public class ActivityAPI {
         int result;
         //管理者可直接取消
         if (isAdmin > 0) {
-            result = activityService.quit(activityId, isMaster, memberId);
+            result = activityService.quit(activity, isMaster, memberId);
             return result == 1 ? AjaxResult.success(activityService.selectActivity(activityId)) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, activityService.selectActivity(activityId));
         }
 
         //根据活动取消报名截止时间来判断是否可进行取消操作
         //截止时间之前，可取消
         if (LocalDateTime.now().isBefore(LocalDateTime.parse(activity.getDeadline(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))) {
-            result = activityService.quit(activityId, isMaster, memberId);
+            result = activityService.quit(activity, isMaster, memberId);
             return result == 1 ? AjaxResult.success(activityService.selectActivity(activityId)) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, activityService.selectActivity(activityId));
         }
 
@@ -160,7 +160,7 @@ public class ActivityAPI {
                 //有替补可取消。但在等锁的过程中，被别的人取消了，所以此时重新获取下活动报名数
                 return AjaxResult.failure(ResultCode.BUSINESS_AFTER_APPOINTED_TIME, activityService.selectActivity(activityId));
             }
-            result = activityService.quit(activityId, isMaster, memberId);
+            result = activityService.quit(activity, isMaster, memberId);
             return result == 1 ? AjaxResult.success(activityService.selectActivity(activityId)) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, activityService.selectActivity(activityId));
         } finally {
             lock.unlock();
@@ -222,5 +222,24 @@ public class ActivityAPI {
             lock.unlock();
         }
         return AjaxResult.success();
+    }
+
+    /**
+     * 报名盲盒约战
+     *
+     * @param member
+     * @return AjaxResult(SunActivity)
+     */
+    @PostMapping("/blindBattle/{activityId}")
+    @ResponseBody
+    public AjaxResult<SunActivity> blindBattle(@PathVariable("activityId") Integer activityId, @RequestBody SunMember member) {
+        SunActivity activity = activityService.selectActivity(activityId);
+        //是否报名过盲盒
+        if(activity.getBlindMembers().stream().anyMatch(m -> m.getMemberId().intValue() == member.getMemberId().intValue())){
+            return AjaxResult.failure(ResultCode.BATTLE_BLIND_HAS_ATTENDED,activityService.selectActivity(activityId));
+        }
+
+        int result = activityService.blindBattle(activityId,member.getMemberId());
+        return result == 1 ? AjaxResult.success(activityService.selectActivity(activityId)) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, activityService.selectActivity(activityId));
     }
 }

@@ -95,6 +95,9 @@ public class SunActivity extends BaseEntity {
     //活动下的报名会员
     private List<SunMember> members;
 
+    //活动下报名参加盲盒约战的成员
+    private List<SunBlind> blindMembers;
+
     /**
      * 前端定制，复制报名贴时，直接获取此字段
      */

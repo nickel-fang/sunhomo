@@ -8,6 +8,8 @@ import java.util.List;
 public interface ISunBattleService {
     public int insertBattle(SunBattle battle);
 
+    void batchInsert(List<SunBattle> battles);
+
     public int updateBattle(SunBattle battle);
 
     public int deleteByPrimaryKey(Integer[] ids);

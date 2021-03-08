@@ -51,6 +51,11 @@ public class SunBattleService implements ISunBattleService {
     }
 
     @Override
+    public void batchInsert(List<SunBattle> battles) {
+
+    }
+
+    @Override
     @Transactional
     public int confirmAndCancelAndWin(SunBattle battle) {
         //取消要退回个人实时积分，退回押注者的实时积分

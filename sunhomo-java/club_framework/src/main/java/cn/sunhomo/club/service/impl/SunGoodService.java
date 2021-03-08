@@ -44,7 +44,7 @@ public class SunGoodService implements ISunGoodService {
     @Override
     @Transactional
     public void redeem(SunGood goods, SunMember member) {
-        //TODO 扣除个人积分，增加商品兑换记录， 修改商品兑换次数
+        //扣除个人积分，增加商品兑换记录， 修改商品兑换次数
         goods.setStock(goods.getStock() - 1);
         goods.setExchange(goods.getExchange() + 1);
         goodDao.updateByPrimaryKey(goods);

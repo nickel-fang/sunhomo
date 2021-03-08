@@ -49,11 +49,11 @@
       </picker>
     </view>
   </view>
-  <view style="margin:20rpx;font-weight:blod" wx:if="{{canBlind}}">
+  <!-- <view style="margin:20rpx;font-weight:blod" wx:if="{{canBlind}}">
     <checkbox-group bindchange="bindIsBlindChange">
       <checkbox value="1" checked="{{blindCheck}}"></checkbox><image class="look_icon" src="/images/look.png" alt=""></image> 开启盲盒模式（一局定胜负）
     </checkbox-group>
-  </view>
+  </view> -->
   <view style="text-align:center;margin-top:10rpx;">
     <button type="primary" size="mini" formType="submit">确定</button>
   </view>

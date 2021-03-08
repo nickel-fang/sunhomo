@@ -18,10 +18,12 @@ public interface ISunActivityService {
 
     public int enroll(Integer activityId, SunMember member);
 
-    int quit(Integer activityId, Byte isMaster, Integer memberId);
+    int quit(SunActivity activity, Byte isMaster, Integer memberId);
 
     //某个活动，同一人（包括挂）所有的报名
     List<Byte> selectCount(Integer activityId, Integer memberId);
 
     List<SunActivity> getActivitiesForBattle(Integer memberId);
+
+    int blindBattle(Integer activityId, Integer memberId);
 }

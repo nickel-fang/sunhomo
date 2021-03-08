@@ -29,7 +29,11 @@
 								<text class="label">费用：</text>
 								<text>{{activity.fee}}元/人</text>
 							</view>
-							<view class="menu-line-box">
+							<view  wx:if="{{activity.activityType==1}}" class="menu-line-box">
+								<text class="label">人数：</text>
+								<text>{{activity.members.length}}/{{activity.numbers}}人 ({{activity.blindMembers.length}}人报名盲盒约战)</text>
+							</view>
+							<view wx:else class="menu-line-box">
 								<text class="label">人数：</text>
 								<text>{{activity.members.length}}/{{activity.numbers}}人</text>
 							</view>

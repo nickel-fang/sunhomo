@@ -4,6 +4,7 @@
 	</view> -->
 
 	<view class="menu-list">
+		<!-- <view class="menu-item" wx:if="{{activity.blindMembers}}">已报盲盒约战：{{activity.blindMembers.length}}人<view wx:if="{{hasAttend}}">（你已报名）</view></view> -->
 		<block wx:for="{{activity.members}}" wx:for-item="member">
 			<view class="menu-item">
 				<view class="index-box">
@@ -24,6 +25,7 @@
 	</view> -->
 	<view style="text-align:center;margin-top:10rpx;">
 		<button type="primary" size="mini" bindtap="enroll">报名</button>
+		<block wx:if="{{canBlind}}"><button type="primary" size="mini" style="margin-left:10rpx;" bindtap="blindBattle">报名盲盒约战</button></block>
 		<block wx:if="{{activity.canDraw}}"><button type="primary" size="mini" style="margin-left:10rpx;" bindtap="draw">抽签</button></block>
 		<block wx:if="{{userInfo.isAdmin>0}}"><button size="mini" style="margin-left:10rpx;" bindtap="copyEnroll">复制报名贴</button></block>
 	</view>

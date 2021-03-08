@@ -1,5 +1,6 @@
 // pages/activity/activity.js
 const app = getApp();
+var util = require('../../utils/util.js');
 Page({
 
   /**
@@ -8,6 +9,8 @@ Page({
   data: {
     activity: {},
     userInfo: null,
+    canBlind: false,
+    hasAttend: false
   },
 
   /**
@@ -29,8 +32,9 @@ Page({
       data: activityId,
       success: function (res) {
         that.setData({
-          activity: res.data,
+          activity: res.data
         });
+        that.setCanBlind(that.data.activity);
         //隐藏loading 提示框
         wx.hideLoading();
         //隐藏导航条加载动画
@@ -119,7 +123,8 @@ Page({
         }
         that.setData({
           activity: res.data.data
-        })
+        });
+        that.setCanBlind(that.data.activity);
       }
     })
   },
@@ -154,7 +159,8 @@ Page({
               }
               that.setData({
                 activity: res.data.data
-              })
+              });
+              that.setCanBlind(that.data.activity);
             }
           })
         } else if (res.cancel) {
@@ -210,6 +216,73 @@ Page({
           })
         }
       }
+    })
+  },
+
+  blindBattle: function (event) {
+    var that = this;
+    wx.showModal({
+      content: '确定报名盲盒约战？',
+      confirmColor: '#2EA7E0',
+      success(res) {
+        if (res.confirm) {
+          wx.request({
+            url: app.globalData.APIUrl + '/club/activity/blindBattle/' + that.data.activity.activityId,
+            method: 'POST',
+            data: app.globalData.userInfo,
+            success: function (res) {
+              if (res.data.code == 1) {
+                wx.showToast({
+                  title: '报名盲盒成功',
+                  icon: 'success'
+                });
+              } else if (res.data.code) {
+                wx.showToast({
+                  title: res.data.msg,
+                  icon: 'error'
+                })
+              } else {
+                wx.showToast({
+                  title: '系统错误',
+                  icon: 'error'
+                })
+              }
+              that.setData({
+                activity: res.data.data
+              });
+              that.setCanBlind(that.data.activity);
+            }
+          })
+        }else{
+
+        }
+      }
+    })
+  },
+
+  setCanBlind: function (activity) {
+    var canBlind = false;
+    var hasAttend = false; //是否已报名盲盒
+    for (var i = 0; i < activity.blindMembers.length; i++) {
+      if (activity.blindMembers[i].memberId == this.data.userInfo.memberId) {
+        hasAttend = true;
+        break;
+      }
+    }
+    //普通活动 && 活动日期不等于当天
+    if (activity.activityDate != util.formatDate(new Date()) && activity.activityType == 1) {
+      if (!hasAttend) {
+        for (var i = 0; i < activity.members.length; i++) {
+          if (activity.members[i].isMaster == 0 && activity.members[i].memberId == this.data.userInfo.memberId) {
+            canBlind = true;
+            break;
+          }
+        }
+      }
+    }
+    this.setData({
+      canBlind: canBlind,
+      hasAttend: hasAttend
     })
   }
 })
