@@ -15,8 +15,8 @@ public class BaseController {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String pageNumber = request.getParameter("pageNumber");
         String pageSize = request.getParameter("pageSize");
-        String sortName = request.getParameter("sortName");
-        String sortOrder = request.getParameter("sortOrder");
+        String sortName = request.getParameter("orderByColumn");
+        String sortOrder = request.getParameter("isAsc");
         if (StringUtils.isNotEmpty(pageNumber) && StringUtils.isNotEmpty(pageSize)) {
             PageHelper.startPage(Integer.parseInt(pageNumber), Integer.parseInt(pageSize), getOrderBy(sortName, sortOrder));
         }
