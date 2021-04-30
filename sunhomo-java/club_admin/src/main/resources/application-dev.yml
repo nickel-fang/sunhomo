@@ -8,6 +8,26 @@ spring:
     url: jdbc:mysql://124.70.145.232:3306/sunhomo_test?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&allowMultiQueries=true
     username: sunhomo
     password: ironpearl
+  redis:
+    database: 1
+    #单机版配置
+    host: 124.70.145.232
+    port: 6379
+    password: ironpearl
+    #集群配置
+    #    cluster:
+    #      max-redirects: 1
+    #      nodes:
+    #        - 127.0.0.1:7010
+    #        - 127.0.0.1:7011
+    #        - 127.0.0.1:7012
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        max-wait: -1
+        min-idle: 0
+      timeout: 1000
   thymeleaf:
     mode: HTML
     encoding: UTF-8
