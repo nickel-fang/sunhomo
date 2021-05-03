@@ -4,20 +4,24 @@ const app = getApp()
 
 Page({
   data: {
-    motto: '更多功能开发中...',
     userInfo: {},
     hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    canIUseGetUserProfile: false,
   },
 
   onLoad: function () {
     var that = this;
+    if (wx.getUserProfile) {
+      that.setData({
+        canIUseGetUserProfile: true
+      })
+    }
     if (app.globalData.userInfo) {
       that.setData({
         userInfo: app.globalData.userInfo,
         hasUserInfo: true
       })
-    } else if (that.data.canIUse) {
+    } else if (that.data.canIUseGetUserProfile) {
       // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
       // 所以此处加入 callback 以防止这种情况
       app.userInfoReadyCallback = res => {
@@ -43,7 +47,7 @@ Page({
   },
 
   onShow: function () {
-    if(app.globalData.userInfo && wx.getStorageSync('pointChange')){
+    if (app.globalData.userInfo && wx.getStorageSync('pointChange')) {
       this.setData({
         userInfo: app.globalData.userInfo
       });
@@ -51,13 +55,17 @@ Page({
     }
   },
 
+  getUserProfile: function (e) {
+    var that = this;
+    wx.getUserProfile({
+      desc: '微信昵称用于活动报名',
+      success: (res) => {
+        that.insertMember(res.userInfo);
+      }
+    })
+  },
+
   getUserInfo: function (e) {
-    // console.log(e)
-    // app.globalData.userInfo = e.detail.userInfo
-    // this.setData({
-    //   userInfo: e.detail.userInfo,
-    //   hasUserInfo: true
-    // })
     this.insertMember(e.detail.userInfo);
   },
   insertMember: function (userInfo) {

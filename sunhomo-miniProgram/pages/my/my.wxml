@@ -1,7 +1,8 @@
 <!--index.wxml-->
-<view wx:if="{{!hasUserInfo && canIUse}}" class="header-box">
+<view wx:if="{{!hasUserInfo}}" class="header-box">
 	<image class="avatar" src="/images/nologin2.png"></image>
-	<button plain custom-class="btn" size="small" open-type="getUserInfo" lang="zh_CN"
+	<button wx:if="{{canIUseGetUserProfile}}" plain custom-class="btn" size="small" bindtap="getUserProfile">立即登录</button>
+	<button wx:else plain custom-class="btn" size="small" open-type="getUserInfo" lang="zh_CN"
 		bind:getuserinfo="getUserInfo">立即登录</button>
 </view>
 <view wx:else class="header-box">
@@ -106,7 +107,7 @@
 	<view class="line"></view>
 	<view class="menu-item">
 		<view class="l">小程序版本</view>
-		<view class="r">V3.6.0</view>
+		<view class="r">V3.7.0</view>
 	</view>
 
 </view>
