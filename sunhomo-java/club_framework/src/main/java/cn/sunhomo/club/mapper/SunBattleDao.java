@@ -34,5 +34,5 @@ public interface SunBattleDao {
 
     List<SunBattle> selectBattlesByActivityIdAndMemberId(@Param("activityId") Integer activityId, @Param("memberId") Integer memberId, @Param("isBlind") Byte isBlind);
 
-    int selectBattlesCount(@Param("activityId") Integer activityId, @Param("memberId") Integer memberId, @Param("isBlind") Byte isBlind);
+    int selectBattlesCount(@Param("activityId") Integer activityId, @Param("battleId") Integer battleId, @Param("memberId") Integer memberId, @Param("isBlind") Byte isBlind);
 }

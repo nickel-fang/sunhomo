@@ -284,6 +284,9 @@
         <if test="isBlind != null">
             and IS_BLIND = #{isBlind,jdbcType=TINYINT}
         </if>
+        <if test="battleId != null">
+            and BATTLE_ID != #{battleId,jdbcType=INTEGER}
+        </if>
     </select>
     <select id="selectBattlesByActivityIdAndMemberId" resultMap="ListResultMap">
         select

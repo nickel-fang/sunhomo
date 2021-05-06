@@ -39,7 +39,7 @@
     "useApiHostProcess": false
   },
   "compileType": "miniprogram",
-  "libVersion": "2.0.4",
+  "libVersion": "2.16.1",
   "appid": "wx0cac0d85b62f2830",
   "projectname": "sunhomo-miniProgram",
   "debugOptions": {

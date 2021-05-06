@@ -160,8 +160,8 @@ public class SunBattleService implements ISunBattleService {
     }
 
     @Override
-    public int selectBattlesCount(Integer activityId, Integer memberId, Byte isBlind) {
-        return battleDao.selectBattlesCount(activityId, memberId, isBlind);
+    public int selectBattlesCount(Integer activityId, Integer battleId, Integer memberId, Byte isBlind) {
+        return battleDao.selectBattlesCount(activityId, battleId, memberId, isBlind);
     }
 
     @Override

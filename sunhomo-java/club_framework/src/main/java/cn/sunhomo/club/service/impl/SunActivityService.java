@@ -83,25 +83,48 @@ public class SunActivityService implements ISunActivityService {
     @Override
     @Transactional
     public int quit(SunActivity activity, Byte isMaster, Integer memberId) {
-        //主报人退报，要判断是否有应战，有并取消
-        if (activity.getActivityType() == 1 && isMaster == 0) {
+        if (activity.getActivityType() == 1) {
             //删除所报的盲盒池
             blindDao.deleteMemberByActivityId(activity.getActivityId(), memberId);
 
             List<SunBattle> battles = battleDao.selectBattlesByActivityIdAndMemberId(activity.getActivityId(), memberId, null);
-            for (SunBattle battle : battles) {
-                memberDao.addRealPoint(Collections.singletonList(memberId), battle.getBattlePoint());
-                String position;
-                if (battle.getA1() != null && battle.getA1().intValue() == memberId.intValue()) {
-                    position = "A1";
-                } else if (battle.getA2() != null && battle.getA2().intValue() == memberId.intValue()) {
-                    position = "A2";
-                } else if (battle.getB1() != null && battle.getB1().intValue() == memberId.intValue()) {
-                    position = "B1";
-                } else {
-                    position = "B2";
+            if (isMaster == 0) { //主报人退报，要判断是否有应战，有并取消（包括挂的约战）
+                for (SunBattle battle : battles) {
+                    if (battle.getA1() != null && battle.getA1().intValue() == memberId.intValue()) {
+                        memberDao.addRealPoint(Collections.singletonList(memberId), battle.getBattlePoint());
+                        battleDao.quit(battle.getBattleId(), "A1");
+                    }
+                    if (battle.getA2() != null && battle.getA2().intValue() == memberId.intValue()) {
+                        memberDao.addRealPoint(Collections.singletonList(memberId), battle.getBattlePoint());
+                        battleDao.quit(battle.getBattleId(), "A2");
+                    }
+                    if (battle.getB1() != null && battle.getB1().intValue() == memberId.intValue()) {
+                        memberDao.addRealPoint(Collections.singletonList(memberId), battle.getBattlePoint());
+                        battleDao.quit(battle.getBattleId(), "B1");
+                    }
+                    if (battle.getB2() != null && battle.getB2().intValue() == memberId.intValue()) {
+                        memberDao.addRealPoint(Collections.singletonList(memberId), battle.getBattlePoint());
+                        battleDao.quit(battle.getBattleId(), "B2");
+                    }
+
                 }
-                battleDao.quit(battle.getBattleId(), position);
+            } else if (isMaster == 1) { //挂1退报，只取消挂的约战
+                for (SunBattle battle : battles) {
+                    String position = null;
+                    if (battle.getA1Name() != null && battle.getA1().intValue() == memberId.intValue() && StringUtils.contains(battle.getA1Name(), "+1")) {
+                        memberDao.addRealPoint(Collections.singletonList(memberId), battle.getBattlePoint());
+                        battleDao.quit(battle.getBattleId(), "A1");
+                    } else if (battle.getA2() != null && battle.getA2().intValue() == memberId.intValue() && StringUtils.contains(battle.getA2Name(), "+1")) {
+                        memberDao.addRealPoint(Collections.singletonList(memberId), battle.getBattlePoint());
+                        battleDao.quit(battle.getBattleId(), "A2");
+                    } else if (battle.getB1() != null && battle.getB1().intValue() == memberId.intValue() && StringUtils.contains(battle.getB1Name(), "+1")) {
+                        memberDao.addRealPoint(Collections.singletonList(memberId), battle.getBattlePoint());
+                        battleDao.quit(battle.getBattleId(), "B1");
+                    } else if (battle.getB2() != null && battle.getB2().intValue() == memberId.intValue() && StringUtils.contains(battle.getB2Name(), "+1")) {
+                        memberDao.addRealPoint(Collections.singletonList(memberId), battle.getBattlePoint());
+                        battleDao.quit(battle.getBattleId(), "B2");
+                    }
+                }
             }
         }
         return activityDao.deleteMemberToActivity(activity.getActivityId(), memberId, isMaster);
@@ -124,13 +147,12 @@ public class SunActivityService implements ISunActivityService {
     public List<SunActivity> getActivitiesForBattle(Integer memberId) {
         List<SunActivity> activitiesForBattle = activityDao.getActivitiesForBattle(memberId);
         for (SunActivity activity : activitiesForBattle) {
-            //需要过滤掉挂和替补，同时有超过3积分的
-            activity.setMembers(activity.getMembers().stream().limit(activity.getNumbers()).filter(m -> m.getIsMaster() == 0 && m.getPoint() >= 3).collect(Collectors.toList()));
-            //只需过滤掉替补
-            /*activity.setMembers(activity.getMembers().stream().limit(activity.getNumbers()).map(m -> {
+            //要求超过3积分
+            //activity.setMembers(activity.getMembers().stream().limit(activity.getNumbers()).filter(m -> m.getIsMaster() == 0 && m.getPoint() >= 3).collect(Collectors.toList()));
+            activity.setMembers(activity.getMembers().stream().limit(activity.getNumbers()).filter(m -> m.getPoint() >= 3).map(m -> {
                 if (m.getIsMaster() != 0) m.setMemberName(m.getMemberName() + "+" + m.getIsMaster());
                 return m;
-            }).collect(Collectors.toList()));*/
+            }).collect(Collectors.toList()));
         }
         return activitiesForBattle;
     }

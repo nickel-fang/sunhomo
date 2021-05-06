@@ -237,7 +237,7 @@ Page({
       for (var i = 0; i < this.data.battles.length; i++) {
         var tempBattle = this.data.battles[i];
         if (tempBattle.battleId == battleId) {
-          if (tempBattle.a1 == userId || tempBattle.a2 == userId || tempBattle.b1 == userId || tempBattle.b2 == userId) {
+          if (((tempBattle.a1 == userId || tempBattle.a2 == userId) && (postion == 'b1' || postion == 'b2')) || ((tempBattle.b1 == userId || tempBattle.b2 == userId) && (postion == 'a1' || postion == 'a2'))) {
             wx.showToast({
               title: '您无法应战',
               icon: 'error'

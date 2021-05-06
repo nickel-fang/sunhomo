@@ -3,6 +3,7 @@ package cn.sunhomo.club.api;
 import cn.sunhomo.club.domain.SunActivity;
 import cn.sunhomo.club.domain.SunBattle;
 import cn.sunhomo.club.domain.SunBattleVote;
+import cn.sunhomo.club.domain.SunMember;
 import cn.sunhomo.club.service.ISunActivityService;
 import cn.sunhomo.club.service.ISunBattleService;
 import cn.sunhomo.club.service.ISunMemberService;
@@ -16,6 +17,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Collectors;
 
 /**
  * @author: Nickel Fang
@@ -71,25 +73,25 @@ public class BattleAPI {
         }*/
 
         //单次活动不能超过10场约战
-        if (battleService.selectBattlesCount(battle.getActivityId(), null, null) >= 10) {
+        if (battleService.selectBattlesCount(battle.getActivityId(), null, null, null) >= 10) {
             return AjaxResult.failure(ResultCode.ACTIVITY_HAS_ENOUGH_BATTLES);
         }
 
         //每人每次不能超过一场明战，一场暗战
         if (battle.getA1() != null) {
-            if (battleService.selectBattlesCount(battle.getActivityId(), battle.getA1(), battle.getIsBlind()) >= 1)
+            if (battleService.selectBattlesCount(battle.getActivityId(), battle.getBattleId(), battle.getA1(), battle.getIsBlind()) >= 1)
                 return AjaxResult.failure(ResultCode.BATTLE_A1_HAS_ENOUGH_BATTLES);
         }
         if (battle.getA2() != null) {
-            if (battleService.selectBattlesCount(battle.getActivityId(), battle.getA2(), battle.getIsBlind()) >= 1)
+            if (battleService.selectBattlesCount(battle.getActivityId(), battle.getBattleId(), battle.getA2(), battle.getIsBlind()) >= 1)
                 return AjaxResult.failure(ResultCode.BATTLE_A2_HAS_ENOUGH_BATTLES);
         }
         if (battle.getB1() != null) {
-            if (battleService.selectBattlesCount(battle.getActivityId(), battle.getB1(), battle.getIsBlind()) >= 1)
+            if (battleService.selectBattlesCount(battle.getActivityId(), battle.getBattleId(), battle.getB1(), battle.getIsBlind()) >= 1)
                 return AjaxResult.failure(ResultCode.BATTLE_B1_HAS_ENOUGH_BATTLES);
         }
         if (battle.getB2() != null) {
-            if (battleService.selectBattlesCount(battle.getActivityId(), battle.getB2(), battle.getIsBlind()) >= 1)
+            if (battleService.selectBattlesCount(battle.getActivityId(), battle.getBattleId(), battle.getB2(), battle.getIsBlind()) >= 1)
                 return AjaxResult.failure(ResultCode.BATTLE_B2_HAS_ENOUGH_BATTLES);
         }
 
@@ -178,6 +180,7 @@ public class BattleAPI {
     @ResponseBody
     public AjaxResult<List<SunBattle>> accept(@RequestBody SunBattle battle) {
         Integer accepter = null;
+        String acceptPosition = null;
         //约战已取消（查不到记录），不能应战，返回要刷新
         SunBattle tempbattle = battleService.selectByPrimaryKey(battle.getBattleId());
         if (null == battle)
@@ -187,20 +190,63 @@ public class BattleAPI {
         if (tempbattle.getBattleState() == 2)
             return AjaxResult.failure(ResultCode.BATTLE_HAS_ENOUGH_MEMBER, battleService.selectBattlesFromNow());
 
-        if (battle.getA1() != null) accepter = battle.getA1();
-        if (battle.getA2() != null) accepter = battle.getA2();
-        if (battle.getB1() != null) accepter = battle.getB1();
-        if (battle.getB2() != null) accepter = battle.getB2();
+        if (battle.getA1() != null) {
+            accepter = battle.getA1();
+            acceptPosition = "A1";
+        }
+        if (battle.getA2() != null) {
+            accepter = battle.getA2();
+            acceptPosition = "A2";
+        }
+        if (battle.getB1() != null) {
+            accepter = battle.getB1();
+            acceptPosition = "B1";
+        }
+        if (battle.getB2() != null) {
+            accepter = battle.getB2();
+            acceptPosition = "B2";
+        }
 
-        //每人每次不能超过一场明战，一场暗战
-        if (battleService.selectBattlesCount(tempbattle.getActivityId(), accepter, tempbattle.getIsBlind()) >= 1)
-            return AjaxResult.failure(ResultCode.BATTLE_HAS_ENOUGH_BATTLES);
-
-        //是否报名了此活动（替补也不允许）
+        //是否报名了此活动（增加替补允许应战）
         SunActivity activity = activityService.selectActivity(tempbattle.getActivityId());
         Integer finalAccepter = accepter;
         if (activity.getMembers().stream().limit(activity.getNumbers()).noneMatch(m -> m.getMemberId().intValue() == finalAccepter.intValue() && m.getIsMaster() == 0))
             return AjaxResult.failure(ResultCode.BATTLE_HAS_NOT_ENROLLED, battleService.selectBattlesFromNow());
+
+        List<SunMember> collectOfAccepters = activity.getMembers().stream().filter(m -> m.getMemberId().intValue() == finalAccepter.intValue()).collect(Collectors.toList());
+        //每人每次不能超过一场明战，一场暗战（当前约战不受限制）
+        if (battleService.selectBattlesCount(tempbattle.getActivityId(), battle.getBattleId(), accepter, tempbattle.getIsBlind()) >= 1)
+            return AjaxResult.failure(ResultCode.BATTLE_HAS_ENOUGH_BATTLES);
+
+        boolean hasAttended = false;
+        if (tempbattle.getA1() != null && tempbattle.getA1().intValue() == accepter.intValue()) {
+            hasAttended = true;
+        } else if (tempbattle.getA2() != null && tempbattle.getA2().intValue() == accepter.intValue()) {
+            hasAttended = true;
+        } else if (tempbattle.getB1() != null && tempbattle.getB1().intValue() == accepter.intValue()) {
+            hasAttended = true;
+        } else if (tempbattle.getB2() != null && tempbattle.getB2().intValue() == accepter.intValue()) {
+            hasAttended = true;
+        }
+
+        if (collectOfAccepters.size() == 1 && hasAttended) {
+            return AjaxResult.failure(ResultCode.BATTLE_HAS_ATTENDED);
+        } else if (collectOfAccepters.size() > 1 && hasAttended) {
+            switch (acceptPosition) {
+                case "A1":
+                    battle.setA1Name(battle.getA1Name() + "+1");
+                    break;
+                case "A2":
+                    battle.setA2Name(battle.getA2Name() + "+1");
+                    break;
+                case "B1":
+                    battle.setB1Name(battle.getB1Name() + "+1");
+                    break;
+                case "B2":
+                    battle.setB2Name(battle.getB2Name() + "+1");
+                    break;
+            }
+        }
 
         //前台已做限制
 //        if(battleService.hasNotCompletedBattlesByMemberId(accepter))
