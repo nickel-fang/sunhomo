@@ -51,7 +51,7 @@ public class PointJob extends QuartzJobBean {
 
         List<SunActivity> activities = activityService.selectActivities(activity);
 
-        Date now = new Date();
+        Date now = DateUtils.addDays(new Date(),-1);
 
         for (SunActivity activity1 : activities) {
             int number = activity1.getNumbers(); //活动设定人数
