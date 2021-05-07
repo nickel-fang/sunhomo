@@ -19,8 +19,9 @@
         <result column="ACTIVITY_STATE" jdbcType="TINYINT" property="activityState"/>
         <collection property="members" ofType="cn.sunhomo.club.domain.SunMember" column="ACTIVITY_ID"
                     select="cn.sunhomo.club.mapper.SunMemberDao.selectMembersByActivityId"></collection>
-        <collection property="blindMembers" ofType="cn.sunhomo.club.domain.SunBlind" column="ACTIVITY_ID"
-                    select="cn.sunhomo.club.mapper.SunBlindDao.selectByActivityId"></collection>
+        <!--   盲盒约战池改为redis实现     -->
+        <!--<collection property="blindMembers" ofType="cn.sunhomo.club.domain.SunBlind" column="ACTIVITY_ID"
+                    select="cn.sunhomo.club.mapper.SunBlindDao.selectByActivityId"></collection>-->
     </resultMap>
     <sql id="Base_Column_List">
         ACTIVITY_ID, ACTIVITY_NAME, ACTIVITY_TYPE, ACTIVITY_DATE, START_TIME, END_TIME, DEADLINE, DRAW_TIME,
@@ -56,7 +57,8 @@
     </select>
     <select id="getActivitiesForBattle" resultMap="BaseResultMap">
         select
-        SA.ACTIVITY_ID, SA.ACTIVITY_NAME, SA.ACTIVITY_TYPE, SA.ACTIVITY_DATE, SA.START_TIME, SA.END_TIME, SA.NUMBERS, SA.ACTIVITY_STATE
+        SA.ACTIVITY_ID, SA.ACTIVITY_NAME, SA.ACTIVITY_TYPE, SA.ACTIVITY_DATE, SA.START_TIME, SA.END_TIME, SA.NUMBERS,
+        SA.ACTIVITY_STATE
         from SUN_ACTIVITY SA
         inner join SUN_MEMBER_TO_ACTIVITY SMTA on SA.ACTIVITY_ID=SMTA.ACTIVITY_ID
         where SMTA.MEMBER_ID =#{memberId} and SA.ACTIVITY_TYPE=1 and SA.ACTIVITY_STATE=1 and SMTA.IS_MASTER=0
@@ -77,9 +79,11 @@
         NUMBERS, DIVISIONS, FEE, MEMO, ACTIVITY_STATE
         )
         values (#{activityName,jdbcType=VARCHAR}, #{activityType,jdbcType=TINYINT}, #{activityDate,jdbcType=VARCHAR},
-        #{startTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR}, #{deadline,jdbcType=VARCHAR}, #{drawTime,jdbcType=VARCHAR},
+        #{startTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR}, #{deadline,jdbcType=VARCHAR},
+        #{drawTime,jdbcType=VARCHAR},
         #{place,jdbcType=VARCHAR}, #{field,jdbcType=VARCHAR},
-        #{numbers,jdbcType=INTEGER},#{divisions,jdbcType=INTEGER}, #{fee,jdbcType=INTEGER}, #{memo,jdbcType=VARCHAR}, #{activityState,jdbcType=TINYINT}
+        #{numbers,jdbcType=INTEGER},#{divisions,jdbcType=INTEGER}, #{fee,jdbcType=INTEGER}, #{memo,jdbcType=VARCHAR},
+        #{activityState,jdbcType=TINYINT}
         )
     </insert>
     <insert id="insertSelective" keyColumn="ACTIVITY_ID" keyProperty="activityId"
@@ -247,9 +251,11 @@
         order by IS_MASTER
     </select>
     <insert id="insertMemberToActivity">
-        insert into SUN_MEMBER_TO_ACTIVITY values(#{memberId,jdbcType=INTEGER},#{activityId,jdbcType=INTEGER},#{enrollTime,jdbcType=TIMESTAMP},#{isMaster,jdbcType=TINYINT})
+        insert into SUN_MEMBER_TO_ACTIVITY
+        values(#{memberId,jdbcType=INTEGER},#{activityId,jdbcType=INTEGER},#{enrollTime,jdbcType=TIMESTAMP},#{isMaster,jdbcType=TINYINT})
     </insert>
     <delete id="deleteMemberToActivity">
-        delete from SUN_MEMBER_TO_ACTIVITY where ACTIVITY_ID=#{activityId,jdbcType=INTEGER} and MEMBER_ID=#{memberId,jdbcType=INTEGER} and IS_MASTER=#{isMaster,jdbcType=TINYINT}
+        delete from SUN_MEMBER_TO_ACTIVITY where ACTIVITY_ID=#{activityId,jdbcType=INTEGER} and
+        MEMBER_ID=#{memberId,jdbcType=INTEGER} and IS_MASTER=#{isMaster,jdbcType=TINYINT}
     </delete>
 </mapper>

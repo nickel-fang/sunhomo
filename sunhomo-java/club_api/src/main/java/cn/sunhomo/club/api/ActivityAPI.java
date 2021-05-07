@@ -233,6 +233,7 @@ public class ActivityAPI {
     @PostMapping("/blindBattle/{activityId}")
     @ResponseBody
     public AjaxResult<SunActivity> blindBattle(@PathVariable("activityId") Integer activityId, @RequestBody SunMember member) {
+        /* 改为redis实现
         SunActivity activity = activityService.selectActivity(activityId);
         //是否报名过盲盒
         if(activity.getBlindMembers().stream().anyMatch(m -> m.getMemberId().intValue() == member.getMemberId().intValue())){
@@ -240,6 +241,11 @@ public class ActivityAPI {
         }
 
         int result = activityService.blindBattle(activityId,member.getMemberId());
-        return result == 1 ? AjaxResult.success(activityService.selectActivity(activityId)) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, activityService.selectActivity(activityId));
+        return result == 1 ? AjaxResult.success(activityService.selectActivity(activityId)) : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR, activityService.selectActivity(activityId));*/
+
+        if (activityService.hasInBlindBox(activityId, member.getMemberId()))
+            return AjaxResult.failure(ResultCode.BATTLE_BLIND_HAS_ATTENDED, activityService.selectActivity(activityId));
+        activityService.enrollBlindBox(activityId, member.getMemberId());
+        return AjaxResult.success(activityService.selectActivity(activityId));
     }
 }

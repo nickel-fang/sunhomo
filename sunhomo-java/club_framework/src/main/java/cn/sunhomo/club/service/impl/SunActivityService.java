@@ -9,8 +9,11 @@ import cn.sunhomo.club.mapper.SunBattleDao;
 import cn.sunhomo.club.mapper.SunBlindDao;
 import cn.sunhomo.club.mapper.SunMemberDao;
 import cn.sunhomo.club.service.ISunActivityService;
+import cn.sunhomo.core.Constant;
+import cn.sunhomo.util.DateUtils;
 import cn.sunhomo.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,14 +37,24 @@ public class SunActivityService implements ISunActivityService {
     @Autowired
     private SunBlindDao blindDao;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     @Override
     public List<SunActivity> selectActivities(SunActivity activity) {
-        return activityDao.selectActivities(activity);
+        List<SunActivity> activities = activityDao.selectActivities(activity);
+        for (SunActivity temp : activities) {
+            if (temp.getActivityType() == 1)
+                temp.setBlindMembers(redisTemplate.opsForList().range(Constant.PRE_BLIND_BOX + temp.getActivityId(), 0, -1));
+        }
+        return activities;
     }
 
     @Override
     public SunActivity selectActivity(Integer activityId) {
-        return activityDao.selectByPrimaryKey(activityId);
+        SunActivity activity = activityDao.selectByPrimaryKey(activityId);
+        activity.setBlindMembers(redisTemplate.opsForList().range(Constant.PRE_BLIND_BOX + activityId, 0, -1));
+        return activity;
     }
 
     @Override
@@ -84,8 +97,9 @@ public class SunActivityService implements ISunActivityService {
     @Transactional
     public int quit(SunActivity activity, Byte isMaster, Integer memberId) {
         if (activity.getActivityType() == 1) {
-            //删除所报的盲盒池
-            blindDao.deleteMemberByActivityId(activity.getActivityId(), memberId);
+            //删除所报的盲盒池  改为redis实现
+            //blindDao.deleteMemberByActivityId(activity.getActivityId(), memberId);
+            redisTemplate.opsForList().remove(Constant.PRE_BLIND_BOX + activity.getActivityId(), 1, new SunBlind(memberId, activity.getActivityId(), null, null));
 
             List<SunBattle> battles = battleDao.selectBattlesByActivityIdAndMemberId(activity.getActivityId(), memberId, null);
             if (isMaster == 0) { //主报人退报，要判断是否有应战，有并取消（包括挂的约战）
@@ -130,13 +144,13 @@ public class SunActivityService implements ISunActivityService {
         return activityDao.deleteMemberToActivity(activity.getActivityId(), memberId, isMaster);
     }
 
-    @Override
-//    @Transactional
-    public int blindBattle(Integer activityId, Integer memberId) {
-        //暂不扣，放在自动创建盲盒时再扣
-//        memberDao.addRealPoint(Collections.singletonList(memberId), -1);
-        return blindDao.insert(new SunBlind(memberId, activityId, new Date(), null));
-    }
+//    @Override
+////    @Transactional
+//    public int blindBattle(Integer activityId, Integer memberId) {
+//        //暂不扣，放在自动创建盲盒时再扣
+////        memberDao.addRealPoint(Collections.singletonList(memberId), -1);
+//        return blindDao.insert(new SunBlind(memberId, activityId, new Date(), null));
+//    }
 
     @Override
     public List<Byte> selectCount(Integer activityId, Integer memberId) {
@@ -155,5 +169,18 @@ public class SunActivityService implements ISunActivityService {
             }).collect(Collectors.toList()));
         }
         return activitiesForBattle;
+    }
+
+    @Override
+    public boolean hasInBlindBox(Integer activityId, Integer memberId) {
+        List<SunBlind> blinds = redisTemplate.opsForList().range(Constant.PRE_BLIND_BOX + activityId, 0, -1);
+        if (blinds.stream().anyMatch(m -> m.getMemberId().intValue() == memberId.intValue()))
+            return true;
+        return false;
+    }
+
+    @Override
+    public void enrollBlindBox(Integer activityId, Integer memberId) {
+        redisTemplate.opsForList().rightPush(Constant.PRE_BLIND_BOX + activityId, new SunBlind(memberId, activityId, null, null));
     }
 }

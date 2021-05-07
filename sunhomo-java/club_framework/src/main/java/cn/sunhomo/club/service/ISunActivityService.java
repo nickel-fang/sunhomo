@@ -25,5 +25,9 @@ public interface ISunActivityService {
 
     List<SunActivity> getActivitiesForBattle(Integer memberId);
 
-    int blindBattle(Integer activityId, Integer memberId);
+//    int blindBattle(Integer activityId, Integer memberId);
+
+    public boolean hasInBlindBox(Integer activityId, Integer memberId);
+
+    public void enrollBlindBox(Integer activityId, Integer memberId);
 }
