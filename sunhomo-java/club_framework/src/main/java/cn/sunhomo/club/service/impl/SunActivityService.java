@@ -10,14 +10,12 @@ import cn.sunhomo.club.mapper.SunBlindDao;
 import cn.sunhomo.club.mapper.SunMemberDao;
 import cn.sunhomo.club.service.ISunActivityService;
 import cn.sunhomo.core.Constant;
-import cn.sunhomo.util.DateUtils;
 import cn.sunhomo.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -95,53 +93,53 @@ public class SunActivityService implements ISunActivityService {
 
     @Override
     @Transactional
-    public int quit(SunActivity activity, Byte isMaster, Integer memberId) {
+    public int quit(SunActivity activity, SunMember member) {
         if (activity.getActivityType() == 1) {
             //删除所报的盲盒池  改为redis实现
             //blindDao.deleteMemberByActivityId(activity.getActivityId(), memberId);
-            redisTemplate.opsForList().remove(Constant.PRE_BLIND_BOX + activity.getActivityId(), 1, new SunBlind(memberId, activity.getActivityId(), null, null));
+            redisTemplate.opsForList().remove(Constant.PRE_BLIND_BOX + activity.getActivityId(), 1, new SunBlind(member.getMemberId(), activity.getActivityId(), null, member.getMemberName()));
 
-            List<SunBattle> battles = battleDao.selectBattlesByActivityIdAndMemberId(activity.getActivityId(), memberId, null);
-            if (isMaster == 0) { //主报人退报，要判断是否有应战，有并取消（包括挂的约战）
+            List<SunBattle> battles = battleDao.selectBattlesByActivityIdAndMemberId(activity.getActivityId(), member.getMemberId(), null);
+            if (member.getIsMaster() == 0) { //主报人退报，要判断是否有应战，有并取消（包括挂的约战）
                 for (SunBattle battle : battles) {
-                    if (battle.getA1() != null && battle.getA1().intValue() == memberId.intValue()) {
-                        memberDao.addRealPoint(Collections.singletonList(memberId), battle.getBattlePoint());
+                    if (battle.getA1() != null && battle.getA1().intValue() == member.getMemberId().intValue()) {
+                        memberDao.addRealPoint(Collections.singletonList(member.getMemberId()), battle.getBattlePoint());
                         battleDao.quit(battle.getBattleId(), "A1");
                     }
-                    if (battle.getA2() != null && battle.getA2().intValue() == memberId.intValue()) {
-                        memberDao.addRealPoint(Collections.singletonList(memberId), battle.getBattlePoint());
+                    if (battle.getA2() != null && battle.getA2().intValue() == member.getMemberId().intValue()) {
+                        memberDao.addRealPoint(Collections.singletonList(member.getMemberId()), battle.getBattlePoint());
                         battleDao.quit(battle.getBattleId(), "A2");
                     }
-                    if (battle.getB1() != null && battle.getB1().intValue() == memberId.intValue()) {
-                        memberDao.addRealPoint(Collections.singletonList(memberId), battle.getBattlePoint());
+                    if (battle.getB1() != null && battle.getB1().intValue() == member.getMemberId().intValue()) {
+                        memberDao.addRealPoint(Collections.singletonList(member.getMemberId()), battle.getBattlePoint());
                         battleDao.quit(battle.getBattleId(), "B1");
                     }
-                    if (battle.getB2() != null && battle.getB2().intValue() == memberId.intValue()) {
-                        memberDao.addRealPoint(Collections.singletonList(memberId), battle.getBattlePoint());
+                    if (battle.getB2() != null && battle.getB2().intValue() == member.getMemberId().intValue()) {
+                        memberDao.addRealPoint(Collections.singletonList(member.getMemberId()), battle.getBattlePoint());
                         battleDao.quit(battle.getBattleId(), "B2");
                     }
 
                 }
-            } else if (isMaster == 1) { //挂1退报，只取消挂的约战
+            } else if (member.getIsMaster() == 1) { //挂1退报，只取消挂的约战
                 for (SunBattle battle : battles) {
                     String position = null;
-                    if (battle.getA1Name() != null && battle.getA1().intValue() == memberId.intValue() && StringUtils.contains(battle.getA1Name(), "+1")) {
-                        memberDao.addRealPoint(Collections.singletonList(memberId), battle.getBattlePoint());
+                    if (battle.getA1Name() != null && battle.getA1().intValue() == member.getMemberId().intValue() && StringUtils.contains(battle.getA1Name(), "+1")) {
+                        memberDao.addRealPoint(Collections.singletonList(member.getMemberId()), battle.getBattlePoint());
                         battleDao.quit(battle.getBattleId(), "A1");
-                    } else if (battle.getA2() != null && battle.getA2().intValue() == memberId.intValue() && StringUtils.contains(battle.getA2Name(), "+1")) {
-                        memberDao.addRealPoint(Collections.singletonList(memberId), battle.getBattlePoint());
+                    } else if (battle.getA2() != null && battle.getA2().intValue() == member.getMemberId().intValue() && StringUtils.contains(battle.getA2Name(), "+1")) {
+                        memberDao.addRealPoint(Collections.singletonList(member.getMemberId()), battle.getBattlePoint());
                         battleDao.quit(battle.getBattleId(), "A2");
-                    } else if (battle.getB1() != null && battle.getB1().intValue() == memberId.intValue() && StringUtils.contains(battle.getB1Name(), "+1")) {
-                        memberDao.addRealPoint(Collections.singletonList(memberId), battle.getBattlePoint());
+                    } else if (battle.getB1() != null && battle.getB1().intValue() == member.getMemberId().intValue() && StringUtils.contains(battle.getB1Name(), "+1")) {
+                        memberDao.addRealPoint(Collections.singletonList(member.getMemberId()), battle.getBattlePoint());
                         battleDao.quit(battle.getBattleId(), "B1");
-                    } else if (battle.getB2() != null && battle.getB2().intValue() == memberId.intValue() && StringUtils.contains(battle.getB2Name(), "+1")) {
-                        memberDao.addRealPoint(Collections.singletonList(memberId), battle.getBattlePoint());
+                    } else if (battle.getB2() != null && battle.getB2().intValue() == member.getMemberId().intValue() && StringUtils.contains(battle.getB2Name(), "+1")) {
+                        memberDao.addRealPoint(Collections.singletonList(member.getMemberId()), battle.getBattlePoint());
                         battleDao.quit(battle.getBattleId(), "B2");
                     }
                 }
             }
         }
-        return activityDao.deleteMemberToActivity(activity.getActivityId(), memberId, isMaster);
+        return activityDao.deleteMemberToActivity(activity.getActivityId(), member.getMemberId(), member.getIsMaster());
     }
 
 //    @Override
@@ -180,7 +178,12 @@ public class SunActivityService implements ISunActivityService {
     }
 
     @Override
-    public void enrollBlindBox(Integer activityId, Integer memberId) {
-        redisTemplate.opsForList().rightPush(Constant.PRE_BLIND_BOX + activityId, new SunBlind(memberId, activityId, null, null));
+    public void enrollBlindBox(Integer activityId, SunMember member) {
+        redisTemplate.opsForList().rightPush(Constant.PRE_BLIND_BOX + activityId, new SunBlind(member.getMemberId(), activityId, null, member.getMemberName()));
+    }
+
+    @Override
+    public void deleteBlindBox(Integer activityId) {
+        redisTemplate.delete(Constant.PRE_BLIND_BOX + activityId);
     }
 }

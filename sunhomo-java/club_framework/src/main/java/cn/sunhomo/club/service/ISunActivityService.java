@@ -18,7 +18,7 @@ public interface ISunActivityService {
 
     public int enroll(Integer activityId, SunMember member);
 
-    int quit(SunActivity activity, Byte isMaster, Integer memberId);
+    int quit(SunActivity activity, SunMember member);
 
     //某个活动，同一人（包括挂）所有的报名
     List<Byte> selectCount(Integer activityId, Integer memberId);
@@ -29,5 +29,7 @@ public interface ISunActivityService {
 
     public boolean hasInBlindBox(Integer activityId, Integer memberId);
 
-    public void enrollBlindBox(Integer activityId, Integer memberId);
+    public void enrollBlindBox(Integer activityId, SunMember member);
+
+    public void deleteBlindBox(Integer activityId);
 }

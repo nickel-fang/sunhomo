@@ -15,7 +15,7 @@
 				<view class="member_name">{{member.memberName}}</view>
 				<view wx:if="{{member.isMaster!=0}}">+{{member.isMaster}}</view>
 				<view wx:else>（年度积分:{{member.yearPoint}}）</view>
-				<block wx:if="{{member.memberId==userInfo.memberId || userInfo.isAdmin>0}}"><button class="mini-btn" size="mini" bindtap="quit" data-memberid="{{member.memberId}}" data-master="{{member.isMaster}}">退报</button></block>
+				<block wx:if="{{member.memberId==userInfo.memberId || userInfo.isAdmin>0}}"><button class="mini-btn" size="mini" bindtap="quit" data-member="{{member}}">退报</button></block>
 			</view>
 		</block>
 	</view>

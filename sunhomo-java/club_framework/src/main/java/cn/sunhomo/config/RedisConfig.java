@@ -1,4 +1,4 @@
-package cn.sunhomo.club.config;
+package cn.sunhomo.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

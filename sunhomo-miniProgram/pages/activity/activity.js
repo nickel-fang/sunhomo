@@ -137,9 +137,9 @@ Page({
       success(res) {
         if (res.confirm) {
           wx.request({
-            url: app.globalData.APIUrl + '/club/activity/quit/' + that.data.activity.activityId + "/" + event.currentTarget.dataset.master + "/" + that.data.userInfo.isAdmin,
+            url: app.globalData.APIUrl + '/club/activity/quit/' + that.data.activity.activityId + "/" + that.data.userInfo.isAdmin,
             method: 'POST',
-            data: event.currentTarget.dataset.memberid,
+            data: event.currentTarget.dataset.member,
             success: function (res) {
               if (res.data.code == 1) {
                 wx.showToast({

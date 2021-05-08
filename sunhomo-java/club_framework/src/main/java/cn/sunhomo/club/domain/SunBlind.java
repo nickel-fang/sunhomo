@@ -20,6 +20,7 @@ public class SunBlind extends BaseEntity {
 
     /**
      * 报名约战时间，按照报名时间取4X人
+     * 改为redis方式后，list自带顺序，此属性暂时无用
      */
     private Date enrollTime;
 

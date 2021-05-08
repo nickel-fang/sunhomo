@@ -1,4 +1,4 @@
-package cn.sunhomo.club.config;
+package cn.sunhomo.config;
 
 import cn.sunhomo.club.quartz.ActivityJob;
 import cn.sunhomo.club.quartz.BattleJob;

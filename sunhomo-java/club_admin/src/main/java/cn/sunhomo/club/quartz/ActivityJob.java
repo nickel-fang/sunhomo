@@ -35,6 +35,8 @@ public class ActivityJob extends QuartzJobBean {
                 activity1.setActivityState((byte) 3);
                 activityService.updateActivity(activity1);
             }
+            //删除对应的盲盒约战池
+            activityService.deleteBlindBox(activity1.getActivityId());
         }
         log.info("-------完成自动化处理活动状态-------");
     }
