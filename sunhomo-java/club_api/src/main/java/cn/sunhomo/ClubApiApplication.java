@@ -1,4 +1,4 @@
-package cn.sunhomo.club;
+package cn.sunhomo;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
