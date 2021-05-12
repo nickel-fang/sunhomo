@@ -17,11 +17,24 @@
 	<view class="menu-item">
 		<view class="l">5、普通打球活动可带挂报名，多次报名，自动带挂；比赛活动须本人报名，才能抽签分组；</view>
 	</view>
-
 	<view class="space"></view>
 
 	<view class="menu-item">
-		<view class="title">积分规则（积分可在积分商城兑换商品）</view>
+		<view class="title">会员</view>
+	</view>
+	<view class="menu-item">
+		<view class="l">1、等级（按累积总积分划分赤铁、青铜、白银、黄金、铂金、钻石、星耀、王者）</view>
+	</view>
+	<view class="menu-item">
+		<view class="l">2、年度积分（每年度单独累积，当年排名前三的给予奖励。第一名送京东自营价值1000元羽毛球拍，第二名送京东自营价值500元羽毛球拍，第三名送京东200元E卡；积分相同，单挑一局决名次）</view>
+	</view>
+	<view class="menu-item">
+		<view class="l">3、消费积分（可在积分商城消费的积分）</view>
+	</view>
+	<view class="space"></view>
+
+	<view class="menu-item">
+		<view class="title">积分规则（消费积分可在积分商城兑换商品）</view>
 	</view>
 	<view class="menu-item">
 		<view class="l">1、活动开始前72小时报名，早鸟积2分；其他时间报名积1分；</view>
@@ -39,24 +52,8 @@
 		<view class="l">5、积分在活动第二天自动到账；</view>
 	</view>
 	<view class="menu-item">
-		<view class="l">6、兑换商品只消耗实时积分，不影响年度积分；</view>
+		<view class="l">6、兑换商品只消耗消费积分，不影响年度积分；</view>
 	</view>
-
-	<view class="space"></view>
-
-	<view class="menu-item">
-		<view class="title">会员</view>
-	</view>
-	<view class="menu-item">
-		<view class="l">1、等级（按累积总积分划分赤铁、青铜、白银、黄金、铂金、钻石、星耀、王者）</view>
-	</view>
-	<view class="menu-item">
-		<view class="l">2、年度积分（每年单独累积，当年排名前三的给予奖励。第一名送京东自营价值1000元羽毛球拍，第二名送京东自营价值500元羽毛球拍，第三名送京东200元E卡；积分相同，单挑一局决名次）</view>
-	</view>
-	<view class="menu-item">
-		<view class="l">3、积分（会员的实时积分）</view>
-	</view>
-
 	<view class="space"></view>
 
 	<view class="menu-item">

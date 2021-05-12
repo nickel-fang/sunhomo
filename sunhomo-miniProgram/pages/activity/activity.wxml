@@ -14,7 +14,7 @@
 				<image class="member_icon" src="{{member.memberPhoto}}"></image>
 				<view class="member_name">{{member.memberName}}</view>
 				<view wx:if="{{member.isMaster!=0}}">+{{member.isMaster}}</view>
-				<view wx:else>（年度积分:{{member.yearPoint}}）</view>
+				<view wx:else>（积分:{{member.yearPoint}}/{{member.point}}）</view>
 				<block wx:if="{{member.memberId==userInfo.memberId || userInfo.isAdmin>0}}"><button class="mini-btn" size="mini" bindtap="quit" data-member="{{member}}">退报</button></block>
 			</view>
 		</block>

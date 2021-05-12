@@ -32,7 +32,7 @@
 		</view>
 		<view class='item right'>
 			<view>{{userInfo.point}}</view>
-			<view>积分</view>
+			<view>消费积分</view>
 		</view>
 		<view class='item right'>
 			<view>{{userInfo.ratio/100}}%({{userInfo.winNumber}}/{{userInfo.winNumber+userInfo.loseNumber}})</view>
