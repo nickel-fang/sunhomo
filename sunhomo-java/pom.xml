@@ -14,9 +14,9 @@
     <description>sunhomo社群：活动、交流等</description>
 
     <modules>
-        <module>club_framework</module>
-        <module>club_admin</module>
-        <module>club_api</module>
+        <module>sunhomo_framework</module>
+        <module>sunhomo_admin</module>
+        <module>sunhomo_api</module>
     </modules>
 
     <properties>
