@@ -1,0 +1,38 @@
+.form {
+  width: 702rpx;
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  margin: 24rpx;
+  display: flex;
+  flex-direction: column;
+}
+.form .input {
+  width: 654rpx;
+  height: 90rpx;
+  position: relative;
+  margin-left: 24rpx;
+}
+.form .input view {
+  position: absolute;
+  left: 0;
+  top: 0;
+  line-height: 90rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 26rpx;
+  color: #555555;
+}
+.form .input input {
+  padding-left: 200rpx;
+  height: 90rpx;
+}
+.picker {
+  padding-left: 200rpx;
+  height: 90rpx;
+}
+.placeholder {
+  font-family: PingFangSC-Regular;
+  font-size: 26rpx;
+  color: #999999;
+  letter-spacing: -0.82rpx;
+  line-height: 90rpx;
+}

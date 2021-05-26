@@ -28,4 +28,6 @@ public interface SunActivityDao {
     int deleteMemberToActivity(@Param("activityId") Integer activityId, @Param("memberId") Integer memberId, @Param("isMaster") Byte isMaster);
 
     List<SunActivity> getActivitiesForBattle(Integer memberId);
+
+    SunActivity selectPreActivity(String activityDate);
 }

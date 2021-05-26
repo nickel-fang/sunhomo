@@ -51,7 +51,7 @@ public class PointJob extends QuartzJobBean {
 
         List<SunActivity> activities = activityService.selectActivities(activity);
 
-        Date now = DateUtils.addDays(new Date(),-1);
+        Date now = DateUtils.addDays(new Date(), -1);
 
         for (SunActivity activity1 : activities) {
             int number = activity1.getNumbers(); //活动设定人数
@@ -61,6 +61,11 @@ public class PointJob extends QuartzJobBean {
             Map<Integer, SunMember> updateMembers = new HashMap<>();
             //记录所有需要插入的积分明细
             List<SunPointRecord> insertPointRecords = new ArrayList<SunPointRecord>();
+
+            //上一次普通打球活动，早鸟报名的人员
+            SunActivity preActivity = activityService.selectPreActivity(activity1.getActivityDate());
+            LocalDateTime preActivityStartTime = LocalDateTime.parse(preActivity.getActivityDate() + " " + preActivity.getStartTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            List<SunMember> earlyBirdMembers = preActivity.getMembers().stream().filter(m -> m.getIsMaster() == 0 && DateUtils.asLocalDateTime(m.getEnrollTime()).isBefore(preActivityStartTime.plusDays(-3))).collect(Collectors.toList());
 
             SunMember member;
 
@@ -86,12 +91,18 @@ public class PointJob extends QuartzJobBean {
                     }
 
                 } else if (activity1.getActivityType() == 1) {
-                    //72小时之前报名，加2分，其他时间报名加1分，挂加1分
+                    //72小时之前报名（早鸟报名），加2分，连续两次早鸟报名，加3分，其他时间报名加1分，挂加1分
                     if (member.getIsMaster() == 0) {
                         LocalDateTime activityStartTime = LocalDateTime.parse(activity1.getActivityDate() + " " + activity1.getStartTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
                         if (DateUtils.asLocalDateTime(member.getEnrollTime()).isBefore(activityStartTime.plusDays(-3))) {
-                            insertPointRecords.add(new SunPointRecord(null, member.getMemberId(), (byte) 1, "打球活动：本人早鸟报名", 2, now));
-                            updateMembers.get(member.getMemberId()).addAllPoint(2);
+                            int memberId = member.getMemberId().intValue();
+                            if (earlyBirdMembers.stream().anyMatch(m -> m.getMemberId().intValue() == memberId)) {
+                                insertPointRecords.add(new SunPointRecord(null, member.getMemberId(), (byte) 1, "打球活动：本人连续早鸟报名", 3, now));
+                                updateMembers.get(member.getMemberId()).addAllPoint(3);
+                            } else {
+                                insertPointRecords.add(new SunPointRecord(null, member.getMemberId(), (byte) 1, "打球活动：本人早鸟报名", 2, now));
+                                updateMembers.get(member.getMemberId()).addAllPoint(2);
+                            }
                         } else {
                             insertPointRecords.add(new SunPointRecord(null, member.getMemberId(), (byte) 1, "打球活动：本人报名", 1, now));
                             updateMembers.get(member.getMemberId()).addAllPoint(1);

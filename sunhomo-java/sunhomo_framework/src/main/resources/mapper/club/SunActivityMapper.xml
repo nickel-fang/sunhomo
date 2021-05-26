@@ -33,6 +33,12 @@
         from SUN_ACTIVITY
         where ACTIVITY_ID = #{activityId,jdbcType=INTEGER}
     </select>
+    <select id="selectPreActivity" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from SUN_ACTIVITY
+        where ACTIVITY_DATE &lt; #{activityDate,jdbcType=VARCHAR} AND ACTIVITY_TYPE=1 AND ACTIVITY_STATE=3 ORDER BY ACTIVITY_ID DESC LIMIT 1
+    </select>
     <select id="selectActivities" parameterType="cn.sunhomo.club.domain.SunActivity" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>

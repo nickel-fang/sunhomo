@@ -109,7 +109,8 @@ Page({
           wx.showToast({
             title: '报名成功',
             icon: 'success'
-          })
+          });
+          wx.setStorageSync('activitysChange', 1);
         } else if (res.data.code != 1) {
           wx.showToast({
             title: res.data.msg,
@@ -145,7 +146,8 @@ Page({
                 wx.showToast({
                   title: '退报成功',
                   icon: 'success'
-                })
+                });
+                wx.setStorageSync('activitysChange', 1);
               } else if (res.data.code != 1) {
                 wx.showToast({
                   title: res.data.msg,
@@ -236,6 +238,7 @@ Page({
                   title: '报名盲盒成功',
                   icon: 'success'
                 });
+                wx.setStorageSync('activitysChange', 1);
               } else if (res.data.code) {
                 wx.showToast({
                   title: res.data.msg,

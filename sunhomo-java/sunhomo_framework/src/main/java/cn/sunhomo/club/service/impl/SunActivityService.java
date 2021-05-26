@@ -56,6 +56,12 @@ public class SunActivityService implements ISunActivityService {
     }
 
     @Override
+    public SunActivity selectPreActivity(String activityDate){
+        SunActivity activity = activityDao.selectPreActivity(activityDate);
+        return activity;
+    }
+
+    @Override
     public int deleteActivityById(String ids) {
         int[] activityIds = StringUtils.toIntArray(ids, ",");
         return activityDao.deleteByPrimaryKey(activityIds);

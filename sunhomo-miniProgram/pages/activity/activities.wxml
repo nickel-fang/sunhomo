@@ -1,22 +1,22 @@
 <view class="container">
 
-<view class="banner" wx:if="{{ads.length>0}}">
-	<swiper indicator-dots="{{true}}" autoplay="{{true}}" interval="{{4000}}" duration="{{1000}}">
-		<block wx:for="{{ads}}">
-			<swiper-item>
-				<image src="{{item.adImg}}" class="slide-image" />
-			</swiper-item>
-		</block>
-	</swiper>
-</view>
+	<view class="banner" wx:if="{{ads.length>0}}">
+		<swiper indicator-dots="{{true}}" autoplay="{{true}}" interval="{{4000}}" duration="{{1000}}">
+			<block wx:for="{{ads}}">
+				<swiper-item>
+					<image src="{{item.adImg}}" class="slide-image" />
+				</swiper-item>
+			</block>
+		</swiper>
+	</view>
 
-<view class="menu-list">
-	<block wx:for="{{activities}}" wx:for-item="activity">
-		<view class="menu-item">
-			<view class="menu-item-main" id="{{index}}" data-activity="{{activity}}" bindtap="enroll">
-				<view>
-					<view class="menu-item-title">{{activity.activityName}}</view>
+	<view class="menu-list">
+		<block wx:for="{{activities}}" wx:for-item="activity">
+			<view class="menu-item">
+				<view class="menu-item-main" id="{{index}}" data-activity="{{activity}}" bindtap="enroll">
 					<view>
+						<view class="menu-item-title">{{activity.activityName}}</view>
+						<view>
 							<view class="menu-line-box">
 								<text class="label">时间：</text>
 								<text>{{activity.activityDate}} ({{activity.startTime}}-{{activity.endTime}})</text>
@@ -29,20 +29,25 @@
 								<text class="label">费用：</text>
 								<text>{{activity.fee}}元/人</text>
 							</view>
-							<view  wx:if="{{activity.activityType==1}}" class="menu-line-box">
+							<view wx:if="{{activity.activityType==1}}" class="menu-line-box">
 								<text class="label">人数：</text>
-								<text>{{activity.members.length}}/{{activity.numbers}}人 <block wx:if="{{activity.blindMembers.length>0}}">(盲盒约战池:{{activity.blindMembers.length}}人)</block></text>
+								<text>{{activity.members.length}}/{{activity.numbers}}人 <block
+										wx:if="{{activity.blindMembers.length>0}}">(盲盒约战池:{{activity.blindMembers.length}}人)</block></text>
 							</view>
 							<view wx:else class="menu-line-box">
 								<text class="label">人数：</text>
 								<text>{{activity.members.length}}/{{activity.numbers}}人</text>
 							</view>
+						</view>
 					</view>
+					<image class="menu-item-arrow " src="/images/arrowright.png">
+					</image>
 				</view>
-				<image class="menu-item-arrow " src="/images/arrowright.png">
-				</image>
 			</view>
-		</view>
-	</block>
-</view>
+		</block>
+	</view>
+	
+	<view wx:if="{{userInfo.isAdmin>0}}" style="text-align:center;margin-top:10rpx;">
+		<button size="mini" type="primary" bindtap="createActivity">快速创建普通打球活动</button>
+	</view>
 </view>

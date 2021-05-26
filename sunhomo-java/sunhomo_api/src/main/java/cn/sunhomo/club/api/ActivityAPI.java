@@ -45,6 +45,46 @@ public class ActivityAPI {
         return list;
     }
 
+    @PostMapping("createActivity")
+    @ResponseBody
+    public AjaxResult createActivity(@RequestBody String activityDate) {
+        SunActivity activity = activityService.selectPreActivity(activityDate);
+
+        LocalDate activityDate1 = LocalDate.parse(activityDate);
+        String weekDay = "周六";
+        switch (activityDate1.getDayOfWeek().getValue()) {
+            case 1:
+                weekDay = "周一";
+                break;
+            case 2:
+                weekDay = "周二";
+                break;
+            case 3:
+                weekDay = "周三";
+                break;
+            case 4:
+                weekDay = "周四";
+                break;
+            case 5:
+                weekDay = "周五";
+                break;
+            case 6:
+                weekDay = "周六";
+                break;
+            case 7:
+                weekDay = "周日";
+                break;
+        }
+        activity.setActivityId(null);
+        activity.setActivityName(activityDate1.format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "（" + weekDay + "）羽毛球活动");
+        activity.setActivityDate(activityDate);
+        activity.setDeadline(activityDate1.plusDays(-1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + " " + activity.getStartTime() + ":00");
+        activity.setActivityState((byte) 1);
+
+        int success = activityService.insertActivity(activity);
+        return success == 1 ? AjaxResult.success() : AjaxResult.failure(ResultCode.SYSTEM_INNER_ERROR);
+    }
+
     /**
      * 获取用户当前主报名的普能打球活动, 所有状态为1的
      *

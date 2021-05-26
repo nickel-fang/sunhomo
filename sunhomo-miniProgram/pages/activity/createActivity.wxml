@@ -1,0 +1,14 @@
+<form bindsubmit="bindSubmit">
+  <view class="form">
+    <view class="input">
+      <view>活动日期</view>
+      <picker mode="date" bindchange="bindDateChange">
+        <view wx:if="{{activityDate}}" class="picker">{{activityDate}}</view>
+        <view wx:else class="picker">请选择活动日期</view>
+      </picker>
+    </view>
+  </view>
+  <view style="text-align:center;margin-top:10rpx;">
+    <button type="primary" size="mini" formType="submit">确定</button>
+  </view>
+</form>

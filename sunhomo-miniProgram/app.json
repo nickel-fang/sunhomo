@@ -3,6 +3,7 @@
     "pages/activity/activities",
     "pages/activity/activity",
     "pages/activity/divisions",
+    "pages/activity/createActivity",
     "pages/battle/battles",
     "pages/battle/battle",
     "pages/my/my",

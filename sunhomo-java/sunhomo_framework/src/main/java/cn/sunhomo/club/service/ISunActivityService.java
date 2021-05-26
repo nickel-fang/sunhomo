@@ -10,6 +10,8 @@ public interface ISunActivityService {
 
     public SunActivity selectActivity(Integer activityId);
 
+    SunActivity selectPreActivity(String activityDate);
+
     public int deleteActivityById(String ids);
 
     public int insertActivity(SunActivity activity);
