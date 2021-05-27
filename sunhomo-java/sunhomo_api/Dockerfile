@@ -9,6 +9,7 @@ ENV ACTIVE=prod
 # 暴露端口
 EXPOSE 80
 # 复制并修改应用打包后的jar文件名称
-ADD target/sunhomo_api-1.0.20210526.jar sunhomo_api.jar
+ARG JAR_FILE
+ADD target/${JAR_FILE} sunhomo_api.jar
 # 容器启动时第一个运行的命令 用来启动应用
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-Dspring.profiles.active=${ACTIVE}","-jar","sunhomo_api.jar"]
