@@ -12,4 +12,4 @@ EXPOSE 80
 ARG JAR_FILE
 ADD target/${JAR_FILE} sunhomo_api.jar
 # 容器启动时第一个运行的命令 用来启动应用
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-Dspring.profiles.active=${ACTIVE}","-jar","sunhomo_api.jar"]
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-Dspring.profiles.active=${ACTIVE}","-Duser.timezone=GMT+08","-jar","sunhomo_api.jar"]

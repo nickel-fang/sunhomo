@@ -56,7 +56,7 @@ public class SunActivityService implements ISunActivityService {
     }
 
     @Override
-    public SunActivity selectPreActivity(String activityDate){
+    public SunActivity selectPreActivity(String activityDate) {
         SunActivity activity = activityDao.selectPreActivity(activityDate);
         return activity;
     }
@@ -103,7 +103,8 @@ public class SunActivityService implements ISunActivityService {
         if (activity.getActivityType() == 1) {
             //删除所报的盲盒池  改为redis实现
             //blindDao.deleteMemberByActivityId(activity.getActivityId(), memberId);
-            redisTemplate.opsForList().remove(Constant.PRE_BLIND_BOX + activity.getActivityId(), 1, new SunBlind(member.getMemberId(), activity.getActivityId(), null, member.getMemberName()));
+            if (member.getIsMaster() == 0)
+                redisTemplate.opsForList().remove(Constant.PRE_BLIND_BOX + activity.getActivityId(), 1, new SunBlind(member.getMemberId(), activity.getActivityId(), null, member.getMemberName()));
 
             List<SunBattle> battles = battleDao.selectBattlesByActivityIdAndMemberId(activity.getActivityId(), member.getMemberId(), null);
             if (member.getIsMaster() == 0) { //主报人退报，要判断是否有应战，有并取消（包括挂的约战）
