@@ -36,6 +36,12 @@ Page({
               that.setData({
                 userInfo: res.data.data
               });
+              //向后台发送请求，以便日志监控，逻辑不做任何处理
+              wx.request({
+                url: app.globalData.APIUrl + '/club/member/access',
+                method: 'POST',
+                data: app.globalData.userInfo.memberName
+              })
             } else if (code == 500) {
               console.log("wx.login失败！");
             }

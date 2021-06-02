@@ -37,7 +37,7 @@
 		<view class="title">积分规则（消费积分可在积分商城兑换商品）</view>
 	</view>
 	<view class="menu-item">
-		<view class="l">1、活动开始前72小时报名（早鸟报名），积2分；连续早鸟报名积3分；其他时间报名积1分；</view>
+		<view class="l">1、活动开始前72小时报名（早鸟报名），积2分；其他时间报名积1分；</view>
 	</view>
 	<view class="menu-item">
 		<view class="l">2、带挂报名，每带一挂，挂主积1分，挂不积分；</view>
