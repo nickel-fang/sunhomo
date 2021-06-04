@@ -65,7 +65,8 @@ public class PointJob extends QuartzJobBean {
             //上一次普通打球活动，早鸟报名的人员
             SunActivity preActivity = activityService.selectPreActivity(activity1.getActivityDate());
             LocalDateTime preActivityStartTime = LocalDateTime.parse(preActivity.getActivityDate() + " " + preActivity.getStartTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-            List<SunMember> earlyBirdMembers = preActivity.getMembers().stream().filter(m -> m.getIsMaster() == 0 && DateUtils.asLocalDateTime(m.getEnrollTime()).isBefore(preActivityStartTime.plusDays(-3))).collect(Collectors.toList());
+            //TODO 暂时不开放连续早鸟积分，将m.getIsMaster<0过滤掉上次活动早鸟活动报名人员，开放时改为=0即可
+            List<SunMember> earlyBirdMembers = preActivity.getMembers().stream().filter(m -> m.getIsMaster() < 0 && DateUtils.asLocalDateTime(m.getEnrollTime()).isBefore(preActivityStartTime.plusDays(-3))).collect(Collectors.toList());
 
             SunMember member;
 

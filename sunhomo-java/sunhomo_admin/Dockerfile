@@ -1,5 +1,9 @@
 # 引入 openjdk 镜像
 FROM openjdk:8-jdk-alpine
+RUN apk add tzdata && \
+    cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+    echo "Asia/Shanghai" > /etc/timezone && \
+    apk del tzdata
 # 声明作者
 LABEL AUTHOR=Nickel OG=sunhomo.cn
 # 挂载几个有用的文件夹 比如日志
@@ -12,4 +16,6 @@ EXPOSE 80
 ARG JAR_FILE
 ADD target/${JAR_FILE} sunhomo_admin.jar
 # 容器启动时第一个运行的命令 用来启动应用
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-Dspring.profiles.active=${ACTIVE}","-Duser.timezone=GMT+08","-jar","sunhomo_admin.jar"]
+#ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-Dspring.profiles.active=${ACTIVE}","-Duser.timezone=GMT+08","-jar","sunhomo_admin.jar"]
+#ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-Dspring.profiles.active=${ACTIVE}","-Duser.timezone=Asia/Shanghai","-jar","sunhomo_admin.jar"]
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-Dspring.profiles.active=${ACTIVE}","-jar","sunhomo_admin.jar"]
