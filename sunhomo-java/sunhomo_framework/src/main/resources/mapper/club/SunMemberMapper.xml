@@ -287,7 +287,7 @@
         SELECT * FROM(
             SELECT @rowno:=@rowno+1 as MEMBER_ID, SM.OPENID, SM.MEMBER_NAME, SM.MEMBER_PHOTO, SM.WIN_NUMBER, SM.LOSE_NUMBER, SM.RATIO from SUN_MEMBER SM ,(select @rowno:=0) t
             WHERE (SM.WIN_NUMBER+SM.LOSE_NUMBER)>=5
-            ORDER BY SM.RATIO DESC, SM.MEMBER_ID DESC) temp
+            ORDER BY SM.RATIO DESC, SM.WIN_NUMBER DESC) temp
         WHERE temp.MEMBER_ID &lt;= 10 OR temp.OPENID= #{openId,jdbcType=VARCHAR}
     </select>
 </mapper>
