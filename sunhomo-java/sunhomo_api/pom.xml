@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>sunhomo_api</artifactId>
-    <version>1.0.20210604_nossl</version>
+    <version>1.0.20210705</version>
     <dependencies>
         <dependency>
             <groupId>com.alibaba</groupId>
