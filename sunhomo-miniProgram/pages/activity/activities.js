@@ -147,9 +147,15 @@ Page({
 
   //报名
   enroll: function (event) {
+    if(app.globalData.userInfo){
     wx.navigateTo({
       url: 'activity?activityId=' + event.currentTarget.dataset.activity.activityId
-    })
+    })}else{
+      wx.showToast({
+        title: '请先登录',
+        icon: 'error'
+      });
+    }
   },
 
   createActivity: function(event){
